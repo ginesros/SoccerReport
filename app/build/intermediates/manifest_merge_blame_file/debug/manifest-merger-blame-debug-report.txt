@@ -27,74 +27,75 @@
 18-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:10:9-45
 19        android:label="@string/app_name"
 19-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:11:9-41
-20        android:theme="@style/AppTheme" >
-20-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:13:9-40
-21        <activity
-21-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:14:9-23:20
-22            android:name="es.umu.soccerreport.PrincipalActivity"
-22-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:16:13-65
-23            android:label="@string/app_name"
-23-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:17:13-45
-24            android:windowSoftInputMode="stateHidden" >
-24-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:15:13-54
-25            <intent-filter>
-25-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:18:13-22:29
-26                <action android:name="android.intent.action.MAIN" />
-26-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:19:17-69
-26-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:19:25-66
-27
-28                <category android:name="android.intent.category.LAUNCHER" />
-28-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:21:17-77
-28-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:21:27-74
-29            </intent-filter>
-30        </activity>
-31        <activity
-31-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:24:9-31:20
-32            android:name="es.umu.soccerreport.IncidenciaActivity"
-32-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:24:19-52
-33            android:configChanges="keyboardHidden|orientation|screenSize"
-33-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:26:16-77
-34            android:label="Pantalla Incidencias" >
-34-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:25:16-52
-35            <intent-filter>
-35-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:27:13-30:29
-36                <action android:name="android.intent.action.VIEW" />
-36-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:28:17-68
-36-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:28:25-66
-37
-38                <category android:name="android.intent.category.DEFAULT" />
-38-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:29:17-75
-38-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:29:27-73
-39            </intent-filter>
-40        </activity>
-41        <activity android:name="es.umu.soccerreport.GolActivity" >
-41-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:32:9-37:20
-41-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:32:19-45
-42            <intent-filter>
-42-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:27:13-30:29
-43                <action android:name="android.intent.action.VIEW" />
-43-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:28:17-68
-43-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:28:25-66
-44
-45                <category android:name="android.intent.category.DEFAULT" />
-45-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:29:17-75
-45-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:29:27-73
-46            </intent-filter>
-47        </activity>
-48        <activity android:name="es.umu.soccerreport.FaltaActivity" >
-48-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:38:9-43:20
-48-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:38:19-47
-49            <intent-filter>
-49-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:27:13-30:29
-50                <action android:name="android.intent.action.VIEW" />
-50-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:28:17-68
-50-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:28:25-66
-51
-52                <category android:name="android.intent.category.DEFAULT" />
-52-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:29:17-75
-52-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:29:27-73
-53            </intent-filter>
-54        </activity>
-55    </application>
-56
-57</manifest>
+20        android:testOnly="true"
+21        android:theme="@style/AppTheme" >
+21-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:13:9-40
+22        <activity
+22-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:14:9-23:20
+23            android:name="es.umu.soccerreport.PrincipalActivity"
+23-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:16:13-65
+24            android:label="@string/app_name"
+24-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:17:13-45
+25            android:windowSoftInputMode="stateHidden" >
+25-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:15:13-54
+26            <intent-filter>
+26-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:18:13-22:29
+27                <action android:name="android.intent.action.MAIN" />
+27-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:19:17-69
+27-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:19:25-66
+28
+29                <category android:name="android.intent.category.LAUNCHER" />
+29-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:21:17-77
+29-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:21:27-74
+30            </intent-filter>
+31        </activity>
+32        <activity
+32-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:24:9-31:20
+33            android:name="es.umu.soccerreport.IncidenciaActivity"
+33-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:24:19-52
+34            android:configChanges="keyboardHidden|orientation|screenSize"
+34-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:26:16-77
+35            android:label="Pantalla Incidencias" >
+35-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:25:16-52
+36            <intent-filter>
+36-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:27:13-30:29
+37                <action android:name="android.intent.action.VIEW" />
+37-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:28:17-68
+37-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:28:25-66
+38
+39                <category android:name="android.intent.category.DEFAULT" />
+39-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:29:17-75
+39-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:29:27-73
+40            </intent-filter>
+41        </activity>
+42        <activity android:name="es.umu.soccerreport.GolActivity" >
+42-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:32:9-37:20
+42-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:32:19-45
+43            <intent-filter>
+43-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:27:13-30:29
+44                <action android:name="android.intent.action.VIEW" />
+44-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:28:17-68
+44-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:28:25-66
+45
+46                <category android:name="android.intent.category.DEFAULT" />
+46-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:29:17-75
+46-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:29:27-73
+47            </intent-filter>
+48        </activity>
+49        <activity android:name="es.umu.soccerreport.FaltaActivity" >
+49-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:38:9-43:20
+49-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:38:19-47
+50            <intent-filter>
+50-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:27:13-30:29
+51                <action android:name="android.intent.action.VIEW" />
+51-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:28:17-68
+51-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:28:25-66
+52
+53                <category android:name="android.intent.category.DEFAULT" />
+53-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:29:17-75
+53-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:29:27-73
+54            </intent-filter>
+55        </activity>
+56    </application>
+57
+58</manifest>
