@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <SurfaceView
+        android:id="@+id/surfaceView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_x="0dp"
+        android:layout_y="2dp" />
+
+    <TextView
+        android:id="@+id/eqlo"
+        android:layout_width="170dp"
+        android:layout_height="25dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="25dp"
+        android:layout_x="5dp"
+        android:layout_y="10dp"
+        android:text="Equipo Local"
+        android:textColor="@color/blanco"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/equipo1"
+        android:layout_width="326dp"
+        android:layout_height="wrap_content"
+        android:layout_x="5dp"
+        android:layout_y="40dp"
+        android:ems="10"
+        android:maxLength="27" />
+
+    <TextView
+        android:id="@+id/eqvi"
+        android:layout_width="326dp"
+        android:layout_height="25dp"
+        android:layout_marginLeft="20dp"
+        android:layout_x="5dp"
+        android:layout_y="80dp"
+        android:text="@string/equipo2"
+        android:textColor="@color/blanco"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/equipo2"
+        android:layout_width="326dp"
+        android:layout_height="wrap_content"
+        android:layout_x="5dp"
+        android:layout_y="110dp"
+        android:ems="10"
+        android:maxLength="27" />
+
+    <TextView
+        android:id="@+id/fecha"
+        android:layout_width="93dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="20dp"
+        android:layout_x="5dp"
+        android:layout_y="180dp"
+        android:text="@string/fecha"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/blanco"
+        android:textSize="22sp" />
+
+    <EditText
+        android:id="@+id/dia"
+        android:layout_width="64dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="16dp"
+        android:layout_x="90dp"
+        android:layout_y="180dp"
+        android:ems="10"
+        android:inputType="date"
+        android:maxLength="2"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/barra1"
+        android:layout_width="20dp"
+        android:layout_height="40dp"
+        android:layout_x="160dp"
+        android:layout_y="180dp"
+        android:text="/"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/blanco"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/mes"
+        android:layout_width="64dp"
+        android:layout_height="40dp"
+        android:layout_x="170dp"
+        android:layout_y="180dp"
+        android:ems="10"
+        android:inputType="date"
+        android:maxLength="2"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/barra2"
+        android:layout_width="20dp"
+        android:layout_height="35dp"
+        android:layout_x="235dp"
+        android:layout_y="180dp"
+        android:text="/"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/blanco"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/hora"
+        android:layout_width="60dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="34dp"
+        android:layout_x="5dp"
+        android:layout_y="240dp"
+        android:text="@string/hora"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/blanco"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/horas"
+        android:layout_width="64dp"
+        android:layout_height="40dp"
+        android:layout_x="80dp"
+        android:layout_y="240dp"
+        android:ems="10"
+        android:inputType="time"
+        android:maxLength="2"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/dospuntos"
+        android:layout_width="30dp"
+        android:layout_height="35dp"
+        android:layout_x="145dp"
+        android:layout_y="245dp"
+        android:text=":"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/blanco"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/minutos"
+        android:layout_width="64dp"
+        android:layout_height="40dp"
+        android:layout_x="155dp"
+        android:layout_y="240dp"
+        android:ems="10"
+        android:inputType="time"
+        android:maxLength="2"
+        android:textSize="15sp" />
+
+    <Button
+        android:id="@+id/b2"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_x="45dp"
+        android:layout_y="310dp"
+        android:onClick="salir"
+        android:text="Salir" />
+
+    <Button
+        android:id="@+id/b1"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_x="180dp"
+        android:layout_y="310dp"
+        android:onClick="siguiente"
+        android:text="Siguiente" />
+
+    <EditText
+        android:id="@+id/anyo"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_x="257dp"
+        android:layout_y="180dp"
+        android:ems="10"
+        android:inputType="date"
+        android:maxLength="4"
+        android:textSize="15sp" >
+
+        <requestFocus />
+    </EditText>
+
+</AbsoluteLayout>

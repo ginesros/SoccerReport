@@ -1,0 +1,26 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\Users\\gines\\Desktop\\SoccerReport\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-sw12dp-v13\\values-sw12dp-v13.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\gines\\Desktop\\SoccerReport\\app\\src\\main\\res\\values-sw12dp\\strings.xml",
+                    "from": {
+                        "startLines": "3,2",
+                        "startColumns": "4,4",
+                        "startOffsets": "108,55",
+                        "endColumns": "41,52",
+                        "endOffsets": "145,103"
+                    },
+                    "to": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,97",
+                        "endColumns": "41,52",
+                        "endOffsets": "92,145"
+                    }
+                }
+            ]
+        }
+    ]
+}
