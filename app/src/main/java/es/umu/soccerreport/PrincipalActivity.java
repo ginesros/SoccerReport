@@ -5,18 +5,17 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.provider.CalendarContract;
 import android.view.Menu;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import java.util.Calendar;
 
 
 public class PrincipalActivity extends Activity {
     private static final int code = 1;
-    private Partido partido;
     private EditText dia;
     private EditText mes;
     private EditText anyo;
@@ -29,10 +28,15 @@ public class PrincipalActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.principal);
-        SurfaceView ss = (SurfaceView) findViewById(R.id.surfaceView1);
+        SurfaceView ss = findViewById(R.id.surfaceView1);
         ss.setBackgroundColor(Color.rgb(192, 192, 192));
-        establecerValoresPantallaInicial();
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        establecerValoresPantallaInicial();
     }
 
     @Override
@@ -47,6 +51,9 @@ public class PrincipalActivity extends Activity {
     }
 
     private void establecerValoresPantallaInicial() {
+        String horaInicial, minutoInicial, diaInicial, mesInicial, anyoInicial;
+        int horaInicialInt, minutoInicialInt, diaInicialInt, mesInicialInt;
+
         //Inicialiar los ID de la vista
         dia = findViewById(R.id.dia);
         mes = findViewById(R.id.mes);
@@ -58,16 +65,52 @@ public class PrincipalActivity extends Activity {
 
         //Asignar los valores por defecto a la pantalla
         Calendar cal = Calendar.getInstance();
-        dia.setText(Integer.toString(cal.get(Calendar.DAY_OF_MONTH)));
-        mes.setText(Integer.toString(cal.get(Calendar.MONTH) + 1));
-        anyo.setText(Integer.toString(cal.get(Calendar.YEAR)));
-        horas.setText(Integer.toString(cal.get(Calendar.HOUR_OF_DAY)));
-        minutos.setText(Integer.toString(cal.get(Calendar.MINUTE)));
 
-        equipoLocal.requestFocus();
+        diaInicialInt = cal.get(Calendar.DAY_OF_MONTH);
+        mesInicialInt = cal.get(Calendar.MONTH) + 1;
+        horaInicialInt = cal.get(Calendar.HOUR_OF_DAY);
+        minutoInicialInt = cal.get(Calendar.MINUTE);
+
+        if (diaInicialInt < 10)
+            diaInicial = "0" + Integer.toString(diaInicialInt);
+        else
+            diaInicial = Integer.toString(diaInicialInt);
+
+        if (mesInicialInt < 10)
+            mesInicial = "0" + Integer.toString(mesInicialInt);
+        else
+            mesInicial = Integer.toString(mesInicialInt);
+
+        if (horaInicialInt < 10) {
+            horaInicial = "0" + Integer.toString(horaInicialInt);
+        }
+        else {
+            horaInicial = Integer.toString(horaInicialInt);
+        }
+
+        if (minutoInicialInt < 10) {
+            minutoInicial = "0" + Integer.toString(minutoInicialInt);
+        }
+        else {
+            minutoInicial = Integer.toString(minutoInicialInt);
+        }
+
+        anyoInicial = Integer.toString(cal.get(Calendar.YEAR));
+
+        dia.setText(diaInicial);
+        mes.setText(mesInicial);
+        anyo.setText(anyoInicial);
+        horas.setText(horaInicial);
+        minutos.setText(minutoInicial);
+
+        //equipoLocal.requestFocus();
 
     }
 
+    /**
+     * Comprueba que los campos introducidos son correctos además de guardarlos en las variables correspondientes
+     * @return boolean Retorna true si los campos son correctos, false en otro caso
+     */
     private boolean comprobarParametros() {
         //Comprobar equipos Locales y visitantes
         equipoLocal = findViewById(R.id.equipo1);
@@ -133,10 +176,7 @@ public class PrincipalActivity extends Activity {
         int horasActuales = Integer.parseInt(horas.getText().toString());
         int minutosActuales = Integer.parseInt(minutos.getText().toString());
 
-        if (horasActuales < 0 || horasActuales > 24 || minutosActuales < 0 ||minutosActuales > 59)
-            return false;
-
-        return true;
+        return !(horasActuales < 0 || horasActuales > 24 || minutosActuales < 0 ||minutosActuales > 59);
     }
 
     public void siguiente(View view) {
@@ -146,12 +186,12 @@ public class PrincipalActivity extends Activity {
             Toast toast = Toast.makeText(this, "Revise los campos", duration);
             toast.show();
         } else {
-            partido = new Partido(equipoLocal.getText().toString(), equipoVisitante.getText().toString(),
+            Partido partido = new Partido(equipoLocal.getText().toString(), equipoVisitante.getText().toString(),
                     Integer.parseInt(dia.getText().toString()), Integer.parseInt(mes.getText().toString()),
                     Integer.parseInt(anyo.getText().toString()), Integer.parseInt(horas.getText().toString()),
                     Integer.parseInt(minutos.getText().toString()));
             Intent intent1 = new Intent(getApplicationContext(), IncidenciaActivity.class);
-            intent1.putExtra("team", this.partido);
+            intent1.putExtra("team", partido);
             //startActivity(intent1);
             startActivityForResult(intent1, code);
         }

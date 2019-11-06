@@ -1,17 +1,17 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\gines\\Desktop\\SoccerReport\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
+            "outputFile": "G:\\carpetasEspecialesGines\\Escritorio\\SoccerReport\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\gines\\Desktop\\SoccerReport\\app\\src\\main\\res\\values\\styles.xml",
+                    "source": "G:\\carpetasEspecialesGines\\Escritorio\\SoccerReport\\app\\src\\main\\res\\values\\styles.xml",
                     "from": {
                         "startLines": "6,15",
                         "startColumns": "4,4",
-                        "startOffsets": "191,522",
+                        "startOffsets": "192,525",
                         "endLines": "12,17",
                         "endColumns": "12,12",
-                        "endOffsets": "481,679"
+                        "endOffsets": "484,682"
                     },
                     "to": {
                         "startLines": "312,319",
@@ -42,14 +42,31 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\gines\\Desktop\\SoccerReport\\app\\src\\main\\res\\values\\strings.xml",
+                    "source": "G:\\carpetasEspecialesGines\\Escritorio\\SoccerReport\\app\\src\\main\\res\\values\\color.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "57",
+                        "endColumns": "42",
+                        "endOffsets": "95"
+                    },
+                    "to": {
+                        "startLines": "32",
+                        "startColumns": "4",
+                        "startOffsets": "1659",
+                        "endColumns": "42",
+                        "endOffsets": "1697"
+                    }
+                },
+                {
+                    "source": "G:\\carpetasEspecialesGines\\Escritorio\\SoccerReport\\app\\src\\main\\res\\values\\strings.xml",
                     "from": {
                         "startLines": "17,3,16,11,6,7,12,4,13,14,8,5,15,10,9",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "692,58,647,445,215,265,485,110,526,565,319,164,605,407,359",
+                        "startOffsets": "705,59,659,452,217,268,493,111,535,575,323,165,616,413,364",
                         "endLines": "29,3,16,11,6,7,12,4,13,14,8,5,15,10,9",
                         "endColumns": "19,50,44,39,49,53,40,52,38,39,39,50,41,37,47",
-                        "endOffsets": "1119,104,687,480,260,314,521,158,560,600,354,210,642,440,402"
+                        "endOffsets": "1144,105,699,487,262,317,529,159,569,610,358,211,653,446,407"
                     },
                     "to": {
                         "startLines": "2,291,292,293,294,295,296,297,298,299,300,301,302,303,306",
@@ -96,23 +113,6 @@
                         "endLines": "1970,1977,1988,3027,3032",
                         "endColumns": "24,24,24,24,24",
                         "endOffsets": "131766,132151,132748,188026,188296"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\gines\\Desktop\\SoccerReport\\app\\src\\main\\res\\values\\color.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "57",
-                        "endColumns": "42",
-                        "endOffsets": "95"
-                    },
-                    "to": {
-                        "startLines": "32",
-                        "startColumns": "4",
-                        "startOffsets": "1659",
-                        "endColumns": "42",
-                        "endOffsets": "1697"
                     }
                 }
             ]
