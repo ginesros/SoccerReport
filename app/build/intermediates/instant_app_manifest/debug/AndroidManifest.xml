@@ -22,8 +22,12 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="es.umu.soccerreport.PrincipalActivity"
-            android:label="@string/app_name"
-            android:windowSoftInputMode="stateHidden" >
+            android:label="@string/app_name" >
+
+            <!--
+            Para hacer que el teclado no se muestre cada vez que se inicia la actividad
+            android:windowSoftInputMode="stateHidden"   Poner en los atributos de la activity
+            -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,21 +37,8 @@
         <activity
             android:name="es.umu.soccerreport.IncidenciaActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="Pantalla Incidencias" >
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name="es.umu.soccerreport.GolActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name="es.umu.soccerreport.FaltaActivity" >
+            android:label="Pantalla Incidencias"
+            android:windowSoftInputMode="stateHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 

@@ -11,12 +11,7 @@ public class Incidencia implements Serializable{
 	private int jugador2;
 	private String descripcion;
 	private int parte;
-	
-	//Metemos valores para el cambio
-	//private int minutoc;
-	//private int jugador1c;
-	//private int jugador2c;
-	
+
 	
 	public Incidencia(String nombre, TipoEquipo tipo, String minuto,int jugador1,int jugador2, String descripcion, int parte) { //, int minutoc, int jugador1c, int jugador2c) {
 		this.nombre = nombre;
@@ -62,19 +57,5 @@ public class Incidencia implements Serializable{
 	public int getParte() {
 		return parte;
 	}
-	
-	
-	/*
-	public int getJugador1c() {
-		return jugador1c;
-	}
-	
-	public int getJugador2c() {
-		return jugador2c;
-	}
-	
-	public int getMinutoc() {
-		return minutoc;
-	}
-	*/
+
 }
