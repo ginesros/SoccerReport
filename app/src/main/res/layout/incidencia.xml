@@ -502,4 +502,11 @@
             android:text="Salir" />
     </LinearLayout>
 
+    <Spinner
+        android:id="@+id/desplegable"
+        android:layout_width="361dp"
+        android:layout_height="wrap_content"
+        android:layout_x="15dp"
+        android:layout_y="605dp" />
+
 </AbsoluteLayout>

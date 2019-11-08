@@ -1068,6 +1068,10 @@
         "source": "C:\\Users\\gines\\.gradle\\caches\\transforms-2\\files-2.1\\f5bdf8930f5b0dade80802408310dda6\\appcompat-1.1.0\\res\\layout\\abc_list_menu_item_checkbox.xml"
     },
     {
+        "merged": "G:\\carpetasEspecialesGines\\Escritorio\\SoccerReport\\app\\build\\intermediates\\res\\merged\\debug\\layout_test.xml.flat",
+        "source": "G:\\carpetasEspecialesGines\\Escritorio\\SoccerReport\\app\\src\\main\\res\\layout\\test.xml"
+    },
+    {
         "merged": "G:\\carpetasEspecialesGines\\Escritorio\\SoccerReport\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_textfield_activated_mtrl_alpha.9.png.flat",
         "source": "C:\\Users\\gines\\.gradle\\caches\\transforms-2\\files-2.1\\f5bdf8930f5b0dade80802408310dda6\\appcompat-1.1.0\\res\\drawable-xxhdpi-v4\\abc_textfield_activated_mtrl_alpha.9.png"
     },
