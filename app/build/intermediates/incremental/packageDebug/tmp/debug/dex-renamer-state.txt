@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 #Mon Nov 11 09:15:47 CET 2019
 base.0=C\:\\Users\\gines\\Desktop\\SoccerReport\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\out\\classes.dex
+=======
+#Fri Nov 08 13:34:52 CET 2019
+base.0=G\:\\carpetasEspecialesGines\\Escritorio\\SoccerReport\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\out\\classes.dex
+>>>>>>> 9a199fef61edfcbddd27df1fbe4ce9eec83e5f16
 path.1=classes.dex
 renamed.1=classes2.dex
 path.0=classes.dex

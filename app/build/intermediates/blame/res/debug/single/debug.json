@@ -1056,8 +1056,17 @@
         "source": "C:\\Users\\gines\\.gradle\\caches\\transforms-2\\files-2.1\\f5bdf8930f5b0dade80802408310dda6\\appcompat-1.1.0\\res\\drawable-xhdpi-v4\\abc_text_select_handle_right_mtrl_dark.png"
     },
     {
+<<<<<<< HEAD
         "merged": "C:\\Users\\gines\\Desktop\\SoccerReport\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_ic_commit_search_api_mtrl_alpha.png.flat",
         "source": "C:\\Users\\gines\\.gradle\\caches\\transforms-2\\files-2.1\\f5bdf8930f5b0dade80802408310dda6\\appcompat-1.1.0\\res\\drawable-hdpi-v4\\abc_ic_commit_search_api_mtrl_alpha.png"
+=======
+        "merged": "G:\\carpetasEspecialesGines\\Escritorio\\SoccerReport\\app\\build\\intermediates\\res\\merged\\debug\\layout_test.xml.flat",
+        "source": "G:\\carpetasEspecialesGines\\Escritorio\\SoccerReport\\app\\src\\main\\res\\layout\\test.xml"
+    },
+    {
+        "merged": "G:\\carpetasEspecialesGines\\Escritorio\\SoccerReport\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_textfield_activated_mtrl_alpha.9.png.flat",
+        "source": "C:\\Users\\gines\\.gradle\\caches\\transforms-2\\files-2.1\\f5bdf8930f5b0dade80802408310dda6\\appcompat-1.1.0\\res\\drawable-xxhdpi-v4\\abc_textfield_activated_mtrl_alpha.9.png"
+>>>>>>> 9a199fef61edfcbddd27df1fbe4ce9eec83e5f16
     },
     {
         "merged": "C:\\Users\\gines\\Desktop\\SoccerReport\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_scrubber_control_to_pressed_mtrl_005.png.flat",

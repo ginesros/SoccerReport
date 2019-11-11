@@ -21,7 +21,9 @@ import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.AbsoluteLayout;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Button;
@@ -133,6 +135,15 @@ public class IncidenciaActivity extends Activity {
         listado = findViewById(R.id.textView6);
     }
 
+    private void iniciarSpinner() {
+        Spinner spinner = findViewById(R.id.desplegable);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.valores_desplegable, android.R.layout.simple_spinner_item);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -150,6 +161,7 @@ public class IncidenciaActivity extends Activity {
     protected void onStart() {
         super.onStart();
         iniciarCampos();
+        iniciarSpinner();
     }
 
     /**
@@ -328,7 +340,7 @@ public class IncidenciaActivity extends Activity {
 
     }
 
-    public void faltalocal(View view) {
+    public void faltalocal(View view, boolean esLocal) {
         String cadena = "Falta";
 
         this.local = true;
