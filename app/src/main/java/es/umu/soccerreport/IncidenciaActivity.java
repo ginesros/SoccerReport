@@ -11,10 +11,12 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.text.InputType;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
