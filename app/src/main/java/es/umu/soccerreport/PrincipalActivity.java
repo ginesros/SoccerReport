@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.provider.CalendarContract;
+import android.support.constraint.ConstraintLayout;
 import android.view.Menu;
 import android.view.SurfaceView;
 import android.view.View;
@@ -27,10 +28,7 @@ public class PrincipalActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.principal);
-        SurfaceView ss = findViewById(R.id.surfaceView1);
-        ss.setBackgroundColor(Color.rgb(192, 192, 192));
-
+        setContentView(R.layout.new_principal);
     }
 
     @Override

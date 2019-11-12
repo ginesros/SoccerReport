@@ -17,6 +17,8 @@
     <string name="desc">Descripción</string>
     <string name="boton1">Button</string>
     <string name="button">Button</string>
+    <string name="equipo_local">Equipo Local</string>
+    <string name="equipo_visitante">Equipo Visitante</string>
     <string-array name="claseIncidencia">
         <item >Cambio</item>
         <item >Falta</item>

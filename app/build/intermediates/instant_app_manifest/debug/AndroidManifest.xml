@@ -22,7 +22,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="es.umu.soccerreport.PrincipalActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" >
 
             <!--
             Para hacer que el teclado no se muestre cada vez que se inicia la actividad
@@ -38,6 +39,7 @@
             android:name="es.umu.soccerreport.IncidenciaActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="Pantalla Incidencias"
+            android:screenOrientation="landscape"
             android:windowSoftInputMode="stateHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

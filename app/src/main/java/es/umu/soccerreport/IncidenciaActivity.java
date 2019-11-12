@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.constraint.ConstraintLayout;
 import android.text.InputType;
 import android.util.Log;
 import android.view.SurfaceView;
@@ -43,7 +44,6 @@ public class IncidenciaActivity extends Activity {
     private EditText ejugador2;
     private TextView minuto;
     private EditText minutos;
-    private AbsoluteLayout pantalla;
 
     //Añadimos para el cambio fijo
     private EditText jugador1c;
@@ -127,7 +127,7 @@ public class IncidenciaActivity extends Activity {
         tavnumeros = findViewById(R.id.TextView05);
         trlnumeros = findViewById(R.id.textView4);
         trvnumeros = findViewById(R.id.TextView06);
-        ;
+
         gollnumeros = findViewById(R.id.textView5);
         golvnumeros = findViewById(R.id.TextView07);
 
@@ -147,21 +147,17 @@ public class IncidenciaActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.incidencia);
+        setContentView(R.layout.new_incidencia);
 
         Intent i = this.getIntent();
         this.partido = (Partido) i.getSerializableExtra("team");
-
-        this.pantalla = (AbsoluteLayout) findViewById(R.id.layout);
-        SurfaceView sf = (SurfaceView) findViewById(R.id.surfaceView1);
-        sf.setBackgroundColor(Color.rgb(192, 192, 192));
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         iniciarCampos();
-        iniciarSpinner();
+        //iniciarSpinner();
     }
 
     /**

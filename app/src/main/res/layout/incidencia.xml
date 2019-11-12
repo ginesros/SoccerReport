@@ -447,31 +447,6 @@
 
     </LinearLayout>
 
-    <ScrollView
-        android:id="@+id/scrollView1"
-        android:layout_width="829dp"
-        android:layout_height="639dp"
-        android:layout_x="429dp"
-        android:layout_y="6dp" >
-
-        <LinearLayout
-            android:layout_width="727dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text=""
-                android:textAppearance="?android:attr/textAppearanceSmall" />
-                <!--  android:layout_width="871dp"
-           	      android:layout_height="640dp"
-                android:focusable="true"
-                android:focusableInTouchMode="true" -->
-        </LinearLayout>
-    </ScrollView>
-
     <LinearLayout
         android:layout_width="369dp"
         android:layout_height="wrap_content"
@@ -491,7 +466,8 @@
             android:id="@+id/bo3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="generarPdf"
+            android:layout_weight="1"
+            android:onClick="generarPDF"
             android:text="PDF" />
 
         <Button
@@ -501,12 +477,5 @@
             android:onClick="salir"
             android:text="Salir" />
     </LinearLayout>
-
-    <Spinner
-        android:id="@+id/desplegable"
-        android:layout_width="361dp"
-        android:layout_height="wrap_content"
-        android:layout_x="15dp"
-        android:layout_y="605dp" />
 
 </AbsoluteLayout>

@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:onClick="nuevo" >
+
+    <SurfaceView
+        android:id="@+id/surfaceView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:layout_width="361dp"
+        android:layout_height="41dp"
+        android:layout_x="1dp"
+        android:layout_y="2dp"
+        android:gravity="center_horizontal" >
+
+        <Switch
+            android:id="@+id/switch1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="mitad"
+            android:textOff="1P"
+            android:textOn="2P" />
+
+        <Chronometer
+            android:id="@+id/chronometer1"
+            android:layout_width="74dp"
+            android:layout_height="37dp"
+            android:text="Chronometer" />
+
+        <Button
+            android:id="@+id/button7"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="clickcrono"
+            android:text="Iniciar" />
+
+        <Button
+            android:id="@+id/button8"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="clickparar"
+            android:text="Parar" />
+
+    </LinearLayout>
+
+    <TableLayout
+        android:layout_width="361dp"
+        android:layout_height="wrap_content"
+        android:layout_x="0dp"
+        android:layout_y="47dp" >
+
+        <TableRow
+            android:id="@+id/tableRow5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/tvlocal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Local"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/tvgoll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Goll"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/tvvisitante"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Visitante"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/tvgolv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Golv"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="faltalocal"
+                android:text="Falta" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="105dp"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/Button02"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="faltavisitante"
+                android:text="Falta" />
+
+            <TextView
+                android:id="@+id/TextView03"
+                android:layout_width="105dp"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="15sp" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/Button01"
+                android:layout_width="68dp"
+                android:layout_height="wrap_content"
+                android:onClick="talocal"
+                android:text="TA" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="105dp"
+                android:layout_height="wrap_content"
+                android:text="                        "
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/Button03"
+                android:layout_width="68dp"
+                android:layout_height="wrap_content"
+                android:onClick="tavisitante"
+                android:text="TA" />
+
+            <TextView
+                android:id="@+id/TextView05"
+                android:layout_width="105dp"
+                android:layout_height="wrap_content"
+                android:text="                        "
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="15sp" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/TR"
+                android:layout_width="68dp"
+                android:layout_height="wrap_content"
+                android:onClick="trlocal"
+                android:text="TR" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="105dp"
+                android:layout_height="wrap_content"
+                android:text="                        "
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/Button04"
+                android:layout_width="68dp"
+                android:layout_height="wrap_content"
+                android:onClick="trvisitante"
+                android:text="TR" />
+
+            <TextView
+                android:id="@+id/TextView06"
+                android:layout_width="105dp"
+                android:layout_height="wrap_content"
+                android:text="                        "
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="15sp" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/gol"
+                android:layout_width="68dp"
+                android:layout_height="wrap_content"
+                android:onClick="gollocal"
+                android:text="Gol" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="105dp"
+                android:layout_height="wrap_content"
+                android:text="                        "
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/Button05"
+                android:layout_width="68dp"
+                android:layout_height="wrap_content"
+                android:onClick="golvisitante"
+                android:text="Gol" />
+
+            <TextView
+                android:id="@+id/TextView07"
+                android:layout_width="105dp"
+                android:layout_height="wrap_content"
+                android:text="                        "
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="15sp" />
+        </TableRow>
+    </TableLayout>
+
+    <LinearLayout
+        android:layout_width="389dp"
+        android:layout_height="wrap_content"
+        android:layout_x="0dp"
+        android:layout_y="260dp" >
+
+        <TextView
+            android:id="@+id/TextView04"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/jug" />
+
+        <EditText
+            android:id="@+id/jugadort"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.02"
+            android:ems="10"
+            android:inputType="number" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="ventaja"
+            android:text="Ven" />
+
+        <Button
+            android:id="@+id/Button07"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="aceleracion"
+            android:text="Ace" />
+
+        <Button
+            android:id="@+id/Button08"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="posicionamiento"
+            android:text="Pos" />
+
+        <Button
+            android:id="@+id/Button06"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="otra"
+            android:text="Otra" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="3dp"
+        android:layout_y="304dp"
+        android:text="@string/desc"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/blanco"
+        android:textSize="15sp" />
+
+    <LinearLayout
+        android:layout_width="425dp"
+        android:layout_height="43dp"
+        android:layout_x="1dp"
+        android:layout_y="380dp" >
+
+        <TextView
+            android:id="@+id/TextView09"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.11"
+            android:text="AA1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <Button
+            android:id="@+id/button4"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="noaa1"
+            android:text="No" />
+
+        <Button
+            android:id="@+id/button5"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="fjaa1"
+            android:text="FJ" />
+
+        <Button
+            android:id="@+id/button6"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="faltaaa1"
+            android:text="Fal" />
+
+        <TextView
+            android:id="@+id/TextView08"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.11"
+            android:text="AA2"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <Button
+            android:id="@+id/Button09"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="noaa2"
+            android:text="No" />
+
+        <Button
+            android:id="@+id/Button10"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="fjaa2"
+            android:text="FJ" />
+
+        <Button
+            android:id="@+id/Button11"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.18"
+            android:onClick="faltaaa2"
+            android:text="Fal" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/motivo"
+        android:layout_width="365dp"
+        android:layout_height="60dp"
+        android:layout_x="-1dp"
+        android:layout_y="320dp"
+        android:ems="10"
+        android:maxLength="200"
+        android:textSize="15sp" />
+
+    <LinearLayout
+        android:layout_width="425dp"
+        android:layout_height="80dp"
+        android:layout_x="1dp"
+        android:layout_y="420dp" >
+
+        <TextView
+            android:id="@+id/TextView01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sale" />
+
+        <EditText
+            android:id="@+id/etsalec"
+            android:layout_width="39dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="number"
+            android:maxLength="2" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/entra" />
+
+        <EditText
+            android:id="@+id/etentrac"
+            android:layout_width="39dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="number"
+            android:maxLength="2" />
+
+        <RadioGroup
+            android:id="@+id/grupoc"
+            android:layout_width="116dp"
+            android:layout_height="80dp"
+            android:orientation="vertical" >
+
+            <RadioButton
+                android:id="@+id/radio1c"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:onClick="clickLocalc"
+                android:text="@string/local"
+                android:textColor="@color/blanco"
+                android:textSize="17sp" />
+
+            <RadioButton
+                android:id="@+id/radio2c"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="clickVisitantec"
+                android:text="@string/visitante"
+                android:textColor="@color/blanco"
+                android:textSize="17sp" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="cambio"
+            android:text="@string/cambio" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="829dp"
+        android:layout_height="639dp"
+        android:layout_x="429dp"
+        android:layout_y="6dp" >
+
+        <LinearLayout
+            android:layout_width="727dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text=""
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+                <!--  android:layout_width="871dp"
+           	      android:layout_height="640dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true" -->
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="369dp"
+        android:layout_height="wrap_content"
+        android:layout_x="2dp"
+        android:layout_y="511dp"
+        android:gravity="center_horizontal" >
+
+        <Button
+            android:id="@+id/bo4"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="18dp"
+            android:onClick="txt"
+            android:text="PDFO" />
+
+        <Button
+            android:id="@+id/bo3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="generarPdf"
+            android:text="PDF" />
+
+        <Button
+            android:id="@+id/bo2"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:onClick="salir"
+            android:text="Salir" />
+    </LinearLayout>
+
+    <Spinner
+        android:id="@+id/desplegable"
+        android:layout_width="361dp"
+        android:layout_height="wrap_content"
+        android:layout_x="15dp"
+        android:layout_y="605dp" />
+
+</AbsoluteLayout>
