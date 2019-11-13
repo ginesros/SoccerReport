@@ -690,7 +690,11 @@ id Button10
 id Button11
 id CTRL
 id FUNCTION
+id JugadaAreaLocal
+id JugadaAreaVisitante
 id META
+id PenaltiLocal
+id PenaltiVisitante
 id SHIFT
 id SYM
 id TR
@@ -800,6 +804,7 @@ id dimensions
 id direct
 id disableHome
 id divider2
+id divider4
 id dospuntos
 id edit_query
 id end
@@ -822,6 +827,9 @@ id guideline
 id guideline2
 id guideline3
 id guideline4
+id guideline5
+id guideline6
+id guideline7
 id home
 id homeAsUp
 id hora
