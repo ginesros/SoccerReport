@@ -6,77 +6,81 @@
 6
 7    <uses-sdk
 8        android:minSdkVersion="21"
-8-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml
+8-->G:\carpetasEspecialesGines\Escritorio\SoccerReport\app\src\main\AndroidManifest.xml
 9        android:targetSdkVersion="29" />
-9-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml
+9-->G:\carpetasEspecialesGines\Escritorio\SoccerReport\app\src\main\AndroidManifest.xml
 10
 11    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-11-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:7:5-80
-11-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:7:22-78
+11-->G:\carpetasEspecialesGines\Escritorio\SoccerReport\app\src\main\AndroidManifest.xml:7:5-80
+11-->G:\carpetasEspecialesGines\Escritorio\SoccerReport\app\src\main\AndroidManifest.xml:7:22-78
 12
 13    <application
-13-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:8:5-35:19
+13-->G:\carpetasEspecialesGines\Escritorio\SoccerReport\app\src\main\AndroidManifest.xml:8:5-37:19
 14        android:allowBackup="true"
-14-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:9:9-35
+14-->G:\carpetasEspecialesGines\Escritorio\SoccerReport\app\src\main\AndroidManifest.xml:9:9-35
 15        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
 15-->[androidx.core:core:1.1.0] C:\Users\gines\.gradle\caches\transforms-2\files-2.1\f01b27bb220ecb79298884ef36a7a2fb\core-1.1.0\AndroidManifest.xml:24:18-86
 16        android:configChanges="keyboardHidden|orientation|screenSize"
-16-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:12:9-70
+16-->G:\carpetasEspecialesGines\Escritorio\SoccerReport\app\src\main\AndroidManifest.xml:12:9-70
 17        android:debuggable="true"
 18        android:icon="@drawable/ic_launcher"
-18-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:10:9-45
+18-->G:\carpetasEspecialesGines\Escritorio\SoccerReport\app\src\main\AndroidManifest.xml:10:9-45
 19        android:label="@string/app_name"
-19-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:11:9-41
+19-->G:\carpetasEspecialesGines\Escritorio\SoccerReport\app\src\main\AndroidManifest.xml:11:9-41
 20        android:testOnly="true"
 21        android:theme="@style/AppTheme" >
-21-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:13:9-40
+21-->G:\carpetasEspecialesGines\Escritorio\SoccerReport\app\src\main\AndroidManifest.xml:13:9-40
 22        <activity
-22-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:14:9-24:20
+22-->G:\carpetasEspecialesGines\Escritorio\SoccerReport\app\src\main\AndroidManifest.xml:14:9-25:20
 23            android:name="es.umu.soccerreport.PrincipalActivity"
-23-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:15:13-65
+23-->G:\carpetasEspecialesGines\Escritorio\SoccerReport\app\src\main\AndroidManifest.xml:15:13-65
 24            android:label="@string/app_name"
-24-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:17:13-45
-25            android:screenOrientation="landscape" >
-25-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:16:13-50
-26
-27            <!--
-28            Para hacer que el teclado no se muestre cada vez que se inicia la actividad
-29            android:windowSoftInputMode="stateHidden"   Poner en los atributos de la activity
-30            -->
-31            <intent-filter>
-31-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:20:13-23:29
-32                <action android:name="android.intent.action.MAIN" />
-32-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:21:17-69
-32-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:21:25-66
-33
-34                <category android:name="android.intent.category.LAUNCHER" />
-34-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:22:17-77
-34-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:22:27-74
-35            </intent-filter>
-36        </activity>
-37        <activity
-37-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:25:9-34:20
-38            android:name="es.umu.soccerreport.IncidenciaActivity"
-38-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:25:19-52
-39            android:configChanges="keyboardHidden|orientation|screenSize"
-39-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:29:16-77
-40            android:label="Pantalla Incidencias"
-40-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:26:16-52
-41            android:screenOrientation="landscape"
-41-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:28:19-56
-42            android:windowSoftInputMode="stateHidden" >
-42-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:27:19-60
-43            <intent-filter>
-43-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:30:13-33:29
-44                <action android:name="android.intent.action.VIEW" />
-44-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:31:17-68
-44-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:31:25-66
-45
-46                <category android:name="android.intent.category.DEFAULT" />
-46-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:32:17-75
-46-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:32:27-73
-47            </intent-filter>
-48        </activity>
-49    </application>
-50
-51</manifest>
+24-->G:\carpetasEspecialesGines\Escritorio\SoccerReport\app\src\main\AndroidManifest.xml:18:13-45
+25            android:screenOrientation="landscape"
+25-->G:\carpetasEspecialesGines\Escritorio\SoccerReport\app\src\main\AndroidManifest.xml:17:13-50
+26            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+26-->G:\carpetasEspecialesGines\Escritorio\SoccerReport\app\src\main\AndroidManifest.xml:16:13-71
+27
+28            <!--
+29            Para hacer que el teclado no se muestre cada vez que se inicia la actividad
+30            android:windowSoftInputMode="stateHidden"   Poner en los atributos de la activity
+31            -->
+32            <intent-filter>
+32-->G:\carpetasEspecialesGines\Escritorio\SoccerReport\app\src\main\AndroidManifest.xml:21:13-24:29
+33                <action android:name="android.intent.action.MAIN" />
+33-->G:\carpetasEspecialesGines\Escritorio\SoccerReport\app\src\main\AndroidManifest.xml:22:17-69
+33-->G:\carpetasEspecialesGines\Escritorio\SoccerReport\app\src\main\AndroidManifest.xml:22:25-66
+34
+35                <category android:name="android.intent.category.LAUNCHER" />
+35-->G:\carpetasEspecialesGines\Escritorio\SoccerReport\app\src\main\AndroidManifest.xml:23:17-77
+35-->G:\carpetasEspecialesGines\Escritorio\SoccerReport\app\src\main\AndroidManifest.xml:23:27-74
+36            </intent-filter>
+37        </activity>
+38        <activity
+38-->G:\carpetasEspecialesGines\Escritorio\SoccerReport\app\src\main\AndroidManifest.xml:26:9-36:20
+39            android:name="es.umu.soccerreport.IncidenciaActivity"
+39-->G:\carpetasEspecialesGines\Escritorio\SoccerReport\app\src\main\AndroidManifest.xml:26:19-52
+40            android:configChanges="keyboardHidden|orientation|screenSize"
+40-->G:\carpetasEspecialesGines\Escritorio\SoccerReport\app\src\main\AndroidManifest.xml:31:16-77
+41            android:label="Pantalla Incidencias"
+41-->G:\carpetasEspecialesGines\Escritorio\SoccerReport\app\src\main\AndroidManifest.xml:28:16-52
+42            android:screenOrientation="landscape"
+42-->G:\carpetasEspecialesGines\Escritorio\SoccerReport\app\src\main\AndroidManifest.xml:30:19-56
+43            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+43-->G:\carpetasEspecialesGines\Escritorio\SoccerReport\app\src\main\AndroidManifest.xml:27:19-77
+44            android:windowSoftInputMode="stateHidden" >
+44-->G:\carpetasEspecialesGines\Escritorio\SoccerReport\app\src\main\AndroidManifest.xml:29:19-60
+45            <intent-filter>
+45-->G:\carpetasEspecialesGines\Escritorio\SoccerReport\app\src\main\AndroidManifest.xml:32:13-35:29
+46                <action android:name="android.intent.action.VIEW" />
+46-->G:\carpetasEspecialesGines\Escritorio\SoccerReport\app\src\main\AndroidManifest.xml:33:17-68
+46-->G:\carpetasEspecialesGines\Escritorio\SoccerReport\app\src\main\AndroidManifest.xml:33:25-66
+47
+48                <category android:name="android.intent.category.DEFAULT" />
+48-->G:\carpetasEspecialesGines\Escritorio\SoccerReport\app\src\main\AndroidManifest.xml:34:17-75
+48-->G:\carpetasEspecialesGines\Escritorio\SoccerReport\app\src\main\AndroidManifest.xml:34:27-73
+49            </intent-filter>
+50        </activity>
+51    </application>
+52
+53</manifest>
