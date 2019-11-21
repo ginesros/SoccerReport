@@ -1,5 +1,7 @@
 package es.umu.soccerreport;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.LinkedList;
 
@@ -10,18 +12,17 @@ import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.pm.PackageManager;
+import android.graphics.drawable.AnimatedStateListDrawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.SystemClock;
-import android.support.constraint.ConstraintLayout;
-import android.text.InputType;
 import android.util.Log;
-import android.view.SurfaceView;
 import android.view.View;
-import android.widget.AbsoluteLayout;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -29,6 +30,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Button;
 import android.widget.Chronometer;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 public class IncidenciaActivity extends Activity {
     private static final int code1 = 1;
@@ -38,12 +42,6 @@ public class IncidenciaActivity extends Activity {
     //Situacion la utilizo para diferenciar entre incidencias de árbitro=0, AA1=1, AA=2
     private int situacion = 0;
     private Incidencia inci;
-    private TextView tjugador1;
-    private EditText ejugador1;
-    private TextView tjugador2;
-    private EditText ejugador2;
-    private TextView minuto;
-    private EditText minutos;
 
     //Añadimos para el cambio fijo
     private EditText jugador1c;
@@ -55,11 +53,15 @@ public class IncidenciaActivity extends Activity {
 
     //Para saber si es el asistente 1 o 2
     private boolean asistente = true;
+
     //Añadimos para el cronometro
     private Chronometer cronometro;
-    private Button botonIniciar;
+    private Button botonCrono;
     private Long memoCronometro;
     private String estado = "inactivo";
+
+    //Para la información de la parte del partido
+    private TextView infoParte;
 
     //Añadimos para establecer el marcador
     private TextView equipol;
@@ -67,27 +69,13 @@ public class IncidenciaActivity extends Activity {
     private TextView goll;
     private TextView golv;
 
-    //Añadimos para el contador de faltas locales y visitantes
-    private TextView faltal;
-    private TextView faltav;
-
-    //Añadimos para el contador de tarjetas amarillas, rojas y goles
-    private TextView talnumeros;
-    private TextView tavnumeros;
-    private TextView trlnumeros;
-    private TextView trvnumeros;
-    private TextView gollnumeros;
-    private TextView golvnumeros;
-
     //Para saber si es primera mitad o segunda mitad
+    //Además se cambiará el título del botón
     private int parte = 1; //Si esta a 1 es la primera parte, si está a 2 es la segunda parte
+    private Button botonParte;
 
     //Añadimos para ver el informe
     private TextView listado;
-
-    //Contadores para la generación de ficheros
-    private int cont1 = 1;
-    private int cont2 = 1;
 
     /**
      * Inicializa todos los campos de la activity
@@ -102,34 +90,20 @@ public class IncidenciaActivity extends Activity {
         jugadort = findViewById(R.id.jugadort);
 
         //Añadimos para el cronometro
-        //Typeface font = Typeface.createFromAsset(getAssets(), "old_stamper.ttf");
+        infoParte = findViewById(R.id.infoParte);
         cronometro = findViewById(R.id.chronometer1);
-        //cronometro.stop();
-        //cronometro.setTypeface(font);
-        botonIniciar = findViewById(R.id.button7);
+        botonCrono = findViewById(R.id.button7);
+        infoParte.setText("Iniciando");
 
         //Añadimos para visualizar Equipo Local 0 Equipo Visitante 0
         equipol = findViewById(R.id.tvlocal);
         equipol.setText(this.partido.getEquipoLocal());
         goll = findViewById(R.id.tvgoll);
-        goll.setText("0");
+        goll.setText(Integer.toString(partido.getGolesLocal()));
         equipov = findViewById(R.id.tvvisitante);
         equipov.setText(this.partido.getEquipoVisitante());
         golv = findViewById(R.id.tvgolv);
-        golv.setText("0");
-
-        //Añadimos para visualizar el número de faltas locales y visitantes. Ya están a 0 inicialmente
-        faltal = findViewById(R.id.textView2);
-        faltav = findViewById(R.id.TextView03);
-
-        //Añadimos para visualizar los números de las ta, tr y goles de local y visitante. Inicialmente, están vacíos
-        talnumeros = findViewById(R.id.textView3);
-        tavnumeros = findViewById(R.id.TextView05);
-        trlnumeros = findViewById(R.id.textView4);
-        trvnumeros = findViewById(R.id.TextView06);
-
-        gollnumeros = findViewById(R.id.textView5);
-        golvnumeros = findViewById(R.id.TextView07);
+        golv.setText(Integer.toString(partido.getGolesVisitante()));
 
         //Añadimos para ver el informe
         listado = findViewById(R.id.textView6);
@@ -167,12 +141,12 @@ public class IncidenciaActivity extends Activity {
         motivot.setText("");
         jugador1c.setText("");
         jugador2c.setText("");
+        jugadort.setText("");
         jugadort.requestFocus();
     }
 
     public void cambio(View view) {
         boolean flag = false;
-        int min = -1;
         int number1 = 0;
         int number2 = 0;
 
@@ -181,7 +155,9 @@ public class IncidenciaActivity extends Activity {
         } else {
             number1 = Integer.parseInt(jugador1c.getText().toString());
             number2 = Integer.parseInt(jugador2c.getText().toString());
-            if (number1 <= 0 || number2 <= 0 || number1 == number2) flag = true;
+
+            if (number1 <= 0 || number2 <= 0 || number1 == number2)
+                flag = true;
         }
 
         String tiempo = cronometro.getText().toString();
@@ -193,50 +169,42 @@ public class IncidenciaActivity extends Activity {
                 this.inci = new Incidencia("Cambio", TipoEquipo.Visitante, tiempo, number1, number2, "", parte);
 
             this.partido.addIncidencia(inci);
+            Toast.makeText(this, "Añadido evento Cambio", Toast.LENGTH_LONG).show();
             limpiarCampos();
-
-        } else
+        } else {
             Toast.makeText(this, "Revise los campos", Toast.LENGTH_LONG).show();
+            jugador2c.requestFocus();
+        }
 
     }
 
     private boolean comprobar_dorsal_jugador(String dorsal) {
+        if(jugadort.getText().toString().equals(""))
+            return false;
         int min = Integer.parseInt(dorsal);
         return (min >= 0 && min <= 99);
     }
 
     //Pasa por parámetro el motivo de la incidencia: "Tarjeta Amarilla","Tarjeta Roja","Gol"
-    public boolean add_incidencia(String texto, String tiempo, TextView textop) {
-        int duration = Toast.LENGTH_LONG;
-        //EditText actual;
+    public boolean add_incidencia(String texto, String tiempo) {
         boolean flag = false;
         int min = -1;
-        int dorsal = 0;
+        int dorsal;
         int number2 = 0;
-        String cadena = "";
 
         //Comprueba el jugador
         if (comprobar_dorsal_jugador(jugadort.getText().toString())) {
             dorsal = Integer.parseInt(jugadort.getText().toString());
-            //Añadimos el número al texto que nos han pasado por parámetro para que salga en pantalla
-            //Si es la primera vez, sólo añadimos el número del jugador
-            if (textop.getText().toString().compareTo("                        ") == 0) {
-                textop.setText(jugadort.getText().toString());
-            }
-            //Si es la segunda o resto de veces, añadimos un guión y el número
-            else {
-                textop.setText(textop.getText().toString() + "-" + jugadort.getText().toString());
-            }
+
         } else
             flag = true;
-
 
         if (!flag) {
             add_incidencia_simple(texto, tiempo);
             return true;
 
         } else {
-            Toast.makeText(this, "Revise el número de jugador", duration).show();
+            Toast.makeText(this, "Revise el número de jugador.", Toast.LENGTH_LONG).show();
             return false;
         }
     }
@@ -250,15 +218,13 @@ public class IncidenciaActivity extends Activity {
         }
 
         this.partido.addIncidencia(inci);
+        //Notificar que se ha añadido
+        Toast.makeText(this, "Añadido evento " + texto, Toast.LENGTH_LONG).show();
         limpiarCampos();
     }
 
     //Pasa por parámetro el motivo de la incidencia: "Falta"
     public void add_incidencia_arbitros(String texto, String tiempo) {
-        int duration = Toast.LENGTH_LONG;
-        //EditText actual;
-        String cadena = "";
-
         switch (situacion) {
             case 0:
                 this.inci = new Incidencia(texto, TipoEquipo.arbitro, tiempo, 0, 0, motivot.getText().toString(), parte);
@@ -275,15 +241,15 @@ public class IncidenciaActivity extends Activity {
 
 
         this.partido.addIncidencia(inci);
+        Toast.makeText(this, "Añadido evento " + texto, Toast.LENGTH_LONG).show();
         limpiarCampos();
     }
-
 
     public void talocal(View view) {
         String cadena = "Tarjeta Amarilla";
 
         this.local = true;
-        add_incidencia(cadena, cronometro.getText().toString(), talnumeros);
+        add_incidencia(cadena, cronometro.getText().toString());
 
     }
 
@@ -291,7 +257,7 @@ public class IncidenciaActivity extends Activity {
         String cadena = "Tarjeta Roja";
 
         this.local = true;
-        add_incidencia(cadena, cronometro.getText().toString(), trlnumeros);
+        add_incidencia(cadena, cronometro.getText().toString());
 
     }
 
@@ -299,7 +265,7 @@ public class IncidenciaActivity extends Activity {
         String cadena = "Tarjeta Amarilla";
 
         this.local = false;
-        add_incidencia(cadena, cronometro.getText().toString(), tavnumeros);
+        add_incidencia(cadena, cronometro.getText().toString());
 
     }
 
@@ -307,49 +273,70 @@ public class IncidenciaActivity extends Activity {
         String cadena = "Tarjeta Roja";
 
         this.local = false;
-        add_incidencia(cadena, cronometro.getText().toString(), trvnumeros);
+        add_incidencia(cadena, cronometro.getText().toString());
 
     }
 
     public void gollocal(View view) {
         String cadena = "Gol";
-
         this.local = true;
 
-        if (add_incidencia(cadena, cronometro.getText().toString(), gollnumeros)) {
+        if (add_incidencia(cadena, cronometro.getText().toString())) {
             //Actualizar el resultado
-            goll.setText(Integer.toString((Integer.parseInt(goll.getText().toString()) + 1)));
+            partido.sumarGol(true);
+            goll.setText(Integer.toString(partido.getGolesLocal()));
         }
-
     }
 
     public void golvisitante(View view) {
         String cadena = "Gol";
-
         this.local = false;
 
-
-        if (add_incidencia(cadena, cronometro.getText().toString(), golvnumeros)) {
-            //Actualizar el resultado
-            golv.setText(Integer.toString((Integer.parseInt(golv.getText().toString()) + 1)));
+        if (add_incidencia(cadena, cronometro.getText().toString())) {
+            partido.sumarGol(false);
+            golv.setText(Integer.toString(partido.getGolesVisitante()));
         }
 
     }
 
-    public void faltalocal(View view, boolean esLocal) {
+    public void faltalocal(View view) {
         String cadena = "Falta";
 
         this.local = true;
-        faltal.setText(Integer.toString((Integer.parseInt(faltal.getText().toString()) + 1)));
         add_incidencia_simple(cadena, cronometro.getText().toString());
+        partido.sumarFalta(true);
     }
 
     public void faltavisitante(View view) {
         String cadena = "Falta";
 
         this.local = false;
-        faltav.setText(Integer.toString((Integer.parseInt(faltav.getText().toString()) + 1)));
         add_incidencia_simple(cadena, cronometro.getText().toString());
+        partido.sumarFalta(false);
+    }
+
+    public void jugadaAreaLocal(View view) {
+        String cadena = "Jugada de area";
+        this.local = true;
+        add_incidencia(cadena, cronometro.getText().toString());
+    }
+
+    public void jugadaAreaVisitante(View view) {
+        String cadena = "Jugada de area";
+        this.local = false;
+        add_incidencia(cadena, cronometro.getText().toString());
+    }
+
+    public void penaltiLocal(View view) {
+        String cadena = "Penalti";
+        this.local = true;
+        add_incidencia(cadena, cronometro.getText().toString());
+    }
+
+    public void penaltiVisitante(View view) {
+        String cadena = "Penalti";
+        this.local = false;
+        add_incidencia(cadena, cronometro.getText().toString());
     }
 
     public void ventaja(View view) {
@@ -430,43 +417,39 @@ public class IncidenciaActivity extends Activity {
             case "inactivo":
                 cronometro.setBase(SystemClock.elapsedRealtime());
                 cronometro.start();
-                estado = "activo";
-                botonIniciar.setText("Pausar");
+                estado = "primeraParte";
+                infoParte.setText("Iniciar 1ª\nparte");
+                botonCrono.setText("Fin 1ª parte");
                 break;
-            case "activo":
-                memoCronometro = SystemClock.elapsedRealtime();
+            case "primeraParte":
                 cronometro.stop();
-                estado = "pausado";
-                botonIniciar.setText("Continuar");
+                memoCronometro = SystemClock.elapsedRealtime() - cronometro.getBase();
+                estado = "descanso";
+                infoParte.setText("Descanso");
+                botonCrono.setText("Iniciar 2ª\nparte");
                 break;
-            default:
-                cronometro.setBase(cronometro.getBase() + SystemClock.elapsedRealtime() - memoCronometro);
+            case "descanso":
+                cronometro.setBase(SystemClock.elapsedRealtime() - memoCronometro);
                 cronometro.start();
-                estado = "activo";
-                botonIniciar.setText("Pausar");
+                estado = "segundaParte";
+                infoParte.setText("Segunda Parte");
+                botonCrono.setText("Fin partido");
+                break;
+            case "segundaParte":
+                infoParte.setText("Finalizado");
+                botonCrono.setVisibility(View.INVISIBLE);
+                cronometro.stop();
+                estado = "finPartido";
         }
     }
-
-    public void clickparar(View view) {
-        memoCronometro = SystemClock.elapsedRealtime();
-        cronometro.stop();
-        estado = "inactivo";
-        botonIniciar.setText("Iniciar");
-    }
-
 
     public void salir(View view) {
         setResult(Activity.RESULT_OK, null);
         finish();
     }
 
+    /*
     public void generarPdf(View view) {
-        int duration = Toast.LENGTH_LONG;
-        //EditText actual;
-        boolean flag = false;
-        int min = -1;
-        int number1 = 0;
-        int number2 = 0;
 
 
         String nombre = "" + this.partido.getEquipoLocal() + "-" + this.partido.getEquipoVisitante();
@@ -490,7 +473,41 @@ public class IncidenciaActivity extends Activity {
 
 
     }
+    */
 
+    /**
+     * Generará un PDF con la información actual del partido y la guardará en
+     * /storage/emulated/0/SoccerReport
+     * Como nombre del PDF tendrá la fecha y los equipos enfrentados.
+     * @param view
+     */
+    public void guardarPdfPartido(View view) {
+        //Solicitar permiso para el almacenamiento
+        int requestCode = 0;
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, requestCode);
+
+        //Crear el directorio en caso de que no exista
+        File file = new File(Environment.getExternalStorageDirectory(), "SoccerReport");
+        if(!file.exists())
+            if (!file.mkdir())
+                Toast.makeText(this, "Fallo al crear directorio\nVuelva a probar", Toast.LENGTH_LONG).show();
+
+        //Crear fichero para guardarlo en la carpeta
+
+
+    }
+
+    /**
+     * Lanza un nuevo activity con el estado actual del partido
+     * @param view
+     */
+    public void verEstadoPartido(View view){
+        Intent intent = new Intent(getApplicationContext(), EstadoActualActivity.class);
+        intent.putExtra("info", informe());
+        startActivity(intent);
+    }
+
+    /*
     public void txt(View view) {
 
         String nombre = "" + this.partido.getEquipoLocal() + "-" + this.partido.getEquipoVisitante();
@@ -509,11 +526,9 @@ public class IncidenciaActivity extends Activity {
             e.printStackTrace();
         }
     }
-
+    */
 
     public String informe() {
-        int golesL = 0;
-        int golesV = 0;
         String cadena = "";
         String golesl = "";
         String golesv = "";
@@ -547,8 +562,9 @@ public class IncidenciaActivity extends Activity {
         cadena += "RESULTADO: " + goll.getText().toString() + " - " + golv.getText().toString() + "\n\n";
 
         //Inicializo el número total de faltas
-        faltasl += faltal.getText().toString() + " Minutos: ";
-        faltasv += faltav.getText().toString() + " Minutos: ";
+        faltasl = Integer.toString(partido.getFaltasLocales());
+        faltasv = Integer.toString(partido.getFaltasVisitantes());
+
         //Recorro la lista completa y voy analizando
         LinkedList<Incidencia> l1 = (LinkedList<Incidencia>) this.partido.getLista();
         for (Incidencia incidencia : l1) {
@@ -699,10 +715,12 @@ public class IncidenciaActivity extends Activity {
 
     //Métodos para el cambio fijo que activa o desactiva la variable local2 a true si es equipo local o a false si es el equipo visitante
     public void clickLocalc(View view) {
+
         this.local2 = true;
     }
 
     public void clickVisitantec(View view) {
+
         this.local2 = false;
     }
 
@@ -710,8 +728,10 @@ public class IncidenciaActivity extends Activity {
         //Cada vez que hacemos click cambia la parte en la que se encuentra (1=1parte, 2=2parte)
         if (this.parte == 1) {
             this.parte = 2;
+            botonParte.setText("Segunda\nParte");
         } else {
             this.parte = 1;
+            botonParte.setText("Primera\nParte");
         }
     }
 

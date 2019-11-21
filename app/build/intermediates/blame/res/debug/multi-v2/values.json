@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "G:\\carpetasEspecialesGines\\Escritorio\\SoccerReport\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
+            "outputFile": "C:\\Users\\gines\\Desktop\\SoccerReport\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
             "map": [
                 {
-                    "source": "G:\\carpetasEspecialesGines\\Escritorio\\SoccerReport\\app\\src\\main\\res\\values\\colors.xml",
+                    "source": "C:\\Users\\gines\\Desktop\\SoccerReport\\app\\src\\main\\res\\values\\colors.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -21,14 +21,14 @@
                     }
                 },
                 {
-                    "source": "G:\\carpetasEspecialesGines\\Escritorio\\SoccerReport\\app\\src\\main\\res\\values\\styles.xml",
+                    "source": "C:\\Users\\gines\\Desktop\\SoccerReport\\app\\src\\main\\res\\values\\styles.xml",
                     "from": {
                         "startLines": "6,15",
                         "startColumns": "4,4",
-                        "startOffsets": "192,525",
+                        "startOffsets": "191,522",
                         "endLines": "12,17",
                         "endColumns": "12,12",
-                        "endOffsets": "484,682"
+                        "endOffsets": "481,679"
                     },
                     "to": {
                         "startLines": "452,459",
@@ -40,20 +40,22 @@
                     }
                 },
                 {
-                    "source": "G:\\carpetasEspecialesGines\\Escritorio\\SoccerReport\\app\\src\\main\\res\\values\\color.xml",
+                    "source": "C:\\Users\\gines\\Desktop\\SoccerReport\\app\\src\\main\\res\\values\\contenidoDesplegable.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
                         "startOffsets": "57",
-                        "endColumns": "40",
-                        "endOffsets": "93"
+                        "endLines": "11",
+                        "endColumns": "19",
+                        "endOffsets": "350"
                     },
                     "to": {
-                        "startLines": "167",
+                        "startLines": "15",
                         "startColumns": "4",
-                        "startOffsets": "7712",
-                        "endColumns": "40",
-                        "endOffsets": "7748"
+                        "startOffsets": "526",
+                        "endLines": "24",
+                        "endColumns": "19",
+                        "endOffsets": "810"
                     }
                 },
                 {
@@ -76,7 +78,7 @@
                     }
                 },
                 {
-                    "source": "G:\\carpetasEspecialesGines\\Escritorio\\SoccerReport\\app\\src\\main\\res\\values\\strings.xml",
+                    "source": "C:\\Users\\gines\\Desktop\\SoccerReport\\app\\src\\main\\res\\values\\strings.xml",
                     "from": {
                         "startLines": "21,3,17,18,16,11,6,7,19,20,12,4,13,14,8,5,15,10,9",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -92,25 +94,6 @@
                         "endLines": "14,427,428,429,430,431,432,433,434,435,436,437,438,439,440,441,442,443,446",
                         "endColumns": "19,50,41,41,44,39,49,53,53,61,40,52,38,39,39,50,41,37,47",
                         "endOffsets": "521,24749,24791,24833,24878,24918,24968,25022,25076,25138,25179,25232,25271,25311,25351,25402,25444,25482,25654"
-                    }
-                },
-                {
-                    "source": "G:\\carpetasEspecialesGines\\Escritorio\\SoccerReport\\app\\src\\main\\res\\values\\contenidoDesplegable.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "57",
-                        "endLines": "11",
-                        "endColumns": "19",
-                        "endOffsets": "350"
-                    },
-                    "to": {
-                        "startLines": "15",
-                        "startColumns": "4",
-                        "startOffsets": "526",
-                        "endLines": "24",
-                        "endColumns": "19",
-                        "endOffsets": "810"
                     }
                 },
                 {
@@ -168,6 +151,23 @@
                         "endLines": "25,33,34,35,36,37,42,45,46,47,50,51,54,57,58,59,60,61,64,67,68,69,70,75,78,81,82,83,88,89,90,93,96,97,100,103,106,109,110,113,116,117,122,123,128,131,134,135,136,137,138,139,140,141,142,143,152",
                         "endColumns": "60,11,47,51,60,45,11,60,59,69,11,67,11,11,61,64,67,66,11,11,66,64,64,11,11,11,65,66,11,68,65,11,11,66,11,11,11,11,64,11,11,64,11,66,11,11,11,64,61,61,61,58,59,60,60,58,11",
                         "endOffsets": "871,1162,1210,1262,1323,1369,1551,1706,1766,1836,1969,2037,2166,2292,2354,2419,2487,2554,2677,2802,2869,2934,2999,3180,3301,3422,3488,3555,3765,3834,3900,4025,4151,4218,4344,4471,4596,4723,4788,4914,5037,5102,5310,5377,5557,5677,5797,5862,5924,5986,6048,6107,6167,6228,6289,6348,6723"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\gines\\Desktop\\SoccerReport\\app\\src\\main\\res\\values\\color.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "57",
+                        "endColumns": "40",
+                        "endOffsets": "93"
+                    },
+                    "to": {
+                        "startLines": "167",
+                        "startColumns": "4",
+                        "startOffsets": "7712",
+                        "endColumns": "40",
+                        "endOffsets": "7748"
                     }
                 }
             ]

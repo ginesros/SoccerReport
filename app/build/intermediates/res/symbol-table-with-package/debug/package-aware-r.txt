@@ -662,6 +662,8 @@ drawable btn_radio_on_mtrl
 drawable btn_radio_on_to_off_mtrl_animation
 drawable ic_football_field
 drawable ic_launcher
+drawable ic_logo_icon
+drawable ic_substitution
 drawable notification_action_background
 drawable notification_bg
 drawable notification_bg_low
@@ -790,6 +792,7 @@ id checked
 id chronometer
 id chronometer1
 id collapseActionView
+id contenido
 id content
 id contentPanel
 id custom
@@ -840,6 +843,7 @@ id ifRoom
 id image
 id imageView1
 id info
+id infoParte
 id invisible
 id italic
 id jugadort
@@ -886,6 +890,7 @@ id scrollIndicatorDown
 id scrollIndicatorUp
 id scrollView
 id scrollView1
+id scrollView3
 id search_badge
 id search_bar
 id search_button
@@ -955,6 +960,7 @@ id unchecked
 id uniform
 id up
 id useLogo
+id volver
 id withText
 id wrap
 id wrap_content
@@ -1000,6 +1006,7 @@ layout abc_select_dialog_material
 layout abc_tooltip
 layout custom_dialog
 layout incidencia
+layout new_estadoactual
 layout new_incidencia
 layout new_principal
 layout notification_action

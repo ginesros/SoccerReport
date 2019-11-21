@@ -11,6 +11,10 @@ public class Partido implements Serializable {
     private static final long serialVersionUID = 1L;
     private String equipoLocal;
     private String equipoVisitante;
+    private int golesLocal;
+    private int golesVisitante;
+    private int faltasLocales;
+    private int faltasVisitantes;
     private int dia;
     private int mes;
     private int anyo;
@@ -19,6 +23,10 @@ public class Partido implements Serializable {
     private LinkedList<Incidencia> lista;
 
     public Partido(String equipoLocal, String equipoVisitante, int dia, int mes, int anyo, int horas, int minutos) {
+        this.faltasLocales = 0;
+        this.faltasVisitantes = 0;
+        this.golesLocal = 0;
+        this.golesVisitante = 0;
         this.equipoLocal = equipoLocal;
         this.equipoVisitante = equipoVisitante;
         this.dia = dia;
@@ -29,6 +37,35 @@ public class Partido implements Serializable {
         this.lista = new LinkedList<Incidencia>();
     }
 
+    public void sumarGol(boolean esLocal) {
+        if (esLocal)
+            golesLocal++;
+        else
+            golesVisitante++;
+    }
+
+    public int getGolesLocal() {
+        return golesLocal;
+    }
+
+    public int getGolesVisitante() {
+        return golesVisitante;
+    }
+
+    public void sumarFalta(boolean esLocal) {
+        if (esLocal)
+            faltasLocales++;
+        else
+            faltasVisitantes++;
+    }
+
+    public int getFaltasLocales() {
+        return faltasLocales;
+    }
+
+    public int getFaltasVisitantes() {
+        return faltasVisitantes;
+    }
 
     public boolean addIncidencia(Incidencia inci) {
 
@@ -78,5 +115,14 @@ public class Partido implements Serializable {
             return lista2;
         }
         return null;
+    }
+
+    public String getEstado(){
+        String info = equipoLocal + " "+ golesLocal;
+        info += " --- " + golesVisitante + " " + equipoVisitante + "\n";
+        info += "Total faltas local: " + faltasLocales + "\n";
+        info += "Total faltas visitante: " + faltasVisitantes + "\n";
+
+        return info;
     }
 }

@@ -10,13 +10,14 @@
         android:targetSdkVersion="29" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:configChanges="keyboardHidden|orientation|screenSize"
         android:debuggable="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/ic_logo_icon"
         android:label="@string/app_name"
         android:testOnly="true"
         android:theme="@style/AppTheme" >
@@ -40,6 +41,19 @@
             android:name="es.umu.soccerreport.IncidenciaActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="Pantalla Incidencias"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateHidden" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="es.umu.soccerreport.EstadoActualActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Pantalla Estado Actual"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:windowSoftInputMode="stateHidden" >

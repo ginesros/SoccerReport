@@ -5,9 +5,10 @@
     android:versionName="1.0" >
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/ic_logo_icon"
         android:label="@string/app_name"
         android:configChanges="keyboardHidden|orientation|screenSize"
         android:theme="@style/AppTheme">
@@ -29,6 +30,17 @@
                   android:windowSoftInputMode="stateHidden"
                   android:screenOrientation="landscape"
             	  android:configChanges="keyboardHidden|orientation|screenSize">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".EstadoActualActivity"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:label="Pantalla Estado Actual"
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="landscape"
+            android:configChanges="keyboardHidden|orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
