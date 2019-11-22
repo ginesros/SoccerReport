@@ -93,7 +93,6 @@ public class IncidenciaActivity extends Activity {
         infoParte = findViewById(R.id.infoParte);
         cronometro = findViewById(R.id.chronometer1);
         botonCrono = findViewById(R.id.button7);
-        infoParte.setText("Iniciando");
 
         //Añadimos para visualizar Equipo Local 0 Equipo Visitante 0
         equipol = findViewById(R.id.tvlocal);
@@ -418,22 +417,24 @@ public class IncidenciaActivity extends Activity {
                 cronometro.setBase(SystemClock.elapsedRealtime());
                 cronometro.start();
                 estado = "primeraParte";
-                infoParte.setText("Iniciar 1ª\nparte");
+                infoParte.setText("1ª parte");
                 botonCrono.setText("Fin 1ª parte");
+                parte = 1;
                 break;
             case "primeraParte":
                 cronometro.stop();
                 memoCronometro = SystemClock.elapsedRealtime() - cronometro.getBase();
                 estado = "descanso";
                 infoParte.setText("Descanso");
-                botonCrono.setText("Iniciar 2ª\nparte");
+                botonCrono.setText("Continuar");
                 break;
             case "descanso":
                 cronometro.setBase(SystemClock.elapsedRealtime() - memoCronometro);
                 cronometro.start();
                 estado = "segundaParte";
-                infoParte.setText("Segunda Parte");
+                infoParte.setText("2ª Parte");
                 botonCrono.setText("Fin partido");
+                parte = 2;
                 break;
             case "segundaParte":
                 infoParte.setText("Finalizado");
@@ -724,16 +725,6 @@ public class IncidenciaActivity extends Activity {
         this.local2 = false;
     }
 
-    public void mitad(View view) {
-        //Cada vez que hacemos click cambia la parte en la que se encuentra (1=1parte, 2=2parte)
-        if (this.parte == 1) {
-            this.parte = 2;
-            botonParte.setText("Segunda\nParte");
-        } else {
-            this.parte = 1;
-            botonParte.setText("Primera\nParte");
-        }
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

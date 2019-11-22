@@ -5,7 +5,7 @@
     android:id="@+id/layoutIncidenciaActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#2E7D32">
+    android:background="@color/green_500">
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
@@ -26,22 +26,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Chronometer"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
         app:layout_constraintStart_toStartOf="@+id/guideline6"
-        app:layout_constraintTop_toTopOf="@+id/guideline" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button7"
-        style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/estiloboton"
         android:onClick="clickcrono"
         android:text="Iniciar"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/green_500"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@+id/chronometer1"
         app:layout_constraintEnd_toStartOf="@+id/guideline7"
         app:layout_constraintStart_toEndOf="@+id/chronometer1"
-        app:layout_constraintTop_toTopOf="@+id/guideline" />
+        app:layout_constraintTop_toBottomOf="@+id/chronometer1" />
 
     <TextView
         android:id="@+id/tvlocal"
@@ -502,12 +505,12 @@
 
     <Button
         android:id="@+id/button1"
-        style="?android:attr/buttonStyleSmall"
+        android:background="@drawable/estiloboton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
+        android:drawableStart="@drawable/ic_substitution"
         android:onClick="cambio"
-        android:text="@string/cambio"
+
         app:layout_constraintBottom_toBottomOf="@+id/grupoc"
         app:layout_constraintStart_toEndOf="@+id/grupoc"
         app:layout_constraintTop_toTopOf="@+id/grupoc" />
@@ -545,11 +548,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintBottom_toBottomOf="@+id/chronometer1"
         app:layout_constraintEnd_toStartOf="@+id/chronometer1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline"
-        tools:text="Preparado" />
+        app:layout_constraintTop_toBottomOf="@+id/chronometer1" />
 
 
 </android.support.constraint.ConstraintLayout>

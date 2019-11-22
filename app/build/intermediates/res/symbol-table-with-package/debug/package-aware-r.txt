@@ -410,6 +410,8 @@ color error_color_material_dark
 color error_color_material_light
 color foreground_material_dark
 color foreground_material_light
+color green_500
+color green_800
 color highlighted_text_material_dark
 color highlighted_text_material_light
 color material_blue_grey_800
@@ -660,6 +662,7 @@ drawable btn_radio_off_mtrl
 drawable btn_radio_off_to_on_mtrl_animation
 drawable btn_radio_on_mtrl
 drawable btn_radio_on_to_off_mtrl_animation
+drawable estiloboton
 drawable ic_football_field
 drawable ic_launcher
 drawable ic_logo_icon
