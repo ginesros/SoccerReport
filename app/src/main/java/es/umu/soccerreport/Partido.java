@@ -125,4 +125,9 @@ public class Partido implements Serializable {
 
         return info;
     }
+
+    public void quitarUltimoEvento(){
+        if (lista.size() > 0)
+            lista.removeLast();
+    }
 }

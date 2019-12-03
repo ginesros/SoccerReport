@@ -363,6 +363,10 @@ attr windowNoTitle
 bool abc_action_bar_embed_tabs
 bool abc_allow_stacked_button_bar
 bool abc_config_actionMenuItemAllCaps
+color LigthGreen_900
+color Lime_800
+color Teal_700
+color Teal_900
 color abc_background_cache_hint_selector_material_dark
 color abc_background_cache_hint_selector_material_light
 color abc_btn_colored_borderless_text_material
@@ -412,6 +416,7 @@ color foreground_material_dark
 color foreground_material_light
 color green_500
 color green_800
+color green_900
 color highlighted_text_material_dark
 color highlighted_text_material_light
 color material_blue_grey_800
@@ -436,6 +441,7 @@ color primary_text_default_material_dark
 color primary_text_default_material_light
 color primary_text_disabled_material_dark
 color primary_text_disabled_material_light
+color red
 color ripple_material_dark
 color ripple_material_light
 color secondary_text_default_material_dark
@@ -451,6 +457,7 @@ color switch_thumb_normal_material_dark
 color switch_thumb_normal_material_light
 color tooltip_background_dark
 color tooltip_background_light
+color yellow
 dimen abc_action_bar_content_inset_material
 dimen abc_action_bar_content_inset_with_nav
 dimen abc_action_bar_default_height_material
@@ -662,11 +669,17 @@ drawable btn_radio_off_mtrl
 drawable btn_radio_off_to_on_mtrl_animation
 drawable btn_radio_on_mtrl
 drawable btn_radio_on_to_off_mtrl_animation
+drawable estadonormal
+drawable estadoseleccionado
 drawable estiloboton
+drawable estiloimgboton
+drawable estiloradiobutton
+drawable ic_arrow_down
 drawable ic_football_field
 drawable ic_launcher
 drawable ic_logo_icon
 drawable ic_substitution
+drawable ic_undo
 drawable notification_action_background
 drawable notification_bg
 drawable notification_bg_low
@@ -702,7 +715,9 @@ id PenaltiLocal
 id PenaltiVisitante
 id SHIFT
 id SYM
+id TAVisitante
 id TR
+id TRVisitante
 id TextView01
 id TextView03
 id TextView04
@@ -822,9 +837,11 @@ id etentrac
 id etsalec
 id expand_activities_button
 id expanded_menu
+id fataVisitante
 id fecha
 id forever
 id gol
+id golVisitante
 id gone
 id group_divider
 id groups
@@ -960,6 +977,7 @@ id tvgolv
 id tvlocal
 id tvvisitante
 id unchecked
+id undo
 id uniform
 id up
 id useLogo
@@ -1022,6 +1040,8 @@ layout principal
 layout select_dialog_item_material
 layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
+layout spiner_itemseleccionado
+layout spinner_desplegableitems
 layout support_simple_spinner_dropdown_item
 menu principal
 string abc_action_bar_home_description

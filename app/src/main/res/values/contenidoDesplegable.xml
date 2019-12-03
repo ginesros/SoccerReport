@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="valores_desplegable">
-        <item>Mercury</item>
+        <item>" Seleccione una opción"</item>
         <item>Venus</item>
         <item>Earth</item>
         <item>Mars</item>

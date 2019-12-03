@@ -23,6 +23,7 @@ import android.os.Environment;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -37,7 +38,8 @@ import androidx.core.content.ContextCompat;
 public class IncidenciaActivity extends Activity {
     private static final int code1 = 1;
     private Partido partido;
-    private boolean local = true;
+    private boolean local;
+    private boolean visitante;
 
     //Situacion la utilizo para diferenciar entre incidencias de árbitro=0, AA1=1, AA=2
     private int situacion = 0;
@@ -46,7 +48,7 @@ public class IncidenciaActivity extends Activity {
     //Añadimos para el cambio fijo
     private EditText jugador1c;
     private EditText jugador2c;
-    private boolean local2 = true; //Para saber si es el equipo local o el visitante
+
     //Añadimos para la descripción de la tarjeta amarilla
     private EditText motivot;
     private EditText jugadort;
@@ -106,15 +108,34 @@ public class IncidenciaActivity extends Activity {
 
         //Añadimos para ver el informe
         listado = findViewById(R.id.textView6);
+
+        this.local = true;
+        this.visitante = false;
     }
 
     private void iniciarSpinner() {
-        Spinner spinner = findViewById(R.id.desplegable);
+        final Spinner spinner = findViewById(R.id.desplegable);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.valores_desplegable, android.R.layout.simple_spinner_item);
+                R.array.valores_desplegable, R.layout.spiner_itemseleccionado);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position != 0)
+                    Toast.makeText(parent.getContext(), Integer.toString(position), Toast.LENGTH_SHORT).show();
+                spinner.setSelection(0);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                
+            }
+        });
+
+
     }
 
     @Override
@@ -130,7 +151,7 @@ public class IncidenciaActivity extends Activity {
     protected void onStart() {
         super.onStart();
         iniciarCampos();
-        //iniciarSpinner();
+        iniciarSpinner();
     }
 
     /**
@@ -162,16 +183,16 @@ public class IncidenciaActivity extends Activity {
         String tiempo = cronometro.getText().toString();
 
         if (!flag) {
-            if (this.local2)
+            if (this.local)
                 this.inci = new Incidencia("Cambio", TipoEquipo.Local, tiempo, number1, number2, "", parte);
             else
                 this.inci = new Incidencia("Cambio", TipoEquipo.Visitante, tiempo, number1, number2, "", parte);
 
             this.partido.addIncidencia(inci);
-            Toast.makeText(this, "Añadido evento Cambio", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Añadido evento Cambio", Toast.LENGTH_SHORT).show();
             limpiarCampos();
         } else {
-            Toast.makeText(this, "Revise los campos", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Revise los campos", Toast.LENGTH_SHORT).show();
             jugador2c.requestFocus();
         }
 
@@ -203,7 +224,7 @@ public class IncidenciaActivity extends Activity {
             return true;
 
         } else {
-            Toast.makeText(this, "Revise el número de jugador.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Revise el número de jugador.", Toast.LENGTH_SHORT).show();
             return false;
         }
     }
@@ -218,7 +239,7 @@ public class IncidenciaActivity extends Activity {
 
         this.partido.addIncidencia(inci);
         //Notificar que se ha añadido
-        Toast.makeText(this, "Añadido evento " + texto, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Añadido evento " + texto, Toast.LENGTH_SHORT).show();
         limpiarCampos();
     }
 
@@ -240,103 +261,128 @@ public class IncidenciaActivity extends Activity {
 
 
         this.partido.addIncidencia(inci);
-        Toast.makeText(this, "Añadido evento " + texto, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Añadido evento " + texto, Toast.LENGTH_SHORT).show();
         limpiarCampos();
     }
 
-    public void talocal(View view) {
-        String cadena = "Tarjeta Amarilla";
 
-        this.local = true;
-        add_incidencia(cadena, cronometro.getText().toString());
+    //-------------------------------------------------------------------------\\
+    /*  Eventos sobre los equipos
+    *   El usuario previamnte indica si es Local o Visitante  */
 
+    public void golLocal(View view) {
+        local = true;
+        visitante = false;
+        gol();
     }
 
-    public void trlocal(View view) {
-        String cadena = "Tarjeta Roja";
-
-        this.local = true;
-        add_incidencia(cadena, cronometro.getText().toString());
-
+    public void golVisitante(View view) {
+        local = false;
+        visitante = true;
+        gol();
     }
 
-    public void tavisitante(View view) {
-        String cadena = "Tarjeta Amarilla";
-
-        this.local = false;
-        add_incidencia(cadena, cronometro.getText().toString());
-
+    public void faltaLocal(View view) {
+        local = true;
+        visitante = false;
+        falta();
     }
 
-    public void trvisitante(View view) {
-        String cadena = "Tarjeta Roja";
-
-        this.local = false;
-        add_incidencia(cadena, cronometro.getText().toString());
-
+    public void faltaVisitante(View view) {
+        local = false;
+        visitante = true;
+        falta();
     }
 
-    public void gollocal(View view) {
+    public void tarjetaAmarillaLocal(View view) {
+        local = true;
+        visitante = false;
+        tarjetaAmarilla();
+    }
+
+    public void tarjetaAmarillaVisitante(View view) {
+        local = false;
+        visitante = true;
+        tarjetaAmarilla();
+    }
+
+    public void tarjetaRojaLocal(View view) {
+        local = true;
+        visitante = false;
+        tarjetaRoja();
+    }
+
+    public void tarjetaRojaVisitante(View view) {
+        local = false;
+        visitante = false;
+        tarjetaRoja();
+    }
+
+    public void jugadaAreaLocal(View view) {
+        local = true;
+        visitante = false;
+        jugadaArea();
+    }
+
+    public void jugadaAreaVisitante(View view) {
+        local = false;
+        visitante = true;
+        jugadaArea();
+    }
+
+    public void penaltiLocal(View view) {
+        local = true;
+        visitante = false;
+        penalti();
+    }
+
+    public void penaltiVisitante(View view) {
+        local = false;
+        visitante = true;
+        penalti();
+    }
+
+    private void gol(){
         String cadena = "Gol";
-        this.local = true;
-
         if (add_incidencia(cadena, cronometro.getText().toString())) {
             //Actualizar el resultado
-            partido.sumarGol(true);
-            goll.setText(Integer.toString(partido.getGolesLocal()));
+            partido.sumarGol(this.local);
+            if (local)
+                goll.setText(Integer.toString(partido.getGolesLocal()));
+            else
+                golv.setText(Integer.toString(partido.getGolesVisitante()));
         }
     }
 
-    public void golvisitante(View view) {
-        String cadena = "Gol";
-        this.local = false;
-
-        if (add_incidencia(cadena, cronometro.getText().toString())) {
-            partido.sumarGol(false);
-            golv.setText(Integer.toString(partido.getGolesVisitante()));
-        }
-
-    }
-
-    public void faltalocal(View view) {
+    private void falta() {
         String cadena = "Falta";
-
-        this.local = true;
         add_incidencia_simple(cadena, cronometro.getText().toString());
         partido.sumarFalta(true);
     }
 
-    public void faltavisitante(View view) {
-        String cadena = "Falta";
+    private void tarjetaAmarilla() {
+        String cadena = "Tarjeta Amarilla";
+        add_incidencia(cadena, cronometro.getText().toString());
 
-        this.local = false;
-        add_incidencia_simple(cadena, cronometro.getText().toString());
-        partido.sumarFalta(false);
     }
 
-    public void jugadaAreaLocal(View view) {
+    private void tarjetaRoja() {
+        String cadena = "Tarjeta Roja";
+        add_incidencia(cadena, cronometro.getText().toString());
+
+    }
+
+    private void jugadaArea() {
         String cadena = "Jugada de area";
-        this.local = true;
         add_incidencia(cadena, cronometro.getText().toString());
     }
 
-    public void jugadaAreaVisitante(View view) {
-        String cadena = "Jugada de area";
-        this.local = false;
-        add_incidencia(cadena, cronometro.getText().toString());
-    }
-
-    public void penaltiLocal(View view) {
+    private void penalti() {
         String cadena = "Penalti";
-        this.local = true;
         add_incidencia(cadena, cronometro.getText().toString());
     }
 
-    public void penaltiVisitante(View view) {
-        String cadena = "Penalti";
-        this.local = false;
-        add_incidencia(cadena, cronometro.getText().toString());
-    }
+    //-------------------------------------------------------------------------\\
 
     public void ventaja(View view) {
         String cadena = "Ventaja";
@@ -491,7 +537,7 @@ public class IncidenciaActivity extends Activity {
         File file = new File(Environment.getExternalStorageDirectory(), "SoccerReport");
         if(!file.exists())
             if (!file.mkdir())
-                Toast.makeText(this, "Fallo al crear directorio\nVuelva a probar", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Fallo al crear directorio\nVuelva a probar", Toast.LENGTH_SHORT).show();
 
         //Crear fichero para guardarlo en la carpeta
 
@@ -717,14 +763,21 @@ public class IncidenciaActivity extends Activity {
     //Métodos para el cambio fijo que activa o desactiva la variable local2 a true si es equipo local o a false si es el equipo visitante
     public void clickLocalc(View view) {
 
-        this.local2 = true;
+        this.local = true;
+        this.visitante = false;
+
     }
 
     public void clickVisitantec(View view) {
 
-        this.local2 = false;
+        this.local = false;
+        this.visitante = true;
     }
 
+    public void undo(View view) {
+        Log.e("msg", "En undo");
+        this.partido.quitarUltimoEvento();
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

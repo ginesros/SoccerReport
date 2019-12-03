@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.86" />
+        app:layout_constraintGuide_percent="0.9" />
 
     <Chronometer
         android:id="@+id/chronometer1"
@@ -40,21 +40,23 @@
         android:onClick="clickcrono"
         android:text="Iniciar"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="@color/green_500"
+        android:textColor="@color/blanco"
         android:visibility="visible"
         app:layout_constraintEnd_toStartOf="@+id/guideline7"
+        app:layout_constraintHorizontal_bias="0.515"
         app:layout_constraintStart_toEndOf="@+id/chronometer1"
         app:layout_constraintTop_toBottomOf="@+id/chronometer1" />
 
     <TextView
         android:id="@+id/tvlocal"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Local"
+        android:layout_marginEnd="15dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/blanco"
+        app:layout_constraintBottom_toBottomOf="@+id/tvgoll"
         app:layout_constraintEnd_toStartOf="@+id/tvgoll"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline5" />
+        app:layout_constraintTop_toTopOf="@+id/tvgoll" />
 
     <TextView
         android:id="@+id/tvgoll"
@@ -70,13 +72,14 @@
 
     <TextView
         android:id="@+id/tvvisitante"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Visitante"
+        android:layout_marginStart="15dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+        android:textColor="@color/blanco"
+        app:layout_constraintBottom_toBottomOf="@+id/tvgolv"
         app:layout_constraintStart_toEndOf="@+id/tvgolv"
-        app:layout_constraintTop_toTopOf="@+id/guideline5" />
+        app:layout_constraintTop_toTopOf="@+id/tvgolv" />
 
     <TextView
         android:id="@+id/tvgolv"
@@ -95,7 +98,7 @@
         android:layout_width="1dp"
         android:layout_height="0dp"
         android:background="@color/blanco"
-        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        app:layout_constraintBottom_toBottomOf="@+id/PenaltiVisitante"
         app:layout_constraintStart_toStartOf="@+id/guideline6"
         app:layout_constraintTop_toTopOf="@+id/guideline5" />
 
@@ -104,7 +107,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="101dp" />
+        app:layout_constraintGuide_percent="0.2" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline6"
@@ -120,122 +123,166 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.46" />
 
-    <Button
-        android:id="@+id/Button02"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="faltavisitante"
-        android:text="Falta"
-        app:layout_constraintStart_toEndOf="@+id/Button05"
-        app:layout_constraintTop_toTopOf="@+id/Button05" />
-
-    <Button
-        android:id="@+id/Button03"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="tavisitante"
-        android:text="TA"
-        app:layout_constraintStart_toStartOf="@+id/Button05"
-        app:layout_constraintTop_toBottomOf="@+id/Button05" />
-
-    <Button
-        android:id="@+id/Button04"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
-        android:onClick="trvisitante"
-        android:text="TR"
-        app:layout_constraintEnd_toEndOf="@+id/Button02"
-        app:layout_constraintTop_toBottomOf="@+id/Button02" />
+    <!--
+        Parte de equipo Local
+    -->
 
     <Button
         android:id="@+id/gol"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="gollocal"
+        android:background="@drawable/estiloboton"
+        android:onClick="golLocal"
         android:text="Gol"
+        android:textColor="@color/blanco"
         app:layout_constraintEnd_toStartOf="@+id/button2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/button2" />
 
     <Button
         android:id="@+id/TR"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="trlocal"
-        android:text="TR"
-        app:layout_constraintEnd_toEndOf="@+id/button2"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/red"
+        android:onClick="tarjetaRojaLocal"
+        app:layout_constraintEnd_toStartOf="@+id/divider2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/Button01"
         app:layout_constraintTop_toBottomOf="@+id/button2" />
 
     <Button
         android:id="@+id/Button01"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="talocal"
-        android:text="TA"
-        app:layout_constraintStart_toStartOf="@+id/gol"
-        app:layout_constraintTop_toBottomOf="@+id/gol" />
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@color/yellow"
+        android:onClick="tarjetaAmarillaLocal"
+        app:layout_constraintEnd_toStartOf="@+id/TR"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/TR" />
 
     <Button
         android:id="@+id/JugadaAreaLocal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/estiloboton"
         android:onClick="jugadaAreaLocal"
-        android:text="Jugada de area"
-        app:layout_constraintEnd_toEndOf="@+id/TR"
-        app:layout_constraintHorizontal_bias="0.388"
-        app:layout_constraintStart_toStartOf="@+id/Button01"
+        android:text="Jugada de área"
+        android:textColor="@color/blanco"
+        app:layout_constraintEnd_toStartOf="@+id/guideline6"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TR" />
 
     <Button
         android:id="@+id/PenaltiLocal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/estiloboton"
         android:onClick="penaltiLocal"
         android:text="Penalti"
-        app:layout_constraintEnd_toEndOf="@+id/JugadaAreaLocal"
-        app:layout_constraintStart_toStartOf="@+id/JugadaAreaLocal"
+        android:textColor="@color/blanco"
+        app:layout_constraintEnd_toStartOf="@+id/guideline6"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/JugadaAreaLocal" />
 
     <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="25dp"
-        android:onClick="faltalocal"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/estiloboton"
+        android:onClick="faltaLocal"
         android:text="Falta"
-        app:layout_constraintEnd_toStartOf="@+id/guideline6"
+        android:textColor="@color/blanco"
+        app:layout_constraintEnd_toStartOf="@+id/divider2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/gol"
         app:layout_constraintTop_toBottomOf="@+id/tvgoll" />
 
+    <!--
+        Parte de visitante
+    -->
+
     <Button
-        android:id="@+id/Button05"
+        android:id="@+id/golVisitante"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:onClick="golvisitante"
+        android:background="@drawable/estiloboton"
+        android:onClick="golVisitante"
         android:text="Gol"
-        app:layout_constraintStart_toStartOf="@+id/guideline6"
-        app:layout_constraintTop_toTopOf="@+id/gol" />
+        android:textColor="@color/blanco"
+        app:layout_constraintEnd_toStartOf="@+id/fataVisitante"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/divider2"
+        app:layout_constraintTop_toTopOf="@+id/button2" />
+
+    <Button
+        android:id="@+id/TRVisitante"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@color/red"
+        android:onClick="tarjetaRojaVisitante"
+        app:layout_constraintEnd_toStartOf="@+id/TAVisitante"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/divider2"
+        app:layout_constraintTop_toTopOf="@+id/TR" />
+
+    <Button
+        android:id="@+id/TAVisitante"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+
+        android:background="@color/yellow"
+        android:onClick="tarjetaAmarillaVisitante"
+        app:layout_constraintEnd_toStartOf="@+id/divider4"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/TRVisitante"
+        app:layout_constraintTop_toTopOf="@+id/TRVisitante" />
 
     <Button
         android:id="@+id/JugadaAreaVisitante"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/estiloboton"
         android:onClick="jugadaAreaVisitante"
-        android:text="Jugada de area"
-        app:layout_constraintEnd_toEndOf="@+id/Button04"
-        app:layout_constraintStart_toStartOf="@+id/Button03"
-        app:layout_constraintTop_toBottomOf="@+id/Button04" />
+        android:text="Jugada de área"
+        android:textColor="@color/blanco"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toTopOf="@+id/JugadaAreaLocal" />
 
     <Button
         android:id="@+id/PenaltiVisitante"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/estiloboton"
         android:onClick="penaltiVisitante"
         android:text="Penalti"
-        app:layout_constraintEnd_toEndOf="@+id/JugadaAreaVisitante"
-        app:layout_constraintStart_toStartOf="@+id/JugadaAreaVisitante"
-        app:layout_constraintTop_toBottomOf="@+id/JugadaAreaVisitante" />
+        android:textColor="@color/blanco"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toTopOf="@+id/PenaltiLocal" />
+
+    <Button
+        android:id="@+id/fataVisitante"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/estiloboton"
+        android:onClick="faltaVisitante"
+        android:text="Falta"
+        android:textColor="@color/blanco"
+        app:layout_constraintEnd_toStartOf="@+id/divider4"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/golVisitante"
+        app:layout_constraintTop_toTopOf="@+id/golVisitante" />
+
+    <!--
+        #####################
+    -->
 
     <View
         android:id="@+id/divider4"
@@ -246,37 +293,29 @@
         app:layout_constraintStart_toStartOf="@+id/guideline7"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/TextView04"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:text="@string/jug"
-        app:layout_constraintBottom_toTopOf="@+id/guideline"
-        app:layout_constraintStart_toStartOf="@+id/guideline7" />
-
     <EditText
         android:id="@+id/jugadort"
-        android:layout_width="80dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="15dp"
-        android:ems="10"
+        android:layout_marginBottom="5dp"
         android:hint="Dorsal"
         android:imeOptions="actionDone"
         android:inputType="number"
         android:maxLength="2"
-        app:layout_constraintBottom_toTopOf="@+id/guideline"
-        app:layout_constraintStart_toEndOf="@+id/TextView04"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/PenaltiLocal"
+        app:layout_constraintStart_toStartOf="@+id/PenaltiLocal"
+        app:layout_constraintTop_toBottomOf="@+id/PenaltiLocal" />
 
     <Button
         android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
+        android:layout_marginStart="5dp"
+        android:background="@drawable/estiloboton"
         android:onClick="ventaja"
         android:text="Ven"
+        android:textColor="@color/blanco"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintStart_toStartOf="@+id/guideline7" />
 
@@ -284,8 +323,11 @@
         android:id="@+id/Button07"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:background="@drawable/estiloboton"
         android:onClick="aceleracion"
         android:text="Ace"
+        android:textColor="@color/blanco"
         app:layout_constraintStart_toEndOf="@+id/button3"
         app:layout_constraintTop_toTopOf="@+id/button3" />
 
@@ -293,69 +335,64 @@
         android:id="@+id/Button08"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/estiloboton"
         android:onClick="posicionamiento"
         android:text="Pos"
-        app:layout_constraintStart_toEndOf="@+id/Button07"
-        app:layout_constraintTop_toTopOf="@+id/Button07" />
+        android:textColor="@color/blanco"
+        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        app:layout_constraintTop_toTopOf="@+id/guideline5" />
 
     <Button
         android:id="@+id/Button06"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:background="@drawable/estiloboton"
         android:onClick="otra"
         android:text="Otra"
+        android:textColor="@color/blanco"
+        app:layout_constraintEnd_toEndOf="@+id/Button07"
         app:layout_constraintStart_toEndOf="@+id/Button08"
         app:layout_constraintTop_toTopOf="@+id/Button08" />
 
-    <TextView
-        android:id="@+id/desc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="8dp"
-        android:layout_x="3dp"
-        android:layout_y="304dp"
-        android:text="@string/desc"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/blanco"
-        android:textSize="15sp"
-        app:layout_constraintStart_toStartOf="@+id/guideline7"
-        app:layout_constraintTop_toTopOf="@+id/guideline5" />
 
     <EditText
         android:id="@+id/motivo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_x="-1dp"
-        android:layout_y="320dp"
-        android:ems="10"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="5dp"
         android:hint="Descripción"
         android:imeOptions="actionDone"
         android:maxLength="200"
-        android:textSize="15sp"
-        app:layout_constraintStart_toStartOf="@+id/guideline7"
-        app:layout_constraintTop_toBottomOf="@+id/desc" />
-
+        app:layout_constraintBottom_toBottomOf="@+id/jugadort"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toTopOf="@+id/jugadort" />
 
     <Button
         android:id="@+id/button6"
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/estiloboton"
         android:onClick="faltaaa1"
         android:text="Fal"
+        android:textColor="@color/blanco"
         app:layout_constraintStart_toStartOf="@+id/TextView09"
         app:layout_constraintTop_toBottomOf="@+id/TextView09" />
 
     <Button
         android:id="@+id/button4"
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="55dp"
-        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/estiloboton"
         android:onClick="noaa1"
         android:text="No"
+        android:textColor="@color/blanco"
         app:layout_constraintBottom_toBottomOf="@+id/button5"
         app:layout_constraintStart_toEndOf="@+id/button5"
         app:layout_constraintTop_toTopOf="@+id/button5" />
@@ -363,10 +400,12 @@
     <Button
         android:id="@+id/button5"
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="55dp"
-        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/estiloboton"
         android:onClick="fjaa1"
         android:text="FJ"
+        android:textColor="@color/blanco"
         app:layout_constraintBottom_toBottomOf="@+id/button6"
         app:layout_constraintStart_toEndOf="@+id/button6"
         app:layout_constraintTop_toTopOf="@+id/button6" />
@@ -375,21 +414,24 @@
         android:id="@+id/TextView09"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="20dp"
         android:layout_weight="0.11"
+        android:textColor="@color/blanco"
         android:text="AA1"
         android:textAppearance="?android:attr/textAppearanceMedium"
         app:layout_constraintStart_toStartOf="@+id/guideline7"
-        app:layout_constraintTop_toBottomOf="@+id/motivo" />
+        app:layout_constraintTop_toBottomOf="@+id/Button08" />
 
     <Button
         android:id="@+id/Button09"
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/estiloboton"
         android:onClick="noaa2"
         android:text="No"
+        android:textColor="@color/blanco"
         app:layout_constraintBottom_toBottomOf="@+id/Button10"
         app:layout_constraintStart_toEndOf="@+id/Button10"
         app:layout_constraintTop_toTopOf="@+id/Button10" />
@@ -401,6 +443,7 @@
         android:layout_marginStart="150dp"
         android:layout_weight="0.11"
         android:text="AA2"
+        android:textColor="@color/blanco"
         android:textAppearance="?android:attr/textAppearanceMedium"
         app:layout_constraintStart_toEndOf="@+id/TextView09"
         app:layout_constraintTop_toTopOf="@+id/TextView09" />
@@ -408,11 +451,13 @@
     <Button
         android:id="@+id/Button11"
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="55dp"
-        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_weight="0.18"
+        android:background="@drawable/estiloboton"
         android:onClick="faltaaa2"
         android:text="Fal"
+        android:textColor="@color/blanco"
         app:layout_constraintBottom_toBottomOf="@+id/button6"
         app:layout_constraintStart_toStartOf="@+id/TextView08"
         app:layout_constraintTop_toTopOf="@+id/button6" />
@@ -420,28 +465,22 @@
     <Button
         android:id="@+id/Button10"
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="55dp"
-        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/estiloboton"
         android:onClick="fjaa2"
         android:text="FJ"
+        android:textColor="@color/blanco"
         app:layout_constraintBottom_toBottomOf="@+id/Button11"
         app:layout_constraintStart_toEndOf="@+id/Button11"
         app:layout_constraintTop_toTopOf="@+id/Button11" />
-
-    <TextView
-        android:id="@+id/TextView01"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/sale"
-        app:layout_constraintBottom_toBottomOf="@+id/etsalec"
-        app:layout_constraintStart_toStartOf="@+id/textView1"
-        app:layout_constraintTop_toTopOf="@+id/etsalec" />
 
     <EditText
         android:id="@+id/etsalec"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
+        android:imeOptions="actionDone"
         android:ems="10"
         android:hint="Sale"
         android:inputType="number"
@@ -449,108 +488,129 @@
         app:layout_constraintStart_toStartOf="@+id/etentrac"
         app:layout_constraintTop_toBottomOf="@+id/etentrac" />
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/entra"
-        app:layout_constraintStart_toStartOf="@+id/button6"
-        app:layout_constraintTop_toBottomOf="@+id/button6" />
-
     <EditText
         android:id="@+id/etentrac"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
         android:ems="10"
         android:hint="Entra"
         android:imeOptions="actionNext"
         android:inputType="number"
         android:maxLength="2"
-        app:layout_constraintBottom_toBottomOf="@+id/textView1"
-        app:layout_constraintStart_toEndOf="@+id/textView1"
-        app:layout_constraintTop_toTopOf="@+id/textView1" />
+        app:layout_constraintStart_toStartOf="@+id/grupoc"
+        app:layout_constraintTop_toBottomOf="@+id/grupoc" />
 
     <RadioGroup
         android:id="@+id/grupoc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="@+id/etsalec"
-        app:layout_constraintStart_toEndOf="@+id/etentrac"
-        app:layout_constraintTop_toTopOf="@+id/etentrac">
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/Button09"
+        app:layout_constraintStart_toStartOf="@+id/button6"
+        app:layout_constraintTop_toBottomOf="@+id/Button10">
 
         <RadioButton
             android:id="@+id/radio1c"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/estiloradiobutton"
+            android:button="@android:color/transparent"
             android:checked="true"
             android:onClick="clickLocalc"
             android:text="@string/local"
-            android:textColor="@color/blanco"
-            android:textSize="17sp" />
+            android:textColor="@color/blanco" />
 
         <RadioButton
             android:id="@+id/radio2c"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/estiloradiobutton"
+            android:button="@android:color/transparent"
             android:onClick="clickVisitantec"
             android:text="@string/visitante"
-            android:textColor="@color/blanco"
-            android:textSize="17sp" />
+            android:textColor="@color/blanco" />
     </RadioGroup>
 
     <Button
         android:id="@+id/button1"
-        android:background="@drawable/estiloboton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/estiloimgboton"
         android:drawableStart="@drawable/ic_substitution"
         android:onClick="cambio"
-
-        app:layout_constraintBottom_toBottomOf="@+id/grupoc"
-        app:layout_constraintStart_toEndOf="@+id/grupoc"
-        app:layout_constraintTop_toTopOf="@+id/grupoc" />
-
-    <Button
-        android:id="@+id/bo4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="verEstadoPartido"
-        android:text="Ver estado"
-        app:layout_constraintEnd_toStartOf="@+id/bo3"
-        app:layout_constraintTop_toTopOf="@+id/bo3" />
-
-    <Button
-        android:id="@+id/bo3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="guardarPdfPartido"
-        android:text="Guardar"
-        app:layout_constraintEnd_toStartOf="@+id/bo2"
-        app:layout_constraintTop_toTopOf="@+id/bo2" />
+        app:layout_constraintBottom_toBottomOf="@+id/etsalec"
+        app:layout_constraintEnd_toEndOf="@+id/grupoc"
+        app:layout_constraintStart_toEndOf="@+id/etentrac"
+        app:layout_constraintTop_toBottomOf="@+id/grupoc" />
 
     <Button
         android:id="@+id/bo2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/estiloboton"
         android:onClick="salir"
         android:text="Salir"
-        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+        android:textColor="@color/blanco"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bo4" />
+
+    <Button
+        android:id="@+id/bo4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/estiloboton"
+        android:onClick="verEstadoPartido"
+        android:text="Ver estado"
+        android:textColor="@color/blanco"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/bo2"
         app:layout_constraintTop_toTopOf="@+id/guideline4" />
+
+    <Button
+        android:id="@+id/bo3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/estiloboton"
+        android:onClick="guardarPdfPartido"
+        android:text="Guardar"
+        android:textColor="@color/blanco"
+        app:layout_constraintEnd_toStartOf="@+id/bo4"
+        app:layout_constraintTop_toTopOf="@+id/bo4" />
 
     <TextView
         android:id="@+id/infoParte"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/blanco"
         app:layout_constraintEnd_toStartOf="@+id/chronometer1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chronometer1" />
+
+    <Spinner
+        android:id="@+id/desplegable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/estiloboton"
+        app:layout_constraintBottom_toBottomOf="@+id/Button06"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Button06"
+        app:layout_constraintTop_toTopOf="@+id/Button07" />
+
+    <Button
+        android:id="@+id/undo"
+        android:layout_width="wrap_content"
+        android:onClick="undo"
+        android:layout_height="wrap_content"
+        android:background="@drawable/estiloboton"
+        android:drawableStart="@drawable/ic_undo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

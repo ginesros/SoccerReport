@@ -3,6 +3,13 @@
     <color name="blanco">#FFFFFF</color>
     <color name="green_500">#4CAF50</color>>
     <color name="green_800">#2E7D32</color>>
+    <color name="green_900">#1B5E20</color>
+    <color name="yellow">#FFEB3B</color>
+    <color name="red">#f44336</color>
+    <color name="Lime_800">#9E9D24</color>
+    <color name="Teal_900">#004D40</color>
+    <color name="Teal_700">#00796B</color>
+    <color name="LigthGreen_900">#33691E</color>
 </resources>
 
 
