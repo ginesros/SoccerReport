@@ -3,6 +3,7 @@ package es.umu.soccerreport;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import com.itextpdf.text.BaseColor;
@@ -209,7 +210,7 @@ public class IncidenciaActivity extends Activity {
     public boolean add_incidencia(String texto, String tiempo) {
         boolean flag = false;
         int min = -1;
-        int dorsal;
+        int dorsal = 0;
         int number2 = 0;
 
         //Comprueba el jugador
@@ -220,7 +221,7 @@ public class IncidenciaActivity extends Activity {
             flag = true;
 
         if (!flag) {
-            add_incidencia_simple(texto, tiempo);
+            add_incidencia_simple(texto, tiempo, dorsal);
             return true;
 
         } else {
@@ -230,11 +231,11 @@ public class IncidenciaActivity extends Activity {
     }
 
     //Pasa por parámetro el motivo de la incidencia: "Falta"
-    public void add_incidencia_simple(String texto, String tiempo) {
+    public void add_incidencia_simple(String texto, String tiempo, int dorsal) {
         if (this.local) {
-            this.inci = new Incidencia(texto, TipoEquipo.Local, tiempo, 0, 0, motivot.getText().toString(), parte);
+            this.inci = new Incidencia(texto, TipoEquipo.Local, tiempo, dorsal, 0, motivot.getText().toString(), parte);
         } else {
-            this.inci = new Incidencia(texto, TipoEquipo.Visitante, tiempo, 0, 0, motivot.getText().toString(), parte);
+            this.inci = new Incidencia(texto, TipoEquipo.Visitante, tiempo, dorsal, 0, motivot.getText().toString(), parte);
         }
 
         this.partido.addIncidencia(inci);
@@ -356,7 +357,7 @@ public class IncidenciaActivity extends Activity {
 
     private void falta() {
         String cadena = "Falta";
-        add_incidencia_simple(cadena, cronometro.getText().toString());
+        add_incidencia(cadena, cronometro.getText().toString());
         partido.sumarFalta(true);
     }
 
@@ -549,9 +550,12 @@ public class IncidenciaActivity extends Activity {
      * @param view
      */
     public void verEstadoPartido(View view){
-        Intent intent = new Intent(getApplicationContext(), EstadoActualActivity.class);
-        intent.putExtra("info", informe());
-        startActivity(intent);
+        if (partido.hayIncidencias()) {
+            Intent intent = new Intent(getApplicationContext(), EstadoActualActivity.class);
+            intent.putExtra("info", informe());
+            startActivity(intent);
+        }else
+            Toast.makeText(this, "Añada elementos al partido", Toast.LENGTH_SHORT).show();
     }
 
     /*
@@ -577,145 +581,314 @@ public class IncidenciaActivity extends Activity {
 
     public String informe() {
         String cadena = "";
-        String golesl = "";
-        String golesv = "";
-        String tarjetal = "";
-        String tarjetav = "";
-        String rojal = "";
-        String rojav = "";
-        String cambiol = "";
-        String cambiov = "";
-        String faltasl = "";
-        String faltasv = "";
-        String ventaja = "";
-        String aceleracion = "";
-        String pos = "";
-        String otra = "";
-        String aa1f = "";
-        String aa2f = "";
-        String aa1no = "";
-        String aa2no = "";
-        String aa1fj = "";
-        String aa2fj = "";
-        int minutosA = 0;
-        String segundosA = "";
-        String mt;
 
-        cadena = "  Equipo Local: " + partido.getEquipoLocal() + "\n  Equipo Visitante: " + partido.getEquipoVisitante() +
-                "\n  Fecha: " + partido.getDia() + "-" + partido.getMes() + "-" + partido.getAnyo() + "\n  Hora: " + partido.getHoras() +
-                ":" + partido.getMinutos() + "\n\n";
+        cadena = "  Equipo Local: " + partido.getEquipoLocal() +
+                "\n  Equipo Visitante: " + partido.getEquipoVisitante() +
+                "\n  Fecha: " + partido.getDia() + "-" + partido.getMes() + "-" + partido.getAnyo() +
+                "\n  Hora: " + partido.getHoras() + ":" + partido.getMinutos() + "\n\n";
 
-        cadena += "______________________________________________________________________________\n";
-        cadena += "RESULTADO: " + goll.getText().toString() + " - " + golv.getText().toString() + "\n\n";
+        cadena += "______________________________________________________________________________\n\n";
+        cadena += "RESULTADO: " + partido.getGolesLocal() + " - " + partido.getGolesVisitante() + "\n\n";
 
-        //Inicializo el número total de faltas
-        faltasl = Integer.toString(partido.getFaltasLocales());
-        faltasv = Integer.toString(partido.getFaltasVisitantes());
 
-        //Recorro la lista completa y voy analizando
-        LinkedList<Incidencia> l1 = (LinkedList<Incidencia>) this.partido.getLista();
-        for (Incidencia incidencia : l1) {
-            mt = "";
-            //Si es una incidencia de la segunda parte, le sumamos 45
-            if (incidencia.getParte() == 2) {
-                //Si la longitud es igual a 4: tipo 0:11, 2:14
-                if (incidencia.getMinuto().length() == 4) {
-                    minutosA = Integer.valueOf(incidencia.getMinuto().substring(0, 1)) + 45;
-                    segundosA = incidencia.getMinuto().substring(2, 4);
+        //Tratar los goles
+        ArrayList<Incidencia> igoles = partido.getIncidenciasGoles();
+        ArrayList<Incidencia> igolesLocal = partido.filtrarLocal(igoles);
+        ArrayList<Incidencia> igolesVisitante = partido.filtrarVisitante(igoles);
 
-                } else { //Longitud debe ser igual a 5: tipo 10:22, 45:11
-                    minutosA = Integer.valueOf(incidencia.getMinuto().substring(0, 2)) + 45;
-                    segundosA = incidencia.getMinuto().substring(3, 5);
+        cadena += "Goles local:\n";
+        for (int i=0; i<igolesLocal.size(); i++)
+            cadena += "\t Nº " + igolesLocal.get(i).getJugador1() + " Min: " + igolesLocal.get(i).getMinuto() +
+                 "  " + igolesLocal.get(i).getDescripcion() +"\n";
 
-                }
-                mt = Integer.toString(minutosA) + ":" + segundosA;
-            } else {
-                mt = incidencia.getMinuto();
-            }
-            if (incidencia.getNombre().compareTo("Gol") == 0) {
-                if (incidencia.getTipo() == TipoEquipo.Local) {
-                    golesl += "Nº " + incidencia.getJugador1() + " Min: " + mt + " " + incidencia.getDescripcion() + " ";
-                } else {
-                    golesv += "Nº " + incidencia.getJugador1() + " Min: " + mt + " " + incidencia.getDescripcion() + " ";
-                }
-            }
-            if (incidencia.getNombre().compareTo("Falta") == 0) {
-                //Falta marcada por AA1
-                if (incidencia.getTipo() == TipoEquipo.AA1) {
-                    aa1f += " " + mt; //incidencia.getMinuto();
-                }
-                //Falta marcada por AA2
-                if (incidencia.getTipo() == TipoEquipo.AA2) {
-                    aa2f += " " + mt; //incidencia.getMinuto();
-                }
-                //Falta normal para un equipo u otro
-                if (incidencia.getTipo() == TipoEquipo.Local) {
-                    faltasl += mt + " ";//incidencia.getMinuto()+" ";
-                }
-                if (incidencia.getTipo() == TipoEquipo.Visitante) {
-                    faltasv += mt + " ";//incidencia.getMinuto()+" ";
-                }
-            }
-            //cadena+="- "+incidencia.getNombre()+"\n";
-            if (incidencia.getNombre().compareTo("Tarjeta Amarilla") == 0) {
-                if (incidencia.getTipo() == TipoEquipo.Local) {
-                    tarjetal += "Nº " + incidencia.getJugador1() + " Min: " + mt + " " + incidencia.getDescripcion() + "\n";
-                } else {
-                    tarjetav += "Nº " + incidencia.getJugador1() + " Min: " + mt + " " + incidencia.getDescripcion() + "\n";
-                }
-            }
-            if (incidencia.getNombre().compareTo("Tarjeta Roja") == 0) {
-                if (incidencia.getTipo() == TipoEquipo.Local) {
-                    rojal += incidencia.getJugador1() + " " + mt + " " + incidencia.getDescripcion() + "\n";
-                } else {
-                    rojav += incidencia.getJugador1() + " " + mt + " " + incidencia.getDescripcion() + "\n";
-                }
-            }
 
-            if (incidencia.getNombre().compareTo("Ventaja") == 0) {
-                ventaja += " " + mt;//incidencia.getMinuto();
-            }
-            if (incidencia.getNombre().compareTo("Aceleración") == 0) {
-                aceleracion += " " + mt;//incidencia.getMinuto();
-            }
-            if (incidencia.getNombre().compareTo("Posicionamiento") == 0) {
-                pos += " " + mt + " " + incidencia.getDescripcion();//incidencia.getMinuto();
-            }
-            if (incidencia.getNombre().compareTo("Otra") == 0) {
-                otra += " " + mt + " " + incidencia.getDescripcion() + "\n";
-            }
-            if (incidencia.getNombre().compareTo("Cambio") == 0) {
-                if (incidencia.getTipo() == TipoEquipo.Local) {
-                    cambiol += "Nº " + incidencia.getJugador2() + " X " + "Nº " + incidencia.getJugador1() + " Min:" + mt + "\n";
-                } else {
-                    cambiov += "Nº " + incidencia.getJugador2() + " X " + "Nº " + incidencia.getJugador1() + " Min:" + mt + "\n";
-                }
-            }
-            if (incidencia.getNombre().compareTo("No") == 0) {
-                if (incidencia.getTipo() == TipoEquipo.AA1) {
-                    aa1no += " " + mt + " " + incidencia.getDescripcion();//incidencia.getMinuto();
-                } else {
-                    aa2no += " " + mt + " " + incidencia.getDescripcion();//incidencia.getMinuto();
-                }
-            }
-            if (incidencia.getNombre().compareTo("FJ") == 0) {
-                if (incidencia.getTipo() == TipoEquipo.AA1) {
-                    aa1fj += " " + mt + " " + incidencia.getDescripcion();//incidencia.getMinuto();
-                } else {
-                    aa2fj += " " + mt + " " + incidencia.getDescripcion();//incidencia.getMinuto();
-                }
-            }
-        }
-        cadena += "Goles local: " + golesl + "\nGoles visitante: " + golesv + "\n\nTA local: " + tarjetal + "\nTR local: " + rojal + "\nTA visitante: " + tarjetav + "\nTR visitante: " + rojav +
-                "\n\nCambios local: " +
-                cambiol + "Cambios visitante: " + cambiov + "\n\nFaltas local: " + faltasl + "\nFaltas visitante: " + faltasv + "\nVentaja: " + ventaja + "\nAceleración: " + aceleracion +
-                "\nPosicionamiento: " + pos + "\n\nIncidencias: " + otra + "\n\nAA1: NO: " + aa1no + "\nFJ: " + aa1fj + "\nFALTAS: " + aa1f + "\n\nAA2: NO: " + aa2no + "\nFJ: " + aa2fj + "\nFALTAS: " + aa2f;
-        cadena += "\n\n";
+
+        cadena += "\nGoles visitante:\n";
+        for (int i=0; i<igolesVisitante.size(); i++)
+            cadena += "\t Nº " + igolesVisitante.get(i).getJugador1() + " Min: " +  igolesVisitante.get(i).getMinuto() +
+                    "  " + igolesVisitante.get(i).getDescripcion() + "\n";
+
+        //Tratar las tarjetas amarillas
+        ArrayList<Incidencia> iTA = partido.getIncidenciasTA();
+        ArrayList<Incidencia> iTALocal = partido.filtrarLocal(iTA);
+        ArrayList<Incidencia> iTAVisitante = partido.filtrarVisitante(iTA);
+
+        cadena += "\nTarjetas amarillas local:\n";
+        for (int i=0; i<iTALocal.size(); i++)
+            cadena += "\t Nº " + iTALocal.get(i).getJugador1() + " Min: " +  iTALocal.get(i).getMinuto() +
+                    "  " + iTALocal.get(i).getDescripcion() + "\n";
+
+
+        cadena += "\nTarjetas amarillas visitante:\n";
+        for (int i=0; i<iTAVisitante.size(); i++)
+            cadena += "\t Nº " + iTAVisitante.get(i).getJugador1() + " Min: " +  iTAVisitante.get(i).getMinuto() +
+                    "  " + iTAVisitante.get(i).getDescripcion() + "\n";
+
+        //Tratar las tarjetas rojas
+        ArrayList<Incidencia> iTR = partido.getIncidenciasTR();
+        ArrayList<Incidencia> iTRLocal = partido.filtrarLocal(iTR);
+        ArrayList<Incidencia> iTRVisitante = partido.filtrarVisitante(iTR);
+
+        cadena += "\nTarjetas rojas local:\n";
+        for (int i=0; i<iTRLocal.size(); i++)
+            cadena += "\t Nº " + iTRLocal.get(i).getJugador1() + " Min: " +  iTRLocal.get(i).getMinuto() +
+                    "  " + iTRLocal.get(i).getDescripcion() + "\n";
+
+
+        cadena += "\nTarjetas rojas visitante:\n";
+        for (int i=0; i<iTRVisitante.size(); i++)
+            cadena += "\t Nº " + iTRVisitante.get(i).getJugador1() + " Min: " +  iTRVisitante.get(i).getMinuto() +
+                    "  " + iTRVisitante.get(i).getDescripcion() + "\n";
+
+
+        //Tratar los cambios
+        ArrayList<Incidencia> iCambios = partido.getIncidenciasCambios();
+        ArrayList<Incidencia> iCambiosLocal = partido.filtrarLocal(iCambios);
+        ArrayList<Incidencia> iCambiosVisitante = partido.filtrarVisitante(iCambios);
+
+        cadena += "\nCambios local:\n";
+        for (int i=0; i<iCambiosLocal.size(); i++)
+            cadena += "\t Nº " + iCambiosLocal.get(i).getJugador1()+ " x " + iCambiosLocal.get(i).getJugador2() +
+                    " Min: " +  iCambiosLocal.get(i).getMinuto() + "  " + iCambiosLocal.get(i).getDescripcion() + "\n";
+
+
+        cadena += "\nCambios visitante:\n";
+        for (int i=0; i<iCambiosVisitante.size(); i++)
+            cadena += "\t Nº " + iCambiosVisitante.get(i).getJugador1() + " x " + iCambiosVisitante.get(i).getJugador2() +
+                    " Min: " +  iCambiosVisitante.get(i).getMinuto() + "  " + iCambiosVisitante.get(i).getDescripcion() + "\n";
+
+        //Tratar Faltas
+        ArrayList<Incidencia> iFaltas = partido.getIncidenciasFaltas();
+        ArrayList<Incidencia> iFaltasLocal = partido.filtrarLocal(iFaltas);
+        ArrayList<Incidencia> iFaltasVisitante = partido.filtrarVisitante(iFaltas);
+
+        cadena += "\nFalta local: " + Integer.toString(partido.getFaltasLocales()) + "\n";
+        for (int i=0; i<iFaltasLocal.size(); i++)
+            cadena += "\t Nº " + iFaltasLocal.get(i).getJugador1()+ " Min: " +  iFaltasLocal.get(i).getMinuto() +
+                    "  " + iFaltasLocal.get(i).getDescripcion() + "\n";
+
+
+        cadena += "\nFalta visitante: " + Integer.toString(partido.getFaltasVisitantes()) + "\n";
+        for (int i=0; i<iFaltasVisitante.size(); i++)
+            cadena += "\t Nº " + iFaltasVisitante.get(i).getJugador1()+ " Min: " +  iFaltasVisitante.get(i).getMinuto() +
+                    "  " + iFaltasVisitante.get(i).getDescripcion() + "\n";
+
+        //Tratar ventaja, aceleración, Posicionamiento
+        ArrayList<Incidencia> iVen = partido.getIncidenciasVentaja();
+        ArrayList<Incidencia> iAce = partido.getIncidenciasAceleracion();
+        ArrayList<Incidencia> iPos = partido.getIncidenciasPosicionamiento();
+
+        cadena += "\nVentaja: \n";
+        for (int i=0; i<iVen.size(); i++)
+            cadena += "\t" + iVen.get(i).getMinuto() + "  " + iVen.get(i).getDescripcion() + "\n";
+
+        cadena += "\nAceleración: \n";
+        for (int i=0; i<iAce.size(); i++)
+            cadena += "\t" + iAce.get(i).getMinuto() + "  " + iAce.get(i).getDescripcion() + "\n";
+
+        cadena += "\nPosición: \n";
+        for (int i=0; i<iPos.size(); i++)
+            cadena += "\t" + iPos.get(i).getMinuto() + "  " + iPos.get(i).getDescripcion() + "\n";
+
+        //Tratar otras
+        ArrayList<Incidencia> iOtras = partido.getIncidenciasOtra();
+        cadena += "\nOtras: \n";
+        for (int i=0; i<iOtras.size(); i++)
+            cadena += "\t" + iOtras.get(i).getMinuto() + "  " + iOtras.get(i).getDescripcion() + "\n";
+
+
+        //Tratar incidencias AAA1
+        ArrayList<Incidencia> iNO = partido.getIncidenciasNO();
+        ArrayList<Incidencia> iFJ = partido.getIncidenciasFJ();
+        ArrayList<Incidencia> iFaltasAAA1 = partido.filtrarAAA1(iFaltas);
+        ArrayList<Incidencia> iNoAAA1 = partido.filtrarAAA1(iNO);
+        ArrayList<Incidencia> iFjAAA1 = partido.filtrarAAA1(iFJ);
+
+        cadena += "\n AAA1: \n";
+        cadena += "\nFaltas:\n";
+        for (int i=0; i<iFaltasAAA1.size(); i++)
+            cadena += "\tMin: " +  iFaltasAAA1.get(i).getMinuto() +
+                    "  " + iFaltasAAA1.get(i).getDescripcion() + "\n";
+
+        cadena += "\nNO:\n";
+        for (int i=0; i<iNoAAA1.size(); i++)
+            cadena += "\tMin: " +  iNoAAA1.get(i).getMinuto() +
+                    "  " + iNoAAA1.get(i).getDescripcion() + "\n";
+
+        cadena += "\nFJ:\n";
+        for (int i=0; i<iFjAAA1.size(); i++)
+            cadena += "\tMin: " +  iFjAAA1.get(i).getMinuto() +
+                    "  " + iFjAAA1.get(i).getDescripcion() + "\n";
+
+
+        //Tratar incidencias AAA2
+        ArrayList<Incidencia> iFaltasAAA2 = partido.filtrarAAA2(iFaltas);
+        ArrayList<Incidencia> iNoAAA2 = partido.filtrarAAA2(iNO);
+        ArrayList<Incidencia> iFjAAA2 = partido.filtrarAAA2(iFJ);
+
+        cadena += "\nFaltas:\n";
+        for (int i=0; i<iFaltasAAA2.size(); i++)
+            cadena += "\tMin: " +  iFaltasAAA2.get(i).getMinuto() +
+                    "  " + iFaltasAAA2.get(i).getDescripcion() + "\n";
+
+        cadena += "\nNO:\n";
+        for (int i=0; i<iNoAAA2.size(); i++)
+            cadena += "\tMin: " +  iNoAAA2.get(i).getMinuto() +
+                    "  " + iNoAAA2.get(i).getDescripcion() + "\n";
+
+        cadena += "\nFJ:\n";
+        for (int i=0; i<iFjAAA2.size(); i++)
+            cadena += "\tMin: " +  iFjAAA2.get(i).getMinuto() +
+                    "  " + iFjAAA2.get(i).getDescripcion() + "\n";
+
+
         cadena += "______________________________________________________________________________\n";
 
         cadena += "FINAL DEL PARTIDO";
         return cadena;
     }
+
+//    public String informe() {
+//        String cadena = "";
+//        String golesl = "";
+//        String golesv = "";
+//        String tarjetal = "";
+//        String tarjetav = "";
+//        String rojal = "";
+//        String rojav = "";
+//        String cambiol = "";
+//        String cambiov = "";
+//        String faltasl = "";
+//        String faltasv = "";
+//        String ventaja = "";
+//        String aceleracion = "";
+//        String pos = "";
+//        String otra = "";
+//        String aa1f = "";
+//        String aa2f = "";
+//        String aa1no = "";
+//        String aa2no = "";
+//        String aa1fj = "";
+//        String aa2fj = "";
+//        int minutosA = 0;
+//        String segundosA = "";
+//        String mt;
+//
+//        cadena = "  Equipo Local: " + partido.getEquipoLocal() + "\n  Equipo Visitante: " + partido.getEquipoVisitante() +
+//                "\n  Fecha: " + partido.getDia() + "-" + partido.getMes() + "-" + partido.getAnyo() + "\n  Hora: " + partido.getHoras() +
+//                ":" + partido.getMinutos() + "\n\n";
+//
+//        cadena += "______________________________________________________________________________\n";
+//        cadena += "RESULTADO: " + goll.getText().toString() + " - " + golv.getText().toString() + "\n\n";
+//
+//        //Inicializo el número total de faltas
+//        faltasl = Integer.toString(partido.getFaltasLocales());
+//        faltasv = Integer.toString(partido.getFaltasVisitantes());
+//
+//        //Recorro la lista completa y voy analizando
+//        LinkedList<Incidencia> l1 = (LinkedList<Incidencia>) this.partido.getLista();
+//        for (Incidencia incidencia : l1) {
+//            mt = "";
+//            //Si es una incidencia de la segunda parte, le sumamos 45
+//            if (incidencia.getParte() == 2) {
+//                //Si la longitud es igual a 4: tipo 0:11, 2:14
+//                if (incidencia.getMinuto().length() == 4) {
+//                    minutosA = Integer.valueOf(incidencia.getMinuto().substring(0, 1)) + 45;
+//                    segundosA = incidencia.getMinuto().substring(2, 4);
+//
+//                } else { //Longitud debe ser igual a 5: tipo 10:22, 45:11
+//                    minutosA = Integer.valueOf(incidencia.getMinuto().substring(0, 2)) + 45;
+//                    segundosA = incidencia.getMinuto().substring(3, 5);
+//
+//                }
+//                mt = Integer.toString(minutosA) + ":" + segundosA;
+//            } else {
+//                mt = incidencia.getMinuto();
+//            }
+//            if (incidencia.getNombre().compareTo("Gol") == 0) {
+//                if (incidencia.getTipo() == TipoEquipo.Local) {
+//                    golesl += "Nº " + incidencia.getJugador1() + " Min: " + mt + " " + incidencia.getDescripcion() + " ";
+//                } else {
+//                    golesv += "Nº " + incidencia.getJugador1() + " Min: " + mt + " " + incidencia.getDescripcion() + " ";
+//                }
+//            }
+//            if (incidencia.getNombre().compareTo("Falta") == 0) {
+//                //Falta marcada por AA1
+//                if (incidencia.getTipo() == TipoEquipo.AA1) {
+//                    aa1f += " " + mt; //incidencia.getMinuto();
+//                }
+//                //Falta marcada por AA2
+//                if (incidencia.getTipo() == TipoEquipo.AA2) {
+//                    aa2f += " " + mt; //incidencia.getMinuto();
+//                }
+//                //Falta normal para un equipo u otro
+//                if (incidencia.getTipo() == TipoEquipo.Local) {
+//                    faltasl += mt + " ";//incidencia.getMinuto()+" ";
+//                }
+//                if (incidencia.getTipo() == TipoEquipo.Visitante) {
+//                    faltasv += mt + " ";//incidencia.getMinuto()+" ";
+//                }
+//            }
+//            //cadena+="- "+incidencia.getNombre()+"\n";
+//            if (incidencia.getNombre().compareTo("Tarjeta Amarilla") == 0) {
+//                if (incidencia.getTipo() == TipoEquipo.Local) {
+//                    tarjetal += "Nº " + incidencia.getJugador1() + " Min: " + mt + " " + incidencia.getDescripcion() + "\n";
+//                } else {
+//                    tarjetav += "Nº " + incidencia.getJugador1() + " Min: " + mt + " " + incidencia.getDescripcion() + "\n";
+//                }
+//            }
+//            if (incidencia.getNombre().compareTo("Tarjeta Roja") == 0) {
+//                if (incidencia.getTipo() == TipoEquipo.Local) {
+//                    rojal += incidencia.getJugador1() + " " + mt + " " + incidencia.getDescripcion() + "\n";
+//                } else {
+//                    rojav += incidencia.getJugador1() + " " + mt + " " + incidencia.getDescripcion() + "\n";
+//                }
+//            }
+//
+//            if (incidencia.getNombre().compareTo("Ventaja") == 0) {
+//                ventaja += " " + mt;//incidencia.getMinuto();
+//            }
+//            if (incidencia.getNombre().compareTo("Aceleración") == 0) {
+//                aceleracion += " " + mt;//incidencia.getMinuto();
+//            }
+//            if (incidencia.getNombre().compareTo("Posicionamiento") == 0) {
+//                pos += " " + mt + " " + incidencia.getDescripcion();//incidencia.getMinuto();
+//            }
+//            if (incidencia.getNombre().compareTo("Otra") == 0) {
+//                otra += " " + mt + " " + incidencia.getDescripcion() + "\n";
+//            }
+//            if (incidencia.getNombre().compareTo("Cambio") == 0) {
+//                if (incidencia.getTipo() == TipoEquipo.Local) {
+//                    cambiol += "Nº " + incidencia.getJugador2() + " X " + "Nº " + incidencia.getJugador1() + " Min:" + mt + "\n";
+//                } else {
+//                    cambiov += "Nº " + incidencia.getJugador2() + " X " + "Nº " + incidencia.getJugador1() + " Min:" + mt + "\n";
+//                }
+//            }
+//            if (incidencia.getNombre().compareTo("No") == 0) {
+//                if (incidencia.getTipo() == TipoEquipo.AA1) {
+//                    aa1no += " " + mt + " " + incidencia.getDescripcion();//incidencia.getMinuto();
+//                } else {
+//                    aa2no += " " + mt + " " + incidencia.getDescripcion();//incidencia.getMinuto();
+//                }
+//            }
+//            if (incidencia.getNombre().compareTo("FJ") == 0) {
+//                if (incidencia.getTipo() == TipoEquipo.AA1) {
+//                    aa1fj += " " + mt + " " + incidencia.getDescripcion();//incidencia.getMinuto();
+//                } else {
+//                    aa2fj += " " + mt + " " + incidencia.getDescripcion();//incidencia.getMinuto();
+//                }
+//            }
+//        }
+//        cadena += "Goles local: " + golesl + "\nGoles visitante: " + golesv + "\n\nTA local: " + tarjetal + "\nTR local: " + rojal + "\nTA visitante: " + tarjetav + "\nTR visitante: " + rojav +
+//                "\n\nCambios local: " +
+//                cambiol + "Cambios visitante: " + cambiov + "\n\nFaltas local: " + faltasl + "\nFaltas visitante: " + faltasv + "\nVentaja: " + ventaja + "\nAceleración: " + aceleracion +
+//                "\nPosicionamiento: " + pos + "\n\nIncidencias: " + otra + "\n\nAA1: NO: " + aa1no + "\nFJ: " + aa1fj + "\nFALTAS: " + aa1f + "\n\nAA2: NO: " + aa2no + "\nFJ: " + aa2fj + "\nFALTAS: " + aa2f;
+//        cadena += "\n\n";
+//        cadena += "______________________________________________________________________________\n";
+//
+//        cadena += "FINAL DEL PARTIDO";
+//        return cadena;
+//    }
 
     public String informe_ordenado() {
 
@@ -775,8 +948,13 @@ public class IncidenciaActivity extends Activity {
     }
 
     public void undo(View view) {
-        Log.e("msg", "En undo");
-        this.partido.quitarUltimoEvento();
+        Incidencia eliminada = this.partido.quitarUltimoEvento();
+        if(eliminada != null) {
+            Toast.makeText(this, inci.getNombre() + " eliminado", Toast.LENGTH_SHORT).show();
+            goll.setText(Integer.toString(partido.getGolesLocal()));
+            golv.setText(Integer.toString(partido.getGolesVisitante()));
+        }
+
     }
 
     @Override

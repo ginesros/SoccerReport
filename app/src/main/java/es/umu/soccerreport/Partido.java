@@ -1,10 +1,15 @@
 package es.umu.soccerreport;
 
+
+import android.util.Log;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
-import es.umu.soccerreport.Incidencia;
 
 public class Partido implements Serializable {
 
@@ -15,14 +20,14 @@ public class Partido implements Serializable {
     private int golesVisitante;
     private int faltasLocales;
     private int faltasVisitantes;
-    private int dia;
-    private int mes;
-    private int anyo;
-    private int horas;
-    private int minutos;
+    private String dia;
+    private String mes;
+    private String anyo;
+    private String horas;
+    private String minutos;
     private LinkedList<Incidencia> lista;
 
-    public Partido(String equipoLocal, String equipoVisitante, int dia, int mes, int anyo, int horas, int minutos) {
+    public Partido(String equipoLocal, String equipoVisitante, String dia, String mes, String anyo, String horas, String minutos) {
         this.faltasLocales = 0;
         this.faltasVisitantes = 0;
         this.golesLocal = 0;
@@ -83,26 +88,26 @@ public class Partido implements Serializable {
         return equipoVisitante;
     }
 
-    public int getDia() {
+    public String getDia() {
 
         return dia;
     }
 
-    public int getMes() {
+    public String getMes() {
 
         return mes;
     }
 
-    public int getAnyo() {
+    public String getAnyo() {
 
         return anyo;
     }
 
-    public int getHoras() {
+    public String getHoras() {
         return horas;
     }
 
-    public int getMinutos() {
+    public String getMinutos() {
         return minutos;
     }
 
@@ -122,12 +127,216 @@ public class Partido implements Serializable {
         info += " --- " + golesVisitante + " " + equipoVisitante + "\n";
         info += "Total faltas local: " + faltasLocales + "\n";
         info += "Total faltas visitante: " + faltasVisitantes + "\n";
-
         return info;
     }
 
-    public void quitarUltimoEvento(){
-        if (lista.size() > 0)
-            lista.removeLast();
+    public Incidencia quitarUltimoEvento(){
+        if (hayIncidencias()) {
+            Incidencia i = lista.getLast();
+
+            if (i.getNombre().equals("Gol")){
+                if (i.getTipo().equals(TipoEquipo.Local)) {
+                    golesLocal--;
+                }else {
+                    golesVisitante--;
+                }
+
+            }else if (i.getNombre().equals("Falta")) {
+                if (i.getTipo().equals(TipoEquipo.Local))
+                    faltasLocales--;
+                else
+                    faltasVisitantes--;
+            }
+
+            return lista.removeLast();
+        }
+
+        return null;
+
     }
+
+    public boolean hayIncidencias(){
+        return lista.size() > 0;
+    }
+
+    private ArrayList<Incidencia> filtrarIncidencias(Predicate<Incidencia> filtro) {
+        List<Incidencia> f = lista.stream().filter(filtro).collect(Collectors.<Incidencia>toList());
+        ArrayList<Incidencia> listaFiltrada = new ArrayList<Incidencia>(f);
+
+        return listaFiltrada;
+    }
+
+    public ArrayList<Incidencia> filtrarLocal(ArrayList<Incidencia> datos) {
+        Predicate<Incidencia> predicadoLocal = new Predicate<Incidencia>() {
+            @Override
+            public boolean test(Incidencia incidencia) {
+                return incidencia.getTipo() == TipoEquipo.Local;
+            }
+        };
+
+        List<Incidencia> f = datos.stream().filter(predicadoLocal).collect(Collectors.<Incidencia>toList());
+        ArrayList<Incidencia> datosfiltrados = new ArrayList<Incidencia>(f);
+        return datosfiltrados;
+    }
+
+    public ArrayList<Incidencia> filtrarAAA2(ArrayList<Incidencia> datos) {
+        Predicate<Incidencia> predicadoAAA2 = new Predicate<Incidencia>() {
+            @Override
+            public boolean test(Incidencia incidencia) {
+                return incidencia.getTipo() == TipoEquipo.AA2;
+            }
+        };
+
+        List<Incidencia> f = datos.stream().filter(predicadoAAA2).collect(Collectors.<Incidencia>toList());
+        ArrayList<Incidencia> datosfiltrados = new ArrayList<Incidencia>(f);
+        return datosfiltrados;
+    }
+
+    public ArrayList<Incidencia> filtrarAAA1(ArrayList<Incidencia> datos) {
+        Predicate<Incidencia> predicadoAAA1 = new Predicate<Incidencia>() {
+            @Override
+            public boolean test(Incidencia incidencia) {
+                return incidencia.getTipo() == TipoEquipo.AA1;
+            }
+        };
+
+        List<Incidencia> f = datos.stream().filter(predicadoAAA1).collect(Collectors.<Incidencia>toList());
+        ArrayList<Incidencia> datosfiltrados = new ArrayList<Incidencia>(f);
+        return datosfiltrados;
+    }
+
+    public ArrayList<Incidencia> filtrarVisitante(ArrayList<Incidencia> datos) {
+        Predicate<Incidencia> predicadoVisitante = new Predicate<Incidencia>() {
+            @Override
+            public boolean test(Incidencia incidencia) {
+                return incidencia.getTipo() == TipoEquipo.Visitante;
+            }
+        };
+
+        List<Incidencia> f = datos.stream().filter(predicadoVisitante).collect(Collectors.<Incidencia>toList());
+        ArrayList<Incidencia> datosfiltrados = new ArrayList<Incidencia>(f);
+        return datosfiltrados;
+    }
+
+    public ArrayList<Incidencia> getIncidenciasGoles() {
+        Predicate<Incidencia> predicadoGol = new Predicate<Incidencia>() {
+            @Override
+            public boolean test(Incidencia incidencia) {
+                return incidencia.getNombre().equals("Gol");
+            }
+        };
+
+       return filtrarIncidencias(predicadoGol);
+    }
+
+    public ArrayList<Incidencia> getIncidenciasTA() {
+        Predicate<Incidencia> predicadoGol = new Predicate<Incidencia>() {
+            @Override
+            public boolean test(Incidencia incidencia) {
+                return incidencia.getNombre().equals("Tarjeta Amarilla");
+            }
+        };
+
+        return filtrarIncidencias(predicadoGol);
+    }
+
+    public ArrayList<Incidencia> getIncidenciasTR() {
+        Predicate<Incidencia> predicadoGol = new Predicate<Incidencia>() {
+            @Override
+            public boolean test(Incidencia incidencia) {
+                return incidencia.getNombre().equals("Tarjeta Roja");
+            }
+        };
+
+        return filtrarIncidencias(predicadoGol);
+    }
+
+    public ArrayList<Incidencia> getIncidenciasCambios() {
+        Predicate<Incidencia> predicadoGol = new Predicate<Incidencia>() {
+            @Override
+            public boolean test(Incidencia incidencia) {
+                return incidencia.getNombre().equals("Cambio");
+            }
+        };
+
+        return filtrarIncidencias(predicadoGol);
+    }
+
+    public ArrayList<Incidencia> getIncidenciasFaltas() {
+        Predicate<Incidencia> predicadoGol = new Predicate<Incidencia>() {
+            @Override
+            public boolean test(Incidencia incidencia) {
+                return incidencia.getNombre().equals("Falta");
+            }
+        };
+
+        return filtrarIncidencias(predicadoGol);
+    }
+
+    public ArrayList<Incidencia> getIncidenciasVentaja() {
+        Predicate<Incidencia> predicadoGol = new Predicate<Incidencia>() {
+            @Override
+            public boolean test(Incidencia incidencia) {
+                return incidencia.getNombre().equals("Ventaja");
+            }
+        };
+
+        return filtrarIncidencias(predicadoGol);
+    }
+
+    public ArrayList<Incidencia> getIncidenciasAceleracion() {
+        Predicate<Incidencia> predicadoGol = new Predicate<Incidencia>() {
+            @Override
+            public boolean test(Incidencia incidencia) {
+                return incidencia.getNombre().equals("Aceleración");
+            }
+        };
+
+        return filtrarIncidencias(predicadoGol);
+    }
+
+    public ArrayList<Incidencia> getIncidenciasPosicionamiento() {
+        Predicate<Incidencia> predicadoGol = new Predicate<Incidencia>() {
+            @Override
+            public boolean test(Incidencia incidencia) {
+                return incidencia.getNombre().equals("Posicionamiento");
+            }
+        };
+
+        return filtrarIncidencias(predicadoGol);
+    }
+
+    public ArrayList<Incidencia> getIncidenciasOtra() {
+        Predicate<Incidencia> predicadoGol = new Predicate<Incidencia>() {
+            @Override
+            public boolean test(Incidencia incidencia) {
+                return incidencia.getNombre().equals("Otra");
+            }
+        };
+
+        return filtrarIncidencias(predicadoGol);
+    }
+
+    public ArrayList<Incidencia> getIncidenciasNO() {
+        Predicate<Incidencia> predicadoGol = new Predicate<Incidencia>() {
+            @Override
+            public boolean test(Incidencia incidencia) {
+                return incidencia.getNombre().equals("No");
+            }
+        };
+
+        return filtrarIncidencias(predicadoGol);
+    }
+
+    public ArrayList<Incidencia> getIncidenciasFJ() {
+        Predicate<Incidencia> predicadoGol = new Predicate<Incidencia>() {
+            @Override
+            public boolean test(Incidencia incidencia) {
+                return incidencia.getNombre().equals("FJ");
+            }
+        };
+
+        return filtrarIncidencias(predicadoGol);
+    }
+
 }
