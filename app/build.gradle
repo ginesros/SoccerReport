@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "es.umu.soccerreport"
-        minSdkVersion 21
+        minSdkVersion 24
         targetSdkVersion 29
     }
 

@@ -181,9 +181,8 @@ public class PrincipalActivity extends Activity {
             toast.show();
         } else {
             Partido partido = new Partido(equipoLocal.getText().toString(), equipoVisitante.getText().toString(),
-                    Integer.parseInt(dia.getText().toString()), Integer.parseInt(mes.getText().toString()),
-                    Integer.parseInt(anyo.getText().toString()), Integer.parseInt(horas.getText().toString()),
-                    Integer.parseInt(minutos.getText().toString()));
+                    dia.getText().toString(), mes.getText().toString(), anyo.getText().toString(),
+                    horas.getText().toString(), minutos.getText().toString());
             Intent intent1 = new Intent(getApplicationContext(), IncidenciaActivity.class);
             intent1.putExtra("team", partido);
             //startActivity(intent1);
