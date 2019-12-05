@@ -25,6 +25,7 @@ anim btn_radio_to_on_mtrl_ring_outer_animation
 anim btn_radio_to_on_mtrl_ring_outer_path_animation
 array claseIncidencia
 array valores_desplegable
+array valores_dialogo
 attr actionBarDivider
 attr actionBarItemBackground
 attr actionBarPopupTheme
@@ -674,6 +675,7 @@ drawable estadoseleccionado
 drawable estiloboton
 drawable estiloimgboton
 drawable estiloradiobutton
+drawable estiloscroll
 drawable ic_arrow_down
 drawable ic_football_field
 drawable ic_launcher
@@ -837,6 +839,7 @@ id etentrac
 id etsalec
 id expand_activities_button
 id expanded_menu
+id exportCSV
 id fataVisitante
 id fecha
 id forever

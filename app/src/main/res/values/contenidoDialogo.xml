@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="valores_dialogo">
+        <item>Goles</item>
+        <item>Faltas</item>
+        <item>Tarjetas Amarillas</item>
+        <item>Tarjetas Rojas</item>
+        <item>Jugada de área</item>
+        <item>Penalti</item>
+        <item>Ventaja</item>
+        <item>Posición</item>
+        <item>Aceleración</item>
+        <item>Otra</item>
+        <item>Lista desplegable</item>
+        <item>Fuera de juego</item>
+        <item>Dejar continuar</item>
+        <item>Cambios</item>
+    </string-array>
+</resources>

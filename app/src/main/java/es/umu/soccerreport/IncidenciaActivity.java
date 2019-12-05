@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -15,7 +18,10 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.ClipData;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.AnimatedStateListDrawable;
@@ -72,6 +78,9 @@ public class IncidenciaActivity extends Activity {
     private TextView goll;
     private TextView golv;
 
+    //Para mostrar el estado del partido
+    private TextView contenidoScrol;
+
     //Para saber si es primera mitad o segunda mitad
     //Además se cambiará el título del botón
     private int parte = 1; //Si esta a 1 es la primera parte, si está a 2 es la segunda parte
@@ -84,6 +93,10 @@ public class IncidenciaActivity extends Activity {
      * Inicializa todos los campos de la activity
      */
     private void iniciarCampos() {
+        //Para mostrar el informe en la tablet
+        contenidoScrol = findViewById(R.id.contenido);
+        actualizarInformeScroll();
+
         //Añadimos para el cambio fijo
         jugador1c = findViewById(R.id.etsalec);
         jugador2c = findViewById(R.id.etentrac);
@@ -114,6 +127,10 @@ public class IncidenciaActivity extends Activity {
         this.visitante = false;
     }
 
+    private void actualizarInformeScroll() {
+        contenidoScrol.setText(informe());
+    }
+
     private void iniciarSpinner() {
         final Spinner spinner = findViewById(R.id.desplegable);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -125,9 +142,10 @@ public class IncidenciaActivity extends Activity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position != 0)
-                    Toast.makeText(parent.getContext(), Integer.toString(position), Toast.LENGTH_SHORT).show();
-                spinner.setSelection(0);
+                if(position != 0) {
+                    add_incidencia_spinner(parent.getItemAtPosition(position).toString());
+                    spinner.setSelection(0);
+                }
             }
 
             @Override
@@ -185,13 +203,14 @@ public class IncidenciaActivity extends Activity {
 
         if (!flag) {
             if (this.local)
-                this.inci = new Incidencia("Cambio", TipoEquipo.Local, tiempo, number1, number2, "", parte);
+                this.inci = new Incidencia("Cambio", TipoEquipo.Local, tiempo, number1, number2, motivot.getText().toString(), parte);
             else
-                this.inci = new Incidencia("Cambio", TipoEquipo.Visitante, tiempo, number1, number2, "", parte);
+                this.inci = new Incidencia("Cambio", TipoEquipo.Visitante, tiempo, number1, number2, motivot.getText().toString(), parte);
 
             this.partido.addIncidencia(inci);
             Toast.makeText(this, "Añadido evento Cambio", Toast.LENGTH_SHORT).show();
             limpiarCampos();
+            actualizarInformeScroll();
         } else {
             Toast.makeText(this, "Revise los campos", Toast.LENGTH_SHORT).show();
             jugador2c.requestFocus();
@@ -239,6 +258,7 @@ public class IncidenciaActivity extends Activity {
         }
 
         this.partido.addIncidencia(inci);
+        actualizarInformeScroll();
         //Notificar que se ha añadido
         Toast.makeText(this, "Añadido evento " + texto, Toast.LENGTH_SHORT).show();
         limpiarCampos();
@@ -262,10 +282,19 @@ public class IncidenciaActivity extends Activity {
 
 
         this.partido.addIncidencia(inci);
+        actualizarInformeScroll();
         Toast.makeText(this, "Añadido evento " + texto, Toast.LENGTH_SHORT).show();
         limpiarCampos();
     }
 
+    private void add_incidencia_spinner(String cadena) {
+        this.inci = new Incidencia(cadena, TipoEquipo.INCSPINNER, cronometro.getText().toString(), 0, 0, motivot.getText().toString(), parte);
+        this.partido.addIncidencia(inci);
+        Toast.makeText(this, "Añadido evento " + cadena, Toast.LENGTH_SHORT).show();
+        limpiarCampos();
+        actualizarInformeScroll();
+
+    }
 
     //-------------------------------------------------------------------------\\
     /*  Eventos sobre los equipos
@@ -496,32 +525,6 @@ public class IncidenciaActivity extends Activity {
         finish();
     }
 
-    /*
-    public void generarPdf(View view) {
-
-
-        String nombre = "" + this.partido.getEquipoLocal() + "-" + this.partido.getEquipoVisitante();
-        try {
-            FileOutputStream file = new FileOutputStream("/sdcard/" + nombre + Integer.toString(cont1) + ".pdf");
-            cont1++;
-            Document document = new Document();
-
-            PdfWriter.getInstance(document, file);
-            document.open();
-            document.add(new Paragraph("INFORME \n\n", FontFactory.getFont("Calibri", 22, Font.BOLD, BaseColor.BLACK)));
-            String cadena = informe();
-            document.add(new Paragraph(cadena));
-            document.close();
-            //Asigno el texto del pdf a listado
-            listado.setText(cadena);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-    }
-    */
 
     /**
      * Generará un PDF con la información actual del partido y la guardará en
@@ -531,16 +534,179 @@ public class IncidenciaActivity extends Activity {
      */
     public void guardarPdfPartido(View view) {
         //Solicitar permiso para el almacenamiento
+        if(partido.hayIncidencias()) {
+            int requestCode = 0;
+            boolean error = false;
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, requestCode);
+
+            //Crear el directorio en caso de que no exista
+            File file = new File(Environment.getExternalStorageDirectory(), "SoccerReport");
+            String fecha = partido.getAnyo() + "-" + partido.getMes() + "-" + partido.getDia();
+            File dir = new File(file.getPath(), fecha);
+            if (!dir.exists())
+                if (!dir.mkdirs()) {
+                    Toast.makeText(this, "Fallo al crear directorio\nVuelva a probar", Toast.LENGTH_SHORT).show();
+                    error = true;
+                }
+
+            if (!error) {
+                //Crear fichero para guardarlo en la carpeta
+                String nombre_informe = "/informe_" + partido.getEquipoLocal() + "-" + partido.getEquipoVisitante() + "-" + partido.getHoras() + ":" + partido.getHoras() + ".pdf";
+                String nombre_informe_ordenado = "/informe_ordenado_" + partido.getEquipoLocal() + "-" + partido.getEquipoVisitante() + "-" + partido.getHoras() + ":" + partido.getHoras() + ".pdf";
+
+
+                try {
+                    //Para el informe normal
+                    FileOutputStream output_informe = new FileOutputStream(dir.getAbsolutePath() + nombre_informe);
+                    Document documento_informe = new Document();
+                    PdfWriter.getInstance(documento_informe, output_informe);
+                    documento_informe.open();
+                    documento_informe.add(new Paragraph("INFORME \n\n", FontFactory.getFont("Calibri", 22, Font.BOLD, BaseColor.BLACK)));
+                    String contenido = informe();
+                    documento_informe.add(new Paragraph(contenido));
+                    documento_informe.close();
+
+                    //Para el informe ordenado
+                    FileOutputStream output_informe_ordenado = new FileOutputStream(dir.getAbsolutePath() + nombre_informe_ordenado);
+                    Document documento_informe_ordenado = new Document();
+                    PdfWriter.getInstance(documento_informe_ordenado, output_informe_ordenado);
+                    documento_informe_ordenado.open();
+                    documento_informe_ordenado.add(new Paragraph("INFORME ORDENADO \n\n", FontFactory.getFont("Calibri", 22, Font.BOLD, BaseColor.BLACK)));
+                    String contenido_ordenado = informe_ordenado();
+                    documento_informe_ordenado.add(new Paragraph(contenido_ordenado));
+                    documento_informe_ordenado.close();
+
+
+                    Toast.makeText(this, "Generados informes\n"+dir.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+
+                } catch (Exception e) {
+                    Toast.makeText(this, "No se ha podido generar el informe\nVuelva a probar", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        } else
+            Toast.makeText(this, "Añada elementos al partido", Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Exporta el contenido indicado a CSV
+     * @param view
+     */
+    public void exportarCSV(View view) {
+        if(partido.hayIncidencias()) {
+
+            //Crear el diálogo para seleccionar los eventos
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            final ArrayList<Integer> seleccionados = new ArrayList();
+            builder.setTitle("Seleccione los eventos:")
+
+                    .setMultiChoiceItems(R.array.valores_dialogo, null, new DialogInterface.OnMultiChoiceClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                            if (isChecked) {
+                                // If the user checked the item, add it to the selected items
+                                seleccionados.add(which);
+                            } else if (seleccionados.contains(which)) {
+                                // Else, if the item is already in the array, remove it
+                                seleccionados.remove(Integer.valueOf(which));
+                            }
+
+                        }
+                    });
+
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // User clicked OK button
+                    List<String> cont = Arrays.asList(getResources().getStringArray(R.array.valores_dialogo));
+                    ArrayList<String> filtro = new ArrayList<>();
+                    for(int i=0;i<seleccionados.size();i++) {
+                        if (cont.get(seleccionados.get(i)).compareTo("Lista desplegable") == 0)
+                            filtro.add("Lista desplegable");
+                        else if (cont.get(seleccionados.get(i)).compareTo("Goles") == 0)
+                            filtro.add("Gol");
+                        else if (cont.get(seleccionados.get(i)).compareTo("Faltas") == 0)
+                            filtro.add("Falta");
+                        else if (cont.get(seleccionados.get(i)).compareTo("Tarjetas Amarillas") == 0)
+                            filtro.add("Tarjeta Amarilla");
+                        else if (cont.get(seleccionados.get(i)).compareTo("Tarjetas Rojas") == 0)
+                            filtro.add("Tarketa Roja");
+                        else if (cont.get(seleccionados.get(i)).compareTo("Jugada de área") == 0)
+                            filtro.add("Jugada de area");
+                        else if (cont.get(seleccionados.get(i)).compareTo("Penalti") == 0)
+                            filtro.add("Penalti");
+                        else if (cont.get(seleccionados.get(i)).compareTo("Ventaja") == 0)
+                            filtro.add("Ventaja");
+                        else if (cont.get(seleccionados.get(i)).compareTo("Posición") == 0)
+                            filtro.add("Posicionamiento");
+                        else if (cont.get(seleccionados.get(i)).compareTo("Aceleración") == 0)
+                            filtro.add("Aceleración");
+                        else if (cont.get(seleccionados.get(i)).compareTo("Otra") == 0)
+                            filtro.add("Otra");
+                        else if (cont.get(seleccionados.get(i)).compareTo("Goles") == 0)
+                            filtro.add("Gol");
+                        else if (cont.get(seleccionados.get(i)).compareTo("Fuera de juego") == 0)
+                            filtro.add("FJ");
+                        else if (cont.get(seleccionados.get(i)).compareTo("Dejar continuar") == 0)
+                            filtro.add("No");
+                        else if (cont.get(seleccionados.get(i)).compareTo("Cambios") == 0)
+                            filtro.add("Cambio");
+                    }
+
+                    generarCSV(filtro);
+
+                }
+            });
+            builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // User cancelled the dialog
+                }
+            });
+
+            builder.create().show();
+
+        }
+        else
+            Toast.makeText(this, "Añada elementos al partido", Toast.LENGTH_SHORT).show();
+    }
+
+
+    private void generarCSV(ArrayList<String> filtro){
         int requestCode = 0;
+        boolean error = false;
+        //Solicitar permiso para el almacenamiento
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, requestCode);
 
         //Crear el directorio en caso de que no exista
         File file = new File(Environment.getExternalStorageDirectory(), "SoccerReport");
-        if(!file.exists())
-            if (!file.mkdir())
+        String fecha = partido.getAnyo() + "-" + partido.getMes() + "-" + partido.getDia();
+        File dir = new File(file.getPath(), fecha);
+        if (!dir.exists())
+            if (!dir.mkdirs()) {
                 Toast.makeText(this, "Fallo al crear directorio\nVuelva a probar", Toast.LENGTH_SHORT).show();
+                error = true;
+            }
 
-        //Crear fichero para guardarlo en la carpeta
+        if (!error) {
+            ArrayList<Incidencia> incidenciasFiltradas = partido.getIncidenciasFiltradas(filtro);
+            String nombre_csv = "/csv_" + partido.getEquipoLocal() + "-" + partido.getEquipoVisitante() + "-" + partido.getHoras() + ":" + partido.getHoras() + ".csv";
+
+            try{
+                FileOutputStream output_csv = new FileOutputStream(dir.getAbsolutePath() + nombre_csv);
+                String data_csv = "Minuto, Evento, Descripción\n";
+                for(int i=0; i<incidenciasFiltradas.size();i++){
+                    data_csv += incidenciasFiltradas.get(i).getMinuto() + "," + incidenciasFiltradas.get(i).getNombre() + "," + incidenciasFiltradas.get(i).getDescripcion() + "\n" ;
+                }
+                output_csv.write(data_csv.getBytes());
+                output_csv.close();
+                Toast.makeText(this, "Generado CSV\n"+dir.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+
+            } catch (Exception e){
+                Toast.makeText(this, "No se ha podido generar el csv\nVuelva a probar", Toast.LENGTH_SHORT).show();
+            }
+
+        } else
+            Toast.makeText(this, "No se ha podido generar el directorio\nVuelva a probar", Toast.LENGTH_SHORT).show();
+
 
 
     }
@@ -557,27 +723,6 @@ public class IncidenciaActivity extends Activity {
         }else
             Toast.makeText(this, "Añada elementos al partido", Toast.LENGTH_SHORT).show();
     }
-
-    /*
-    public void txt(View view) {
-
-        String nombre = "" + this.partido.getEquipoLocal() + "-" + this.partido.getEquipoVisitante();
-        try {
-            FileOutputStream file = new FileOutputStream("/sdcard/" + nombre + "o" + Integer.toString(cont2) + ".pdf");
-            cont2++;
-            Document document = new Document();
-            PdfWriter.getInstance(document, file);
-            document.open();
-            document.add(new Paragraph("INFORME" + nombre + "\n\n"));
-            String cadena = informe_ordenado();
-            document.add(new Paragraph(cadena));
-            document.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    */
 
     public String informe() {
         String cadena = "";
@@ -640,6 +785,35 @@ public class IncidenciaActivity extends Activity {
             cadena += "\t Nº " + iTRVisitante.get(i).getJugador1() + " Min: " +  iTRVisitante.get(i).getMinuto() +
                     "  " + iTRVisitante.get(i).getDescripcion() + "\n";
 
+        //Tratar Jugadas de área
+        ArrayList<Incidencia> iJugadaA = partido.getIncidenciasJugadaArea();
+        ArrayList<Incidencia> iJALocal = partido.filtrarLocal(iJugadaA);
+        ArrayList<Incidencia> iJAVisitante = partido.filtrarVisitante(iJugadaA);
+
+        cadena += "\nJugadas de área local:\n";
+        for (int i=0; i<iJALocal.size(); i++)
+            cadena += "\t Nº " + iJALocal.get(i).getJugador1() + " Min: " +  iJALocal.get(i).getMinuto() +
+                    "  " + iJALocal.get(i).getDescripcion() + "\n";
+
+        cadena += "\nJugadas de área visitante:\n";
+        for (int i=0; i<iJAVisitante.size(); i++)
+            cadena += "\t Nº " + iJAVisitante.get(i).getJugador1() + " Min: " +  iJAVisitante.get(i).getMinuto() +
+                    "  " + iJAVisitante.get(i).getDescripcion() + "\n";
+
+        //Tratar penaltiles
+        ArrayList<Incidencia> iPenalti = partido.getIncidenciasPenalti();
+        ArrayList<Incidencia> iPenaltiLocal = partido.filtrarLocal(iPenalti);
+        ArrayList<Incidencia> iPenaltiVisitante = partido.filtrarVisitante(iPenalti);
+
+        cadena += "\nPenalti local:\n";
+        for (int i=0; i<iPenaltiLocal.size(); i++)
+            cadena += "\t Nº " + iPenaltiLocal.get(i).getJugador1() + " Min: " +  iPenaltiLocal.get(i).getMinuto() +
+                    "  " + iPenaltiLocal.get(i).getDescripcion() + "\n";
+
+        cadena += "\nPenalti visitante:\n";
+        for (int i=0; i<iPenaltiVisitante.size(); i++)
+            cadena += "\t Nº " + iPenaltiVisitante.get(i).getJugador1() + " Min: " +  iPenaltiVisitante.get(i).getMinuto() +
+                    "  " + iPenaltiVisitante.get(i).getDescripcion() + "\n";
 
         //Tratar los cambios
         ArrayList<Incidencia> iCambios = partido.getIncidenciasCambios();
@@ -648,13 +822,13 @@ public class IncidenciaActivity extends Activity {
 
         cadena += "\nCambios local:\n";
         for (int i=0; i<iCambiosLocal.size(); i++)
-            cadena += "\t Nº " + iCambiosLocal.get(i).getJugador1()+ " x " + iCambiosLocal.get(i).getJugador2() +
+            cadena += "\t Nº " + iCambiosLocal.get(i).getJugador2()+ " x " + iCambiosLocal.get(i).getJugador1() +
                     " Min: " +  iCambiosLocal.get(i).getMinuto() + "  " + iCambiosLocal.get(i).getDescripcion() + "\n";
 
 
         cadena += "\nCambios visitante:\n";
         for (int i=0; i<iCambiosVisitante.size(); i++)
-            cadena += "\t Nº " + iCambiosVisitante.get(i).getJugador1() + " x " + iCambiosVisitante.get(i).getJugador2() +
+            cadena += "\t Nº " + iCambiosVisitante.get(i).getJugador2() + " x " + iCambiosVisitante.get(i).getJugador1() +
                     " Min: " +  iCambiosVisitante.get(i).getMinuto() + "  " + iCambiosVisitante.get(i).getDescripcion() + "\n";
 
         //Tratar Faltas
@@ -696,6 +870,11 @@ public class IncidenciaActivity extends Activity {
         for (int i=0; i<iOtras.size(); i++)
             cadena += "\t" + iOtras.get(i).getMinuto() + "  " + iOtras.get(i).getDescripcion() + "\n";
 
+        //Tratar eventos del spinner
+        ArrayList<Incidencia> iSpinner = partido.getIncidenciasSpinner();
+        cadena += "\nIncidencias del desplegable: \n";
+        for (int i=0; i<iSpinner.size(); i++)
+            cadena += "\t"+ iSpinner.get(i).getNombre() + " " + iSpinner.get(i).getMinuto() + "  " + iSpinner.get(i).getDescripcion() + "\n";
 
         //Tratar incidencias AAA1
         ArrayList<Incidencia> iNO = partido.getIncidenciasNO();
@@ -704,20 +883,20 @@ public class IncidenciaActivity extends Activity {
         ArrayList<Incidencia> iNoAAA1 = partido.filtrarAAA1(iNO);
         ArrayList<Incidencia> iFjAAA1 = partido.filtrarAAA1(iFJ);
 
-        cadena += "\n AAA1: \n";
-        cadena += "\nFaltas:\n";
+        cadena += "\nAAA1: \n";
+        cadena += "\n\tFaltas:\n";
         for (int i=0; i<iFaltasAAA1.size(); i++)
-            cadena += "\tMin: " +  iFaltasAAA1.get(i).getMinuto() +
+            cadena += "\t\tMin: " +  iFaltasAAA1.get(i).getMinuto() +
                     "  " + iFaltasAAA1.get(i).getDescripcion() + "\n";
 
-        cadena += "\nNO:\n";
+        cadena += "\n\tNO:\n";
         for (int i=0; i<iNoAAA1.size(); i++)
-            cadena += "\tMin: " +  iNoAAA1.get(i).getMinuto() +
+            cadena += "\t\tMin: " +  iNoAAA1.get(i).getMinuto() +
                     "  " + iNoAAA1.get(i).getDescripcion() + "\n";
 
-        cadena += "\nFJ:\n";
+        cadena += "\n\tFJ:\n";
         for (int i=0; i<iFjAAA1.size(); i++)
-            cadena += "\tMin: " +  iFjAAA1.get(i).getMinuto() +
+            cadena += "\t\tMin: " +  iFjAAA1.get(i).getMinuto() +
                     "  " + iFjAAA1.get(i).getDescripcion() + "\n";
 
 
@@ -725,170 +904,27 @@ public class IncidenciaActivity extends Activity {
         ArrayList<Incidencia> iFaltasAAA2 = partido.filtrarAAA2(iFaltas);
         ArrayList<Incidencia> iNoAAA2 = partido.filtrarAAA2(iNO);
         ArrayList<Incidencia> iFjAAA2 = partido.filtrarAAA2(iFJ);
-
-        cadena += "\nFaltas:\n";
+        cadena += "\nAAA2:\n";
+        cadena += "\n\tFaltas:\n";
         for (int i=0; i<iFaltasAAA2.size(); i++)
-            cadena += "\tMin: " +  iFaltasAAA2.get(i).getMinuto() +
+            cadena += "\t\tMin: " +  iFaltasAAA2.get(i).getMinuto() +
                     "  " + iFaltasAAA2.get(i).getDescripcion() + "\n";
 
-        cadena += "\nNO:\n";
+        cadena += "\n\tNO:\n";
         for (int i=0; i<iNoAAA2.size(); i++)
-            cadena += "\tMin: " +  iNoAAA2.get(i).getMinuto() +
+            cadena += "\t\tMin: " +  iNoAAA2.get(i).getMinuto() +
                     "  " + iNoAAA2.get(i).getDescripcion() + "\n";
 
-        cadena += "\nFJ:\n";
+        cadena += "\n\tFJ:\n";
         for (int i=0; i<iFjAAA2.size(); i++)
-            cadena += "\tMin: " +  iFjAAA2.get(i).getMinuto() +
+            cadena += "\tM\tin: " +  iFjAAA2.get(i).getMinuto() +
                     "  " + iFjAAA2.get(i).getDescripcion() + "\n";
 
 
         cadena += "______________________________________________________________________________\n";
 
-        cadena += "FINAL DEL PARTIDO";
         return cadena;
     }
-
-//    public String informe() {
-//        String cadena = "";
-//        String golesl = "";
-//        String golesv = "";
-//        String tarjetal = "";
-//        String tarjetav = "";
-//        String rojal = "";
-//        String rojav = "";
-//        String cambiol = "";
-//        String cambiov = "";
-//        String faltasl = "";
-//        String faltasv = "";
-//        String ventaja = "";
-//        String aceleracion = "";
-//        String pos = "";
-//        String otra = "";
-//        String aa1f = "";
-//        String aa2f = "";
-//        String aa1no = "";
-//        String aa2no = "";
-//        String aa1fj = "";
-//        String aa2fj = "";
-//        int minutosA = 0;
-//        String segundosA = "";
-//        String mt;
-//
-//        cadena = "  Equipo Local: " + partido.getEquipoLocal() + "\n  Equipo Visitante: " + partido.getEquipoVisitante() +
-//                "\n  Fecha: " + partido.getDia() + "-" + partido.getMes() + "-" + partido.getAnyo() + "\n  Hora: " + partido.getHoras() +
-//                ":" + partido.getMinutos() + "\n\n";
-//
-//        cadena += "______________________________________________________________________________\n";
-//        cadena += "RESULTADO: " + goll.getText().toString() + " - " + golv.getText().toString() + "\n\n";
-//
-//        //Inicializo el número total de faltas
-//        faltasl = Integer.toString(partido.getFaltasLocales());
-//        faltasv = Integer.toString(partido.getFaltasVisitantes());
-//
-//        //Recorro la lista completa y voy analizando
-//        LinkedList<Incidencia> l1 = (LinkedList<Incidencia>) this.partido.getLista();
-//        for (Incidencia incidencia : l1) {
-//            mt = "";
-//            //Si es una incidencia de la segunda parte, le sumamos 45
-//            if (incidencia.getParte() == 2) {
-//                //Si la longitud es igual a 4: tipo 0:11, 2:14
-//                if (incidencia.getMinuto().length() == 4) {
-//                    minutosA = Integer.valueOf(incidencia.getMinuto().substring(0, 1)) + 45;
-//                    segundosA = incidencia.getMinuto().substring(2, 4);
-//
-//                } else { //Longitud debe ser igual a 5: tipo 10:22, 45:11
-//                    minutosA = Integer.valueOf(incidencia.getMinuto().substring(0, 2)) + 45;
-//                    segundosA = incidencia.getMinuto().substring(3, 5);
-//
-//                }
-//                mt = Integer.toString(minutosA) + ":" + segundosA;
-//            } else {
-//                mt = incidencia.getMinuto();
-//            }
-//            if (incidencia.getNombre().compareTo("Gol") == 0) {
-//                if (incidencia.getTipo() == TipoEquipo.Local) {
-//                    golesl += "Nº " + incidencia.getJugador1() + " Min: " + mt + " " + incidencia.getDescripcion() + " ";
-//                } else {
-//                    golesv += "Nº " + incidencia.getJugador1() + " Min: " + mt + " " + incidencia.getDescripcion() + " ";
-//                }
-//            }
-//            if (incidencia.getNombre().compareTo("Falta") == 0) {
-//                //Falta marcada por AA1
-//                if (incidencia.getTipo() == TipoEquipo.AA1) {
-//                    aa1f += " " + mt; //incidencia.getMinuto();
-//                }
-//                //Falta marcada por AA2
-//                if (incidencia.getTipo() == TipoEquipo.AA2) {
-//                    aa2f += " " + mt; //incidencia.getMinuto();
-//                }
-//                //Falta normal para un equipo u otro
-//                if (incidencia.getTipo() == TipoEquipo.Local) {
-//                    faltasl += mt + " ";//incidencia.getMinuto()+" ";
-//                }
-//                if (incidencia.getTipo() == TipoEquipo.Visitante) {
-//                    faltasv += mt + " ";//incidencia.getMinuto()+" ";
-//                }
-//            }
-//            //cadena+="- "+incidencia.getNombre()+"\n";
-//            if (incidencia.getNombre().compareTo("Tarjeta Amarilla") == 0) {
-//                if (incidencia.getTipo() == TipoEquipo.Local) {
-//                    tarjetal += "Nº " + incidencia.getJugador1() + " Min: " + mt + " " + incidencia.getDescripcion() + "\n";
-//                } else {
-//                    tarjetav += "Nº " + incidencia.getJugador1() + " Min: " + mt + " " + incidencia.getDescripcion() + "\n";
-//                }
-//            }
-//            if (incidencia.getNombre().compareTo("Tarjeta Roja") == 0) {
-//                if (incidencia.getTipo() == TipoEquipo.Local) {
-//                    rojal += incidencia.getJugador1() + " " + mt + " " + incidencia.getDescripcion() + "\n";
-//                } else {
-//                    rojav += incidencia.getJugador1() + " " + mt + " " + incidencia.getDescripcion() + "\n";
-//                }
-//            }
-//
-//            if (incidencia.getNombre().compareTo("Ventaja") == 0) {
-//                ventaja += " " + mt;//incidencia.getMinuto();
-//            }
-//            if (incidencia.getNombre().compareTo("Aceleración") == 0) {
-//                aceleracion += " " + mt;//incidencia.getMinuto();
-//            }
-//            if (incidencia.getNombre().compareTo("Posicionamiento") == 0) {
-//                pos += " " + mt + " " + incidencia.getDescripcion();//incidencia.getMinuto();
-//            }
-//            if (incidencia.getNombre().compareTo("Otra") == 0) {
-//                otra += " " + mt + " " + incidencia.getDescripcion() + "\n";
-//            }
-//            if (incidencia.getNombre().compareTo("Cambio") == 0) {
-//                if (incidencia.getTipo() == TipoEquipo.Local) {
-//                    cambiol += "Nº " + incidencia.getJugador2() + " X " + "Nº " + incidencia.getJugador1() + " Min:" + mt + "\n";
-//                } else {
-//                    cambiov += "Nº " + incidencia.getJugador2() + " X " + "Nº " + incidencia.getJugador1() + " Min:" + mt + "\n";
-//                }
-//            }
-//            if (incidencia.getNombre().compareTo("No") == 0) {
-//                if (incidencia.getTipo() == TipoEquipo.AA1) {
-//                    aa1no += " " + mt + " " + incidencia.getDescripcion();//incidencia.getMinuto();
-//                } else {
-//                    aa2no += " " + mt + " " + incidencia.getDescripcion();//incidencia.getMinuto();
-//                }
-//            }
-//            if (incidencia.getNombre().compareTo("FJ") == 0) {
-//                if (incidencia.getTipo() == TipoEquipo.AA1) {
-//                    aa1fj += " " + mt + " " + incidencia.getDescripcion();//incidencia.getMinuto();
-//                } else {
-//                    aa2fj += " " + mt + " " + incidencia.getDescripcion();//incidencia.getMinuto();
-//                }
-//            }
-//        }
-//        cadena += "Goles local: " + golesl + "\nGoles visitante: " + golesv + "\n\nTA local: " + tarjetal + "\nTR local: " + rojal + "\nTA visitante: " + tarjetav + "\nTR visitante: " + rojav +
-//                "\n\nCambios local: " +
-//                cambiol + "Cambios visitante: " + cambiov + "\n\nFaltas local: " + faltasl + "\nFaltas visitante: " + faltasv + "\nVentaja: " + ventaja + "\nAceleración: " + aceleracion +
-//                "\nPosicionamiento: " + pos + "\n\nIncidencias: " + otra + "\n\nAA1: NO: " + aa1no + "\nFJ: " + aa1fj + "\nFALTAS: " + aa1f + "\n\nAA2: NO: " + aa2no + "\nFJ: " + aa2fj + "\nFALTAS: " + aa2f;
-//        cadena += "\n\n";
-//        cadena += "______________________________________________________________________________\n";
-//
-//        cadena += "FINAL DEL PARTIDO";
-//        return cadena;
-//    }
 
     public String informe_ordenado() {
 
@@ -899,36 +935,51 @@ public class IncidenciaActivity extends Activity {
         for (Incidencia incidencia : l1) {
 
             cadena += incidencia.getMinuto() + " ";
-            if ((incidencia.getNombre().compareTo("Gol") == 0) || (incidencia.getNombre().compareTo("Tarjeta Amarilla") == 0) || (incidencia.getNombre().compareTo("Tarjeta Roja") == 0)) {
+            if (incidencia.getTipo() == TipoEquipo.INCSPINNER) {
+                cadena += incidencia.getNombre() + " " + incidencia.getDescripcion();
+            }
+            else if ((incidencia.getNombre().compareTo("Gol") == 0) || (incidencia.getNombre().compareTo("Tarjeta Amarilla") == 0) || (incidencia.getNombre().compareTo("Tarjeta Roja") == 0)) {
                 cadena += incidencia.getNombre() + " " + incidencia.getTipo() + " Nº " + incidencia.getJugador1() + " " + incidencia.getDescripcion();
             }
-            if ((incidencia.getNombre().compareTo("Ventaja") == 0) || (incidencia.getNombre().compareTo("Aceleración") == 0)) {
-                cadena += incidencia.getNombre();
+            else if ((incidencia.getNombre().compareTo("Jugada de area") == 0) || (incidencia.getNombre().compareTo("Penalti") == 0)) {
+                cadena += incidencia.getNombre() + " " + incidencia.getTipo() + " Nº " + incidencia.getJugador1() + " " + incidencia.getDescripcion();
             }
-
-            if ((incidencia.getNombre().compareTo("Posicionamiento") == 0) || (incidencia.getNombre().compareTo("Otra") == 0)) {
+            else if ((incidencia.getNombre().compareTo("Ventaja") == 0) || (incidencia.getNombre().compareTo("Aceleración") == 0)) {
                 cadena += incidencia.getNombre() + " " + incidencia.getDescripcion();
             }
 
-            if (incidencia.getNombre().compareTo("Cambio") == 0) {
+            else if ((incidencia.getNombre().compareTo("Posicionamiento") == 0) || (incidencia.getNombre().compareTo("Otra") == 0)) {
+                cadena += incidencia.getNombre() + " " + incidencia.getDescripcion();
+            }
+
+            else if (incidencia.getTipo() == TipoEquipo.INCSPINNER) {
+                cadena += incidencia.getNombre() + " " + incidencia.getNombre() + " " + incidencia.getDescripcion();
+            }
+
+            else if (incidencia.getNombre().compareTo("Falta") == 0) {
+                if(incidencia.getTipo() == TipoEquipo.AA1 || incidencia.getTipo() == TipoEquipo.AA2)
+                    cadena += incidencia.getNombre() + " " + incidencia.getTipo() + " " + incidencia.getDescripcion();
+                else
+                    cadena += incidencia.getNombre() + " " + incidencia.getTipo() + " Nº " + incidencia.getJugador1() + " " + incidencia.getDescripcion();
+            }
+
+            else if (incidencia.getNombre().compareTo("Cambio") == 0) {
                 cadena += incidencia.getNombre() + " " + incidencia.getTipo() + " Nº " + incidencia.getJugador2() + " X " + "Nº " + incidencia.getJugador1();
             }
 
-            if (incidencia.getNombre().compareTo("No") == 0) {
+            else if (incidencia.getNombre().compareTo("No") == 0) {
                 cadena += "Deja continuar ajustado" + " " + incidencia.getTipo() + " " + incidencia.getDescripcion();
             }
-            if (incidencia.getNombre().compareTo("FJ") == 0) {
+            else if (incidencia.getNombre().compareTo("FJ") == 0) {
                 cadena += incidencia.getNombre() + " " + incidencia.getTipo() + " " + incidencia.getDescripcion();
             }
 
-            if (incidencia.getNombre().compareTo("Falta") == 0) {
-                cadena += incidencia.getNombre() + " " + incidencia.getTipo();
-            }
 
-            cadena += "\n";
+
+            cadena += "\n\n";
         }
 
-        cadena += "FINAL DEL PARTIDO";
+        cadena += "\nFINAL DEL PARTIDO";
         return cadena;
     }
 
@@ -953,7 +1004,9 @@ public class IncidenciaActivity extends Activity {
             Toast.makeText(this, inci.getNombre() + " eliminado", Toast.LENGTH_SHORT).show();
             goll.setText(Integer.toString(partido.getGolesLocal()));
             golv.setText(Integer.toString(partido.getGolesVisitante()));
-        }
+            actualizarInformeScroll();
+        }else
+            Toast.makeText(this, "Añada elementos al partido", Toast.LENGTH_SHORT).show();
 
     }
 

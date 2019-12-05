@@ -582,6 +582,18 @@
         app:layout_constraintEnd_toStartOf="@+id/bo4"
         app:layout_constraintTop_toTopOf="@+id/bo4" />
 
+    <Button
+        android:id="@+id/exportCSV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/estiloboton"
+        android:onClick="exportarCSV"
+        android:text="Exportar"
+        android:textColor="@color/blanco"
+        app:layout_constraintEnd_toStartOf="@+id/bo3"
+        app:layout_constraintTop_toTopOf="@+id/bo3" />
+
     <TextView
         android:id="@+id/infoParte"
         android:layout_width="wrap_content"
@@ -611,6 +623,29 @@
         android:drawableStart="@drawable/ic_undo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/scrollView3"
+        android:visibility="gone"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/bo4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Button09"
+        app:layout_constraintTop_toBottomOf="@+id/undo">
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/contenido"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="TextView"
+            android:textColor="@android:color/black" />
+    </ScrollView>
 
 
 </android.support.constraint.ConstraintLayout>

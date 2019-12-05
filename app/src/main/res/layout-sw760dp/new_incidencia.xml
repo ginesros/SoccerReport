@@ -1,6 +1,655 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutIncidenciaActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/green_500">
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.9" />
+
+    <Chronometer
+        android:id="@+id/chronometer1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chronometer"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toStartOf="@+id/guideline6"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/estiloboton"
+        android:onClick="clickcrono"
+        android:text="Iniciar"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/blanco"
+        android:visibility="visible"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintStart_toEndOf="@+id/chronometer1"
+        app:layout_constraintTop_toBottomOf="@+id/chronometer1" />
+
+    <TextView
+        android:id="@+id/tvlocal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/blanco"
+        app:layout_constraintBottom_toBottomOf="@+id/tvgoll"
+        app:layout_constraintEnd_toStartOf="@+id/tvgoll"
+        app:layout_constraintTop_toTopOf="@+id/tvgoll" />
+
+    <TextView
+        android:id="@+id/tvgoll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:text="Goll"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/blanco"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toTopOf="@+id/guideline5" />
+
+    <TextView
+        android:id="@+id/tvvisitante"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/blanco"
+        app:layout_constraintBottom_toBottomOf="@+id/tvgolv"
+        app:layout_constraintStart_toEndOf="@+id/tvgolv"
+        app:layout_constraintTop_toTopOf="@+id/tvgolv" />
+
+    <TextView
+        android:id="@+id/tvgolv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="Golv"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/blanco"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toTopOf="@+id/guideline5" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:background="@color/blanco"
+        app:layout_constraintBottom_toBottomOf="@+id/PenaltiVisitante"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toTopOf="@+id/guideline5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.23" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.46" />
+
+    <!--
+        Parte de equipo Local
+    -->
+
+    <Button
+        android:id="@+id/gol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/estiloboton"
+        android:onClick="golLocal"
+        android:text="Gol"
+        android:textColor="@color/blanco"
+        app:layout_constraintEnd_toStartOf="@+id/button2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/button2" />
+
+    <Button
+        android:id="@+id/TR"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/red"
+        android:onClick="tarjetaRojaLocal"
+        app:layout_constraintEnd_toStartOf="@+id/divider2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/Button01"
+        app:layout_constraintTop_toBottomOf="@+id/button2" />
+
+    <Button
+        android:id="@+id/Button01"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@color/yellow"
+        android:onClick="tarjetaAmarillaLocal"
+        app:layout_constraintEnd_toStartOf="@+id/TR"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/TR" />
+
+    <Button
+        android:id="@+id/JugadaAreaLocal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/estiloboton"
+        android:onClick="jugadaAreaLocal"
+        android:text="Jugada de área"
+        android:textColor="@color/blanco"
+        app:layout_constraintEnd_toStartOf="@+id/guideline6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TR" />
+
+    <Button
+        android:id="@+id/PenaltiLocal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/estiloboton"
+        android:onClick="penaltiLocal"
+        android:text="Penalti"
+        android:textColor="@color/blanco"
+        app:layout_constraintEnd_toStartOf="@+id/guideline6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/JugadaAreaLocal" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/estiloboton"
+        android:onClick="faltaLocal"
+        android:text="Falta"
+        android:textColor="@color/blanco"
+        app:layout_constraintEnd_toStartOf="@+id/divider2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/gol"
+        app:layout_constraintTop_toBottomOf="@+id/tvgoll" />
+
+    <!--
+        Parte de visitante
+    -->
+
+    <Button
+        android:id="@+id/golVisitante"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/estiloboton"
+        android:onClick="golVisitante"
+        android:text="Gol"
+        android:textColor="@color/blanco"
+        app:layout_constraintEnd_toStartOf="@+id/fataVisitante"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/divider2"
+        app:layout_constraintTop_toTopOf="@+id/button2" />
+
+    <Button
+        android:id="@+id/TRVisitante"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@color/red"
+        android:onClick="tarjetaRojaVisitante"
+        app:layout_constraintEnd_toStartOf="@+id/TAVisitante"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/divider2"
+        app:layout_constraintTop_toTopOf="@+id/TR" />
+
+    <Button
+        android:id="@+id/TAVisitante"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+
+        android:background="@color/yellow"
+        android:onClick="tarjetaAmarillaVisitante"
+        app:layout_constraintEnd_toStartOf="@+id/divider4"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/TRVisitante"
+        app:layout_constraintTop_toTopOf="@+id/TRVisitante" />
+
+    <Button
+        android:id="@+id/JugadaAreaVisitante"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/estiloboton"
+        android:onClick="jugadaAreaVisitante"
+        android:text="Jugada de área"
+        android:textColor="@color/blanco"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toTopOf="@+id/JugadaAreaLocal" />
+
+    <Button
+        android:id="@+id/PenaltiVisitante"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/estiloboton"
+        android:onClick="penaltiVisitante"
+        android:text="Penalti"
+        android:textColor="@color/blanco"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toTopOf="@+id/PenaltiLocal" />
+
+    <Button
+        android:id="@+id/fataVisitante"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/estiloboton"
+        android:onClick="faltaVisitante"
+        android:text="Falta"
+        android:textColor="@color/blanco"
+        app:layout_constraintEnd_toStartOf="@+id/divider4"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/golVisitante"
+        app:layout_constraintTop_toTopOf="@+id/golVisitante" />
+
+    <!--
+        #####################
+    -->
+
+    <View
+        android:id="@+id/divider4"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:background="@color/blanco"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/jugadort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:hint="Dorsal"
+        android:imeOptions="actionDone"
+        android:inputType="number"
+        android:maxLength="2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/PenaltiLocal"
+        app:layout_constraintStart_toStartOf="@+id/PenaltiLocal"
+        app:layout_constraintTop_toBottomOf="@+id/PenaltiLocal" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:background="@drawable/estiloboton"
+        android:onClick="ventaja"
+        android:text="Ven"
+        android:textColor="@color/blanco"
+        app:layout_constraintBottom_toTopOf="@+id/guideline5"
+        app:layout_constraintStart_toStartOf="@+id/guideline7" />
+
+    <Button
+        android:id="@+id/Button07"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:background="@drawable/estiloboton"
+        android:onClick="aceleracion"
+        android:text="Ace"
+        android:textColor="@color/blanco"
+        app:layout_constraintStart_toEndOf="@+id/button3"
+        app:layout_constraintTop_toTopOf="@+id/button3" />
+
+    <Button
+        android:id="@+id/Button08"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/estiloboton"
+        android:onClick="posicionamiento"
+        android:text="Pos"
+        android:textColor="@color/blanco"
+        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        app:layout_constraintTop_toTopOf="@+id/guideline5" />
+
+    <Button
+        android:id="@+id/Button06"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:background="@drawable/estiloboton"
+        android:onClick="otra"
+        android:text="Otra"
+        android:textColor="@color/blanco"
+        app:layout_constraintEnd_toEndOf="@+id/Button07"
+        app:layout_constraintStart_toEndOf="@+id/Button08"
+        app:layout_constraintTop_toTopOf="@+id/Button08" />
+
+
+    <EditText
+        android:id="@+id/motivo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="5dp"
+        android:hint="Descripción"
+        android:imeOptions="actionDone"
+        android:maxLength="200"
+        app:layout_constraintBottom_toBottomOf="@+id/jugadort"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toTopOf="@+id/jugadort" />
+
+    <Button
+        android:id="@+id/button6"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/estiloboton"
+        android:onClick="faltaaa1"
+        android:text="Fal"
+        android:textColor="@color/blanco"
+        app:layout_constraintStart_toStartOf="@+id/TextView09"
+        app:layout_constraintTop_toBottomOf="@+id/TextView09" />
+
+    <Button
+        android:id="@+id/button4"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/estiloboton"
+        android:onClick="noaa1"
+        android:text="No"
+        android:textColor="@color/blanco"
+        app:layout_constraintBottom_toBottomOf="@+id/button5"
+        app:layout_constraintStart_toEndOf="@+id/button5"
+        app:layout_constraintTop_toTopOf="@+id/button5" />
+
+    <Button
+        android:id="@+id/button5"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/estiloboton"
+        android:onClick="fjaa1"
+        android:text="FJ"
+        android:textColor="@color/blanco"
+        app:layout_constraintBottom_toBottomOf="@+id/button6"
+        app:layout_constraintStart_toEndOf="@+id/button6"
+        app:layout_constraintTop_toTopOf="@+id/button6" />
+
+    <TextView
+        android:id="@+id/TextView09"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="20dp"
+        android:layout_weight="0.11"
+        android:text="AA1"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/blanco"
+        app:layout_constraintBottom_toBottomOf="@+id/PenaltiVisitante"
+        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        app:layout_constraintTop_toBottomOf="@+id/Button08" />
+
+    <Button
+        android:id="@+id/Button09"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/estiloboton"
+        android:onClick="noaa2"
+        android:text="No"
+        android:textColor="@color/blanco"
+        app:layout_constraintBottom_toBottomOf="@+id/Button10"
+        app:layout_constraintStart_toEndOf="@+id/Button10"
+        app:layout_constraintTop_toTopOf="@+id/Button10" />
+
+    <TextView
+        android:id="@+id/TextView08"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="150dp"
+        android:layout_weight="0.11"
+        android:text="AA2"
+        android:textColor="@color/blanco"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        app:layout_constraintStart_toEndOf="@+id/TextView09"
+        app:layout_constraintTop_toTopOf="@+id/TextView09" />
+
+    <Button
+        android:id="@+id/Button11"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.18"
+        android:background="@drawable/estiloboton"
+        android:onClick="faltaaa2"
+        android:text="Fal"
+        android:textColor="@color/blanco"
+        app:layout_constraintBottom_toBottomOf="@+id/button6"
+        app:layout_constraintStart_toStartOf="@+id/TextView08"
+        app:layout_constraintTop_toTopOf="@+id/button6" />
+
+    <Button
+        android:id="@+id/Button10"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/estiloboton"
+        android:onClick="fjaa2"
+        android:text="FJ"
+        android:textColor="@color/blanco"
+        app:layout_constraintBottom_toBottomOf="@+id/Button11"
+        app:layout_constraintStart_toEndOf="@+id/Button11"
+        app:layout_constraintTop_toTopOf="@+id/Button11" />
+
+    <EditText
+        android:id="@+id/etsalec"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:imeOptions="actionDone"
+        android:ems="10"
+        android:hint="Sale"
+        android:inputType="number"
+        android:maxLength="2"
+        app:layout_constraintStart_toStartOf="@+id/etentrac"
+        app:layout_constraintTop_toBottomOf="@+id/etentrac" />
+
+    <EditText
+        android:id="@+id/etentrac"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:hint="Entra"
+        android:imeOptions="actionNext"
+        android:inputType="number"
+        android:maxLength="2"
+        app:layout_constraintStart_toStartOf="@+id/grupoc"
+        app:layout_constraintTop_toBottomOf="@+id/grupoc" />
+
+    <RadioGroup
+        android:id="@+id/grupoc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        app:layout_constraintEnd_toEndOf="@+id/Button09"
+        app:layout_constraintStart_toStartOf="@+id/button6"
+        app:layout_constraintTop_toBottomOf="@+id/Button10">
+
+        <RadioButton
+            android:id="@+id/radio1c"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/estiloradiobutton"
+            android:button="@android:color/transparent"
+            android:checked="true"
+            android:onClick="clickLocalc"
+            android:text="@string/local"
+            android:textColor="@color/blanco" />
+
+        <RadioButton
+            android:id="@+id/radio2c"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/estiloradiobutton"
+            android:button="@android:color/transparent"
+            android:onClick="clickVisitantec"
+            android:text="@string/visitante"
+            android:textColor="@color/blanco" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/estiloimgboton"
+        android:drawableStart="@drawable/ic_substitution"
+        android:onClick="cambio"
+        app:layout_constraintBottom_toBottomOf="@+id/etsalec"
+        app:layout_constraintEnd_toEndOf="@+id/grupoc"
+        app:layout_constraintStart_toEndOf="@+id/etentrac"
+        app:layout_constraintTop_toBottomOf="@+id/grupoc" />
+
+    <Button
+        android:id="@+id/bo2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/estiloboton"
+        android:onClick="salir"
+        android:text="Salir"
+        android:textColor="@color/blanco"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bo4" />
+
+    <Button
+        android:id="@+id/bo4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/estiloboton"
+        android:onClick="verEstadoPartido"
+        android:text="Ver estado"
+        android:textColor="@color/blanco"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/bo2"
+        app:layout_constraintTop_toTopOf="@+id/guideline4" />
+
+    <Button
+        android:id="@+id/bo3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/estiloboton"
+        android:onClick="guardarPdfPartido"
+        android:text="Guardar"
+        android:textColor="@color/blanco"
+        app:layout_constraintEnd_toStartOf="@+id/bo4"
+        app:layout_constraintTop_toTopOf="@+id/bo4" />
+
+    <Button
+        android:id="@+id/exportCSV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/estiloboton"
+        android:onClick="exportarCSV"
+        android:text="Exportar"
+        android:textColor="@color/blanco"
+        app:layout_constraintEnd_toStartOf="@+id/bo3"
+        app:layout_constraintTop_toTopOf="@+id/bo3" />
+
+    <TextView
+        android:id="@+id/infoParte"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/blanco"
+        app:layout_constraintEnd_toStartOf="@+id/chronometer1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chronometer1" />
+
+    <Spinner
+        android:id="@+id/desplegable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:background="@drawable/estiloboton"
+        app:layout_constraintBottom_toBottomOf="@+id/Button06"
+        app:layout_constraintStart_toEndOf="@+id/Button06"
+        app:layout_constraintTop_toTopOf="@+id/Button07" />
+
+    <Button
+        android:id="@+id/undo"
+        android:layout_width="wrap_content"
+        android:onClick="undo"
+        android:layout_height="wrap_content"
+        android:background="@drawable/estiloboton"
+        android:drawableStart="@drawable/ic_undo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/scrollView3"
+        android:layout_width="0dp"
+        android:background="@drawable/estiloscroll"
+        android:layout_height="0dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/bo4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Button09"
+        app:layout_constraintTop_toBottomOf="@+id/undo">
+
+        <TextView
+            android:id="@+id/contenido"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@android:color/black" />
+    </ScrollView>
+
 
 </android.support.constraint.ConstraintLayout>

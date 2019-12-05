@@ -159,6 +159,24 @@ public class Partido implements Serializable {
         return lista.size() > 0;
     }
 
+    public ArrayList<Incidencia> getIncidenciasFiltradas(ArrayList<String> filtro){
+        ArrayList<Incidencia> filtradas = new ArrayList<>();
+
+        for (int i=0; i<lista.size();i++) {
+            for (int j = 0; j < filtro.size(); j++) {
+                if ((filtro.get(j).compareTo("Lista desplegable") == 0) && lista.get(i).getTipo() == TipoEquipo.INCSPINNER) {
+                    filtradas.add(lista.get(i));
+                    break;
+                } else if (lista.get(i).getNombre().compareTo(filtro.get(j)) == 0) {
+                    filtradas.add(lista.get(i));
+                    break;
+                }
+            }
+        }
+
+        return filtradas;
+    }
+
     private ArrayList<Incidencia> filtrarIncidencias(Predicate<Incidencia> filtro) {
         List<Incidencia> f = lista.stream().filter(filtro).collect(Collectors.<Incidencia>toList());
         ArrayList<Incidencia> listaFiltrada = new ArrayList<Incidencia>(f);
@@ -216,6 +234,28 @@ public class Partido implements Serializable {
         List<Incidencia> f = datos.stream().filter(predicadoVisitante).collect(Collectors.<Incidencia>toList());
         ArrayList<Incidencia> datosfiltrados = new ArrayList<Incidencia>(f);
         return datosfiltrados;
+    }
+
+    public ArrayList<Incidencia> getIncidenciasJugadaArea() {
+        Predicate<Incidencia> predicadoGol = new Predicate<Incidencia>() {
+            @Override
+            public boolean test(Incidencia incidencia) {
+                return incidencia.getNombre().equals("Jugada de area");
+            }
+        };
+
+        return filtrarIncidencias(predicadoGol);
+    }
+
+    public ArrayList<Incidencia> getIncidenciasPenalti() {
+        Predicate<Incidencia> predicadoGol = new Predicate<Incidencia>() {
+            @Override
+            public boolean test(Incidencia incidencia) {
+                return incidencia.getNombre().equals("Penalti");
+            }
+        };
+
+        return filtrarIncidencias(predicadoGol);
     }
 
     public ArrayList<Incidencia> getIncidenciasGoles() {
@@ -311,6 +351,17 @@ public class Partido implements Serializable {
             @Override
             public boolean test(Incidencia incidencia) {
                 return incidencia.getNombre().equals("Otra");
+            }
+        };
+
+        return filtrarIncidencias(predicadoGol);
+    }
+
+    public ArrayList<Incidencia> getIncidenciasSpinner() {
+        Predicate<Incidencia> predicadoGol = new Predicate<Incidencia>() {
+            @Override
+            public boolean test(Incidencia incidencia) {
+                return incidencia.getTipo() == TipoEquipo.INCSPINNER;
             }
         };
 
