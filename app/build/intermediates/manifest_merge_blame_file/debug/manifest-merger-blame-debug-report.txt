@@ -109,6 +109,13 @@
 62-->C:\Users\gines\Desktop\SoccerReport\app\src\main\AndroidManifest.xml:35:27-73
 63            </intent-filter>
 64        </activity>
-65    </application>
-66
-67</manifest>
+65
+66        <service
+66-->[androidx.room:room-runtime:2.2.0-beta01] C:\Users\gines\.gradle\caches\transforms-2\files-2.1\04787b96ceebd0ecf2dd8948444136b2\room-runtime-2.2.0-beta01\AndroidManifest.xml:25:9-27:40
+67            android:name="androidx.room.MultiInstanceInvalidationService"
+67-->[androidx.room:room-runtime:2.2.0-beta01] C:\Users\gines\.gradle\caches\transforms-2\files-2.1\04787b96ceebd0ecf2dd8948444136b2\room-runtime-2.2.0-beta01\AndroidManifest.xml:26:13-74
+68            android:exported="false" />
+68-->[androidx.room:room-runtime:2.2.0-beta01] C:\Users\gines\.gradle\caches\transforms-2\files-2.1\04787b96ceebd0ecf2dd8948444136b2\room-runtime-2.2.0-beta01\AndroidManifest.xml:27:13-37
+69    </application>
+70
+71</manifest>

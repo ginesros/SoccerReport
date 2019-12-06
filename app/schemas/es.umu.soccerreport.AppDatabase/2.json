@@ -1,0 +1,106 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "edad3e0d049faf50027db6afdc985c6f",
+    "entities": [
+      {
+        "tableName": "partido",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idPartido` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `EquipoLocal` TEXT, `EquipoVisitante` TEXT, `Dia` TEXT, `Mes` TEXT, `Anyo` TEXT, `Horas` TEXT, `Minutos` TEXT, `GolesLocal` INTEGER NOT NULL, `golesVisitante` INTEGER NOT NULL, `faltasLocales` INTEGER NOT NULL, `faltasVisitantes` INTEGER NOT NULL, `lista` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "idPartido",
+            "columnName": "idPartido",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "equipoLocal",
+            "columnName": "EquipoLocal",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "equipoVisitante",
+            "columnName": "EquipoVisitante",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dia",
+            "columnName": "Dia",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mes",
+            "columnName": "Mes",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "anyo",
+            "columnName": "Anyo",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "horas",
+            "columnName": "Horas",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "minutos",
+            "columnName": "Minutos",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "golesLocal",
+            "columnName": "GolesLocal",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "golesVisitante",
+            "columnName": "golesVisitante",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "faltasLocales",
+            "columnName": "faltasLocales",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "faltasVisitantes",
+            "columnName": "faltasVisitantes",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lista",
+            "columnName": "lista",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "idPartido"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'edad3e0d049faf50027db6afdc985c6f')"
+    ]
+  }
+}

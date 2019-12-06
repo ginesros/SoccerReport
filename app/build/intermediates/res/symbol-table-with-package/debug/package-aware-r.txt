@@ -795,6 +795,7 @@ id blocking
 id bo2
 id bo3
 id bo4
+id botonCargar
 id bottom
 id button1
 id button2

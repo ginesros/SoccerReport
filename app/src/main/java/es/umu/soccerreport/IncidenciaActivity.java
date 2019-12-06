@@ -41,6 +41,7 @@ import android.widget.Chronometer;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.room.Room;
 
 public class IncidenciaActivity extends Activity {
     private static final int code1 = 1;
@@ -127,8 +128,10 @@ public class IncidenciaActivity extends Activity {
         this.visitante = false;
     }
 
+
     private void actualizarInformeScroll() {
         contenidoScrol.setText(informe());
+        AppDatabase.getInstance(getApplicationContext()).partidoDao().insertPartido(partido);
     }
 
     private void iniciarSpinner() {
@@ -169,6 +172,7 @@ public class IncidenciaActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
+        AppDatabase.getInstance(getApplicationContext()).partidoDao().insertPartido(partido);
         iniciarCampos();
         iniciarSpinner();
     }
@@ -177,6 +181,7 @@ public class IncidenciaActivity extends Activity {
      * Limpia todos los campos utilizados y poner el foco en el jugador
      */
     private void limpiarCampos() {
+
         motivot.setText("");
         jugador1c.setText("");
         jugador2c.setText("");
@@ -258,10 +263,10 @@ public class IncidenciaActivity extends Activity {
         }
 
         this.partido.addIncidencia(inci);
-        actualizarInformeScroll();
         //Notificar que se ha añadido
         Toast.makeText(this, "Añadido evento " + texto, Toast.LENGTH_SHORT).show();
         limpiarCampos();
+        actualizarInformeScroll();
     }
 
     //Pasa por parámetro el motivo de la incidencia: "Falta"
@@ -282,9 +287,9 @@ public class IncidenciaActivity extends Activity {
 
 
         this.partido.addIncidencia(inci);
-        actualizarInformeScroll();
         Toast.makeText(this, "Añadido evento " + texto, Toast.LENGTH_SHORT).show();
         limpiarCampos();
+        actualizarInformeScroll();
     }
 
     private void add_incidencia_spinner(String cadena) {
@@ -382,12 +387,15 @@ public class IncidenciaActivity extends Activity {
             else
                 golv.setText(Integer.toString(partido.getGolesVisitante()));
         }
+
+        actualizarInformeScroll();
     }
 
     private void falta() {
         String cadena = "Falta";
         add_incidencia(cadena, cronometro.getText().toString());
         partido.sumarFalta(true);
+        actualizarInformeScroll();
     }
 
     private void tarjetaAmarilla() {
@@ -1008,6 +1016,7 @@ public class IncidenciaActivity extends Activity {
         }else
             Toast.makeText(this, "Añada elementos al partido", Toast.LENGTH_SHORT).show();
 
+        actualizarInformeScroll();
     }
 
     @Override

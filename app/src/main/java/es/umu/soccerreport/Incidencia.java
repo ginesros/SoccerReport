@@ -1,8 +1,14 @@
 package es.umu.soccerreport;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.PrimaryKey;
+
 import java.io.Serializable;
 
 public class Incidencia implements Serializable{
+	int idIncidencia;
 	private String nombre;
 	private TipoEquipo tipo;
 	//Valor para el mm:ss automático del cronometro

@@ -1,14 +1,23 @@
 package es.umu.soccerreport;
 
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 
 public class PrincipalActivity extends Activity {
@@ -173,6 +182,41 @@ public class PrincipalActivity extends Activity {
         return !(horasActuales < 0 || horasActuales > 24 || minutosActuales < 0 ||minutosActuales > 59);
     }
 
+    public void cargarPartido(View view){
+        List<Partido> partidos = AppDatabase.getInstance(getApplicationContext()).partidoDao().getAll();
+
+        if(partidos != null) {
+            final ArrayAdapter<String> titulos = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_desplegableitems);
+            for(int i = 0; i<partidos.size(); i++){
+                String titulo = partidos.get(i).getEquipoLocal() + " vs " + partidos.get(i).getEquipoVisitante() + "  " +
+                        partidos.get(i).getAnyo() + "-" + partidos.get(i).getMes() + "-" + partidos.get(i).getDia() +
+                        partidos.get(i).getHoras() + ":" + partidos.get(i).getMinutos();
+                titulos.add(titulo);
+            }
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Seleccione el partido:")
+                    .setSingleChoiceItems(titulos, 0, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            cargarPartido(which);
+                        }
+                    });
+
+            builder.create().show();
+
+
+        }else
+            Toast.makeText(this, "Lista de partidos vacía\nAñada uno nuevo", Toast.LENGTH_SHORT).show();
+    }
+
+    private void cargarPartido(int seleccionado){
+        Partido partido = AppDatabase.getInstance(getApplicationContext()).partidoDao().getAll().get(seleccionado);
+        Intent intent1 = new Intent(getApplicationContext(), IncidenciaActivity.class);
+        intent1.putExtra("team", partido);
+        startActivityForResult(intent1, code);
+    }
+
     public void siguiente(View view) {
         int duration = Toast.LENGTH_LONG;
 
@@ -185,7 +229,12 @@ public class PrincipalActivity extends Activity {
                     horas.getText().toString(), minutos.getText().toString());
             Intent intent1 = new Intent(getApplicationContext(), IncidenciaActivity.class);
             intent1.putExtra("team", partido);
+            //int id = AppDatabase.getInstance(getApplicationContext()).partidoDao().getAll().size();
+            int id = AppDatabase.getInstance(getApplicationContext()).partidoDao().getMaxIdPartido();
+            id++;
+            partido.idPartido = id;
             //startActivity(intent1);
+            //AppDatabase.getInstance(getApplicationContext()).partidoDao().deleteAllData();
             startActivityForResult(intent1, code);
         }
     }

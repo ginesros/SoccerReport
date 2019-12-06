@@ -1,7 +1,14 @@
 package es.umu.soccerreport;
 
 
+import android.content.Context;
 import android.util.Log;
+
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+import androidx.room.Room;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,22 +17,51 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-
+@Entity(tableName = "partido")
 public class Partido implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    @PrimaryKey()
+    @ColumnInfo(name = "idPartido")
+    public int idPartido;
+
+    @ColumnInfo(name = "EquipoLocal")
     private String equipoLocal;
+
+    @ColumnInfo(name = "EquipoVisitante")
     private String equipoVisitante;
-    private int golesLocal;
-    private int golesVisitante;
-    private int faltasLocales;
-    private int faltasVisitantes;
+
+    @ColumnInfo(name = "Dia")
     private String dia;
+
+    @ColumnInfo(name = "Mes")
     private String mes;
+
+    @ColumnInfo(name = "Anyo")
     private String anyo;
+
+    @ColumnInfo(name = "Horas")
     private String horas;
+
+    @ColumnInfo(name = "Minutos")
     private String minutos;
-    private LinkedList<Incidencia> lista;
+
+    @ColumnInfo(name = "serialVersion")
+    private static final long serialVersionUID = 1L;
+
+    @ColumnInfo(name = "GolesLocal")
+    int golesLocal;
+
+    @ColumnInfo(name = "GolesVisitante")
+    int golesVisitante;
+
+    @ColumnInfo(name = "FaltasLocales")
+    int faltasLocales;
+
+    @ColumnInfo(name = "FaltasVisitante")
+    int faltasVisitantes;
+
+    @ColumnInfo(name = "Lista")
+    LinkedList<Incidencia> lista;
 
     public Partido(String equipoLocal, String equipoVisitante, String dia, String mes, String anyo, String horas, String minutos) {
         this.faltasLocales = 0;
@@ -41,6 +77,7 @@ public class Partido implements Serializable {
         this.minutos = minutos;
         this.lista = new LinkedList<Incidencia>();
     }
+
 
     public void sumarGol(boolean esLocal) {
         if (esLocal)

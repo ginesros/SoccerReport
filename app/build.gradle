@@ -8,6 +8,16 @@ android {
         applicationId "es.umu.soccerreport"
         minSdkVersion 24
         targetSdkVersion 29
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [
+                        "room.schemaLocation":"$projectDir/schemas".toString(),
+                        "room.incremental":"true",
+                        "room.expandProjection":"true"]
+            }
+        }
+
     }
 
     buildTypes {
@@ -19,9 +29,14 @@ android {
 }
 
 dependencies {
+    def room_version = "2.2.0-beta01"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
     //implementation 'com.android.support:support-v4:28.0.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation files('libs/itextpdf-5.3.5.jar')
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.google.code.gson:gson:2.8.2'
 }
