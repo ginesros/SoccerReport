@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ea973eb54c89069652ef247cf18fb5ec",
+    "identityHash": "f1bd20cc5741f2725f0ea67861868c7b",
     "entities": [
       {
         "tableName": "partido",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idPartido` INTEGER NOT NULL, `EquipoLocal` TEXT, `EquipoVisitante` TEXT, `Dia` TEXT, `Mes` TEXT, `Anyo` TEXT, `Horas` TEXT, `Minutos` TEXT, `GolesLocal` INTEGER NOT NULL, `GolesVisitante` INTEGER NOT NULL, `FaltasLocales` INTEGER NOT NULL, `FaltasVisitante` INTEGER NOT NULL, `Lista` TEXT, PRIMARY KEY(`idPartido`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idPartido` INTEGER NOT NULL, `EquipoLocal` TEXT, `EquipoVisitante` TEXT, `Dia` TEXT, `Mes` TEXT, `Anyo` TEXT, `Horas` TEXT, `Minutos` TEXT, `GolesLocal` INTEGER NOT NULL, `GolesVisitante` INTEGER NOT NULL, `FaltasLocales` INTEGER NOT NULL, `FaltasVisitante` INTEGER NOT NULL, `Lista` TEXT, `EstadoPartido` TEXT, `TiempoPartido` INTEGER, PRIMARY KEY(`idPartido`))",
         "fields": [
           {
             "fieldPath": "idPartido",
@@ -85,6 +85,18 @@
             "columnName": "Lista",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "estadoPartido",
+            "columnName": "EstadoPartido",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tiempoPartido",
+            "columnName": "TiempoPartido",
+            "affinity": "INTEGER",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -100,7 +112,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ea973eb54c89069652ef247cf18fb5ec')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f1bd20cc5741f2725f0ea67861868c7b')"
     ]
   }
 }

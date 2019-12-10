@@ -25,6 +25,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.AnimatedStateListDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemClock;
@@ -90,13 +91,14 @@ public class IncidenciaActivity extends Activity {
     //Añadimos para ver el informe
     private TextView listado;
 
+    boolean execAutosave;
+
     /**
      * Inicializa todos los campos de la activity
      */
     private void iniciarCampos() {
         //Para mostrar el informe en la tablet
         contenidoScrol = findViewById(R.id.contenido);
-        actualizarInformeScroll();
 
         //Añadimos para el cambio fijo
         jugador1c = findViewById(R.id.etsalec);
@@ -126,11 +128,14 @@ public class IncidenciaActivity extends Activity {
 
         this.local = true;
         this.visitante = false;
+
+        actualizarInformeScroll();
     }
 
 
     private void actualizarInformeScroll() {
         contenidoScrol.setText(informe());
+
         AppDatabase.getInstance(getApplicationContext()).partidoDao().insertPartido(partido);
     }
 
@@ -153,7 +158,7 @@ public class IncidenciaActivity extends Activity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                
+
             }
         });
 
@@ -169,12 +174,83 @@ public class IncidenciaActivity extends Activity {
         this.partido = (Partido) i.getSerializableExtra("team");
     }
 
+    private void iniciarCrono(){
+        switch (partido.estadoPartido) {
+            case "inactivo":
+                break;
+            case "primeraParte":
+                cronometro.setBase(SystemClock.elapsedRealtime() - partido.tiempoPartido);
+                estado = "primeraParte";
+                cronometro.start();
+                infoParte.setText("1ª parte");
+                botonCrono.setText("Fin 1ª parte");
+                break;
+            case "descanso":
+                cronometro.setBase(SystemClock.elapsedRealtime() - partido.tiempoPartido);
+                memoCronometro = SystemClock.elapsedRealtime() - cronometro.getBase();
+                estado = "descanso";
+                infoParte.setText("Descanso");
+                botonCrono.setText("Continuar");
+                break;
+            case "segundaParte":
+                cronometro.setBase(SystemClock.elapsedRealtime() - partido.tiempoPartido);
+                estado = "segundaParte";
+                infoParte.setText("2ª Parte");
+                botonCrono.setText("Fin partido");
+                cronometro.start();
+                break;
+            case "finPartido":
+                cronometro.setBase(SystemClock.elapsedRealtime() - partido.tiempoPartido);
+                estado = "finPartido";
+                infoParte.setText("Finalizado");
+                botonCrono.setVisibility(View.INVISIBLE);
+                break;
+        }
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
         AppDatabase.getInstance(getApplicationContext()).partidoDao().insertPartido(partido);
         iniciarCampos();
         iniciarSpinner();
+        iniciarCrono();
+        execAutosave = true;
+
+        //Lanza un hilo para guardar el contenido cada 10 segundos
+        Thread hiloBBDD =  new Thread(new Runnable() {
+           @Override
+           public void run() {
+               Thread thisThread = Thread.currentThread();
+               while (execAutosave){
+
+                   if(estado.compareTo("descanso")!=0 && estado.compareTo("finPartido")!=0)
+                       partido.tiempoPartido = SystemClock.elapsedRealtime() - cronometro.getBase();
+
+                   AppDatabase.getInstance(getApplicationContext()).partidoDao().insertPartido(partido);
+                   try {
+                       Thread.sleep(1000);
+                   } catch (InterruptedException e) {
+                       e.printStackTrace();
+                   }
+               }
+
+           }
+       });
+
+       hiloBBDD.start();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        execAutosave = false;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        execAutosave = false;
     }
 
     /**
@@ -500,7 +576,7 @@ public class IncidenciaActivity extends Activity {
             case "inactivo":
                 cronometro.setBase(SystemClock.elapsedRealtime());
                 cronometro.start();
-                estado = "primeraParte";
+                estado = partido.estadoPartido = "primeraParte";
                 infoParte.setText("1ª parte");
                 botonCrono.setText("Fin 1ª parte");
                 parte = 1;
@@ -508,14 +584,14 @@ public class IncidenciaActivity extends Activity {
             case "primeraParte":
                 cronometro.stop();
                 memoCronometro = SystemClock.elapsedRealtime() - cronometro.getBase();
-                estado = "descanso";
+                estado = partido.estadoPartido = "descanso";
                 infoParte.setText("Descanso");
                 botonCrono.setText("Continuar");
                 break;
             case "descanso":
                 cronometro.setBase(SystemClock.elapsedRealtime() - memoCronometro);
                 cronometro.start();
-                estado = "segundaParte";
+                estado = partido.estadoPartido = "segundaParte";
                 infoParte.setText("2ª Parte");
                 botonCrono.setText("Fin partido");
                 parte = 2;
@@ -524,8 +600,14 @@ public class IncidenciaActivity extends Activity {
                 infoParte.setText("Finalizado");
                 botonCrono.setVisibility(View.INVISIBLE);
                 cronometro.stop();
-                estado = "finPartido";
+                partido.estadoPartido = "finPartido";
+                estado = partido.estadoPartido = "finPartido";
+                break;
         }
+
+
+        partido.tiempoPartido = SystemClock.elapsedRealtime() - cronometro.getBase();
+        AppDatabase.getInstance(getApplicationContext()).partidoDao().insertPartido(partido);
     }
 
     public void salir(View view) {
@@ -1009,7 +1091,7 @@ public class IncidenciaActivity extends Activity {
     public void undo(View view) {
         Incidencia eliminada = this.partido.quitarUltimoEvento();
         if(eliminada != null) {
-            Toast.makeText(this, inci.getNombre() + " eliminado", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, eliminada.getNombre() + " eliminado", Toast.LENGTH_SHORT).show();
             goll.setText(Integer.toString(partido.getGolesLocal()));
             golv.setText(Integer.toString(partido.getGolesVisitante()));
             actualizarInformeScroll();
@@ -1028,4 +1110,16 @@ public class IncidenciaActivity extends Activity {
             }
         }
     }
+
+    public Partido getPartido(){
+        return this.partido;
+    }
+
+    public Context getContext(){
+       return getApplicationContext();
+    }
 }
+
+
+
+

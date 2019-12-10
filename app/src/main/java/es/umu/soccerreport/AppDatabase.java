@@ -20,7 +20,7 @@ public abstract class AppDatabase extends RoomDatabase {
             synchronized (AppDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            AppDatabase.class, "SoccerReport-db.db")
+                            AppDatabase.class, "SoccerReport_db.db")
                             .allowMainThreadQueries()
                             .build();
                 }

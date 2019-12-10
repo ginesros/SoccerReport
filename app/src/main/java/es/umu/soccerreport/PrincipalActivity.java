@@ -190,7 +190,7 @@ public class PrincipalActivity extends Activity {
             for(int i = 0; i<partidos.size(); i++){
                 String titulo = partidos.get(i).getEquipoLocal() + " vs " + partidos.get(i).getEquipoVisitante() + "  " +
                         partidos.get(i).getAnyo() + "-" + partidos.get(i).getMes() + "-" + partidos.get(i).getDia() +
-                        partidos.get(i).getHoras() + ":" + partidos.get(i).getMinutos();
+                        " " + partidos.get(i).getHoras() + ":" + partidos.get(i).getMinutos();
                 titulos.add(titulo);
             }
 
@@ -215,6 +215,12 @@ public class PrincipalActivity extends Activity {
         Intent intent1 = new Intent(getApplicationContext(), IncidenciaActivity.class);
         intent1.putExtra("team", partido);
         startActivityForResult(intent1, code);
+        limpiarCampos();
+    }
+
+    private void limpiarCampos(){
+        equipoLocal.setText("");
+        equipoVisitante.setText("");
     }
 
     public void siguiente(View view) {
@@ -236,6 +242,7 @@ public class PrincipalActivity extends Activity {
             //startActivity(intent1);
             //AppDatabase.getInstance(getApplicationContext()).partidoDao().deleteAllData();
             startActivityForResult(intent1, code);
+            limpiarCampos();
         }
     }
 

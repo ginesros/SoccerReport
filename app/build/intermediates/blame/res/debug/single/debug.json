@@ -288,16 +288,16 @@
         "source": "C:\\Users\\gines\\.gradle\\caches\\transforms-2\\files-2.1\\d74b5b498b35fd5cb32d0a6997bb1d3d\\appcompat-1.1.0\\res\\drawable-xxhdpi-v4\\abc_list_selector_disabled_holo_light.9.png"
     },
     {
-        "merged": "C:\\Users\\gines\\Desktop\\SoccerReport\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_ic_star_black_36dp.png.flat",
-        "source": "C:\\Users\\gines\\.gradle\\caches\\transforms-2\\files-2.1\\d74b5b498b35fd5cb32d0a6997bb1d3d\\appcompat-1.1.0\\res\\drawable-xxhdpi-v4\\abc_ic_star_black_36dp.png"
+        "merged": "C:\\Users\\gines\\Desktop\\SoccerReport\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_arrow_down.xml.flat",
+        "source": "C:\\Users\\gines\\Desktop\\SoccerReport\\app\\src\\main\\res\\drawable\\ic_arrow_down.xml"
     },
     {
         "merged": "C:\\Users\\gines\\Desktop\\SoccerReport\\app\\build\\intermediates\\res\\merged\\debug\\layout_spinner_desplegableitems.xml.flat",
         "source": "C:\\Users\\gines\\Desktop\\SoccerReport\\app\\src\\main\\res\\layout\\spinner_desplegableitems.xml"
     },
     {
-        "merged": "C:\\Users\\gines\\Desktop\\SoccerReport\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_arrow_down.xml.flat",
-        "source": "C:\\Users\\gines\\Desktop\\SoccerReport\\app\\src\\main\\res\\drawable\\ic_arrow_down.xml"
+        "merged": "C:\\Users\\gines\\Desktop\\SoccerReport\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_ic_star_black_36dp.png.flat",
+        "source": "C:\\Users\\gines\\.gradle\\caches\\transforms-2\\files-2.1\\d74b5b498b35fd5cb32d0a6997bb1d3d\\appcompat-1.1.0\\res\\drawable-xxhdpi-v4\\abc_ic_star_black_36dp.png"
     },
     {
         "merged": "C:\\Users\\gines\\Desktop\\SoccerReport\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_ic_commit_search_api_mtrl_alpha.png.flat",
@@ -700,16 +700,16 @@
         "source": "C:\\Users\\gines\\.gradle\\caches\\transforms-2\\files-2.1\\d74b5b498b35fd5cb32d0a6997bb1d3d\\appcompat-1.1.0\\res\\drawable-xxhdpi-v4\\abc_ic_star_black_16dp.png"
     },
     {
+        "merged": "C:\\Users\\gines\\Desktop\\SoccerReport\\app\\build\\intermediates\\res\\merged\\debug\\drawable_estiloscroll.xml.flat",
+        "source": "C:\\Users\\gines\\Desktop\\SoccerReport\\app\\src\\main\\res\\drawable\\estiloscroll.xml"
+    },
+    {
         "merged": "C:\\Users\\gines\\Desktop\\SoccerReport\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldrtl-xhdpi-v17_abc_ic_menu_cut_mtrl_alpha.png.flat",
         "source": "C:\\Users\\gines\\.gradle\\caches\\transforms-2\\files-2.1\\d74b5b498b35fd5cb32d0a6997bb1d3d\\appcompat-1.1.0\\res\\drawable-ldrtl-xhdpi-v17\\abc_ic_menu_cut_mtrl_alpha.png"
     },
     {
         "merged": "C:\\Users\\gines\\Desktop\\SoccerReport\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_popup_background_mtrl_mult.9.png.flat",
         "source": "C:\\Users\\gines\\.gradle\\caches\\transforms-2\\files-2.1\\d74b5b498b35fd5cb32d0a6997bb1d3d\\appcompat-1.1.0\\res\\drawable-hdpi-v4\\abc_popup_background_mtrl_mult.9.png"
-    },
-    {
-        "merged": "C:\\Users\\gines\\Desktop\\SoccerReport\\app\\build\\intermediates\\res\\merged\\debug\\drawable_estiloscroll.xml.flat",
-        "source": "C:\\Users\\gines\\Desktop\\SoccerReport\\app\\src\\main\\res\\drawable\\estiloscroll.xml"
     },
     {
         "merged": "C:\\Users\\gines\\Desktop\\SoccerReport\\app\\build\\intermediates\\res\\merged\\debug\\layout_abc_popup_menu_header_item_layout.xml.flat",

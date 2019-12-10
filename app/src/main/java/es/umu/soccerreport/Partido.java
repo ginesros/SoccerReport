@@ -63,6 +63,12 @@ public class Partido implements Serializable {
     @ColumnInfo(name = "Lista")
     LinkedList<Incidencia> lista;
 
+    @ColumnInfo(name = "EstadoPartido")
+    String estadoPartido;
+
+    @ColumnInfo(name = "TiempoPartido")
+    Long tiempoPartido;
+
     public Partido(String equipoLocal, String equipoVisitante, String dia, String mes, String anyo, String horas, String minutos) {
         this.faltasLocales = 0;
         this.faltasVisitantes = 0;
@@ -76,6 +82,8 @@ public class Partido implements Serializable {
         this.horas = horas;
         this.minutos = minutos;
         this.lista = new LinkedList<Incidencia>();
+        estadoPartido = "inactivo";
+        tiempoPartido = 0L;
     }
 
 
