@@ -24,7 +24,9 @@ anim btn_radio_to_on_mtrl_dot_group_animation
 anim btn_radio_to_on_mtrl_ring_outer_animation
 anim btn_radio_to_on_mtrl_ring_outer_path_animation
 array claseIncidencia
+array valores_codigos
 array valores_desplegable
+array valores_desplegableMulti
 array valores_dialogo
 attr actionBarDivider
 attr actionBarItemBackground
@@ -806,6 +808,7 @@ id button6
 id button7
 id button8
 id buttonPanel
+id capturar
 id center_vertical
 id chains
 id checkbox
@@ -822,6 +825,7 @@ id decor_content_parent
 id default_activity_button
 id desc
 id desplegable
+id desplegableB
 id dia
 id dialog_button
 id dimensions

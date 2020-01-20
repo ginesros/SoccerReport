@@ -47,6 +47,8 @@
         app:layout_constraintStart_toEndOf="@+id/chronometer1"
         app:layout_constraintTop_toBottomOf="@+id/chronometer1" />
 
+
+
     <TextView
         android:id="@+id/tvlocal"
         android:layout_width="wrap_content"
@@ -598,8 +600,23 @@
         android:id="@+id/infoParte"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/blanco"
+        app:layout_constraintBottom_toTopOf="@+id/button7"
+        app:layout_constraintEnd_toEndOf="@+id/button7"
+        app:layout_constraintStart_toStartOf="@+id/button7" />
+
+    <Button
+        android:id="@+id/capturar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/estiloboton"
+        android:onClick="capturaTiempo"
+        android:text="Capturar"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/blanco"
+        android:visibility="visible"
         app:layout_constraintEnd_toStartOf="@+id/chronometer1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chronometer1" />
@@ -608,10 +625,25 @@
         android:id="@+id/desplegable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:background="@drawable/estiloboton"
         app:layout_constraintBottom_toBottomOf="@+id/Button06"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/Button06"
+        app:layout_constraintTop_toTopOf="@+id/Button07" />
+
+    <Button
+        android:id="@+id/desplegableB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:background="@drawable/estiloboton"
+        android:drawableStart="@drawable/ic_arrow_down"
+        android:onClick="seleccionSpinner"
+        android:text=" Seleccione una opción"
+        android:textColor="@color/blanco"
+        app:layout_constraintBottom_toBottomOf="@+id/Button06"
+        app:layout_constraintStart_toEndOf="@+id/Button07"
         app:layout_constraintTop_toTopOf="@+id/Button07" />
 
     <Button

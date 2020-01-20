@@ -1,2 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string-array name="valores_codigos">
+        <item>"NF"</item>
+        <item>"CAR"</item>
+        <item>"REC/NREC"</item>
+        <item>"SFP/NSFP"</item>
+        <item>"VC/NVC"</item>
+        <item>"DP"</item>
+        <item>"HOL"</item>
+        <item>"IUA"</item>
+        <item>"PI"</item>
+        <item>"SIM"</item>
+        <item>"4O"</item>
+        <item>"ADV"</item>
+        <item>"BL"</item>
+        <item>" "</item>
+        <item>"DIS"</item>
+        <item>"EQU"</item>
+        <item>"GC"</item>
+        <item>"INJ"</item>
+        <item>"MPK"</item>
+        <item>"MR"</item>
+        <item>"MC"</item>
+        <item>"PM"</item>
+        <item>"PREV"</item>
+        <item>"TA"</item>
+        <item>"TM"</item>
+        <item>"HB/NHB"</item>
+        <item>"KFPM"</item>
+        <item>"ENC"</item>
+        <item>" "</item>
+        <item>"OIP/NOIP"</item>
+        <item>"OIO/NOIO"</item>
+        <item>"OGA/NOGA"</item>
+        <item>"SIM"</item>
+        <item>"DFK"</item>
+        <item>"ANG"</item>
+        <item>"ANT"</item>
+        <item>"AR"</item>
+        <item>"CK"</item>
+        <item>"CA"</item>
+        <item>"FT"</item>
+        <item>"FK"</item>
+        <item>"HP"</item>
+        <item>"INT"</item>
+        <item>"LB"</item>
+        <item>"NC"</item>
+        <item>"SPA"</item>
+        <item>"DOGSO"</item>
+        <item>"GK"</item>
+        <item>"TW"</item>
+        <item>"CHECK"</item>
+        <item>"APP"</item>
+        <item>"OFR"</item>
+        <item>"CD/NCD"</item>
+        <item>"VT"</item>
+        <item>"TAM"</item>
+        <item>"EM"</item>
+        <item>"RF"</item>
+        <item>"CP"</item>
+        <item>"WP"</item>
+        <item>"NL"</item>
+    </string-array>
+</resources>

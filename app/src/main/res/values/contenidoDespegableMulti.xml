@@ -1,2 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string-array name="valores_desplegableMulti">
+        <item>"No Falta"</item>
+        <item>"Imprudente"</item>
+        <item>"Temerario"</item>
+        <item>"Juego Brusco Grave"</item>
+        <item>"Conducta violenta"</item>
+        <item>"Juego peligroso"</item>
+        <item>"Agarrón/Sujeción"</item>
+        <item>"Uso ilegal de Brazos"</item>
+        <item>"Infracción persistente"</item>
+        <item>"Simulación"</item>
+        <item>"4 árbitro"</item>
+        <item>"Ventaja"</item>
+        <item>"Lenguaje corporal"</item>
+        <item>"Disputas"</item>
+        <item>"Propuestas"</item>
+        <item>"Equipamiento"</item>
+        <item>"Celebración de gol excesiva"</item>
+        <item>"Lesion"</item>
+        <item>"Manejo de tiros penales"</item>
+        <item>"Manejo del reinicio"</item>
+        <item>"Confrontación masiva"</item>
+        <item>"Manejo de jugadores"</item>
+        <item>"Prevención"</item>
+        <item>"Área técnica"</item>
+        <item>"Manejo del tiempo"</item>
+        <item>"Mano"</item>
+        <item>"Lanzamiento de penalti"</item>
+        <item>"Invasión"</item>
+        <item>"Fuera de juego"</item>
+        <item>"Interfiriendo con el juego"</item>
+        <item>"Interfiriendo con el oponente"</item>
+        <item>"Ganado ventaja"</item>
+        <item>"Simulación"</item>
+        <item>"Falta de atacante"</item>
+        <item>"Ángulo"</item>
+        <item>"Anticipación"</item>
+        <item>"Asistentes"</item>
+        <item>"Tiro de esquina"</item>
+        <item>"Contra-ataque"</item>
+        <item>"Transición rápida"</item>
+        <item>"Tiro libre"</item>
+        <item>"Presión alta"</item>
+        <item>"Interferencia"</item>
+        <item>"Falta táctica"</item>
+        <item>"Sin tarjeta"</item>
+        <item>"Evitar ataque prometedor"</item>
+        <item>"Evitar una ocasión manifiesta"</item>
+        <item>"Portero"</item>
+        <item>"Trabajo en equipo"</item>
+        <item>"Chequeo"</item>
+        <item>"Análisis de la fase de ataque"</item>
+        <item>"Revisión a pie de campo"</item>
+        <item>"Cambio de decisión"</item>
+        <item>"Videotest"</item>
+        <item>"Reunión con equipos"</item>
+        <item>"Material educativo"</item>
+        <item>"Feedback arbitral"</item>
+        <item>"Procedimiento correcto"</item>
+        <item>"Procedimiento incorrecto"</item>
+        <item>"Nuevas reglas"</item>
+    </string-array>
+</resources>

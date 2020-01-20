@@ -49,6 +49,7 @@ public class IncidenciaActivity extends Activity {
     private Partido partido;
     private boolean local;
     private boolean visitante;
+    private boolean cronoCapturado = false;
 
     //Situacion la utilizo para diferenciar entre incidencias de árbitro=0, AA1=1, AA=2
     private int situacion = 0;
@@ -68,7 +69,9 @@ public class IncidenciaActivity extends Activity {
     //Añadimos para el cronometro
     private Chronometer cronometro;
     private Button botonCrono;
+    private Button capturarCrono;
     private Long memoCronometro;
+    private String capturaCronoString;
     private String estado = "inactivo";
 
     //Para la información de la parte del partido
@@ -92,6 +95,8 @@ public class IncidenciaActivity extends Activity {
     private TextView listado;
 
     boolean execAutosave;
+    Thread hiloBBDD;
+    boolean hiloCreado = false;
 
     /**
      * Inicializa todos los campos de la activity
@@ -111,6 +116,15 @@ public class IncidenciaActivity extends Activity {
         //Añadimos para el cronometro
         infoParte = findViewById(R.id.infoParte);
         cronometro = findViewById(R.id.chronometer1);
+        capturarCrono = findViewById(R.id.capturar);
+        capturarCrono.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                cronoCapturado = false;
+                capturarCrono.setText("Capturar");
+                return true;
+            }
+        });
         botonCrono = findViewById(R.id.button7);
 
         //Añadimos para visualizar Equipo Local 0 Equipo Visitante 0
@@ -131,7 +145,6 @@ public class IncidenciaActivity extends Activity {
 
         actualizarInformeScroll();
     }
-
 
     private void actualizarInformeScroll() {
         contenidoScrol.setText(informe());
@@ -163,6 +176,40 @@ public class IncidenciaActivity extends Activity {
         });
 
 
+    }
+
+    private String getTiempo(){
+        String tiempo = cronometro.getText().toString();
+
+        if(cronoCapturado){
+            tiempo = capturaCronoString;
+        }
+
+        String[] parts = tiempo.split(":");
+        int minutos;
+        String segundos;
+        if(parts.length == 3) {
+            minutos = Integer.parseInt(parts[1]) + 60 * Integer.parseInt(parts[0]);
+            segundos = parts[2];
+        }else{
+            minutos = Integer.parseInt(parts[0]);
+            segundos = parts[1];
+        }
+
+        if(partido.estadoPartido.compareTo("primeraParte") == 0 || partido.estadoPartido.compareTo("descanso") == 0){
+            if (minutos >= 45){
+                int resto = minutos - 45;
+                tiempo = "45 + " + Integer.toString(resto) + "\'" + segundos + "\"";
+            }
+
+        }else if(partido.estadoPartido.compareTo("segundaParte") == 0 || partido.estadoPartido.compareTo("finPartido") == 0){
+            if (minutos >= 90){
+                int resto = minutos - 90;
+                tiempo = "90 + " + Integer.toString(resto) + "\'" + segundos + "\"";
+            }
+        }
+
+        return tiempo;
     }
 
     @Override
@@ -218,27 +265,28 @@ public class IncidenciaActivity extends Activity {
         execAutosave = true;
 
         //Lanza un hilo para guardar el contenido cada 10 segundos
-        Thread hiloBBDD =  new Thread(new Runnable() {
-           @Override
-           public void run() {
-               Thread thisThread = Thread.currentThread();
-               while (execAutosave){
+        if(!hiloCreado) {
+            hiloBBDD = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Thread thisThread = Thread.currentThread();
+                    while (execAutosave) {
+                        if (estado.compareTo("descanso") != 0 && estado.compareTo("finPartido") != 0)
+                            partido.tiempoPartido = SystemClock.elapsedRealtime() - cronometro.getBase();
 
-                   if(estado.compareTo("descanso")!=0 && estado.compareTo("finPartido")!=0)
-                       partido.tiempoPartido = SystemClock.elapsedRealtime() - cronometro.getBase();
+                        AppDatabase.getInstance(getApplicationContext()).partidoDao().insertPartido(partido);
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
 
-                   AppDatabase.getInstance(getApplicationContext()).partidoDao().insertPartido(partido);
-                   try {
-                       Thread.sleep(1000);
-                   } catch (InterruptedException e) {
-                       e.printStackTrace();
-                   }
-               }
-
-           }
-       });
-
-       hiloBBDD.start();
+            hiloBBDD.start();
+            hiloCreado = true;
+        }
     }
 
     @Override
@@ -250,7 +298,6 @@ public class IncidenciaActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-        execAutosave = false;
     }
 
     /**
@@ -280,13 +327,11 @@ public class IncidenciaActivity extends Activity {
                 flag = true;
         }
 
-        String tiempo = cronometro.getText().toString();
-
         if (!flag) {
             if (this.local)
-                this.inci = new Incidencia("Cambio", TipoEquipo.Local, tiempo, number1, number2, motivot.getText().toString(), parte);
+                this.inci = new Incidencia("Cambio", TipoEquipo.Local, getTiempo(), number1, number2, motivot.getText().toString(), parte);
             else
-                this.inci = new Incidencia("Cambio", TipoEquipo.Visitante, tiempo, number1, number2, motivot.getText().toString(), parte);
+                this.inci = new Incidencia("Cambio", TipoEquipo.Visitante, getTiempo(), number1, number2, motivot.getText().toString(), parte);
 
             this.partido.addIncidencia(inci);
             Toast.makeText(this, "Añadido evento Cambio", Toast.LENGTH_SHORT).show();
@@ -306,8 +351,17 @@ public class IncidenciaActivity extends Activity {
         return (min >= 0 && min <= 99);
     }
 
+    public boolean add_incidenciaCheckNumero(String texto) {
+        if(jugadort.getText().toString().equals("")){
+            add_incidencia_simple(texto, -1);
+            return true;
+        }else{
+            return add_incidencia(texto);
+        }
+    }
+
     //Pasa por parámetro el motivo de la incidencia: "Tarjeta Amarilla","Tarjeta Roja","Gol"
-    public boolean add_incidencia(String texto, String tiempo) {
+    public boolean add_incidencia(String texto) {
         boolean flag = false;
         int min = -1;
         int dorsal = 0;
@@ -321,7 +375,7 @@ public class IncidenciaActivity extends Activity {
             flag = true;
 
         if (!flag) {
-            add_incidencia_simple(texto, tiempo, dorsal);
+            add_incidencia_simple(texto, dorsal);
             return true;
 
         } else {
@@ -331,11 +385,11 @@ public class IncidenciaActivity extends Activity {
     }
 
     //Pasa por parámetro el motivo de la incidencia: "Falta"
-    public void add_incidencia_simple(String texto, String tiempo, int dorsal) {
+    public void add_incidencia_simple(String texto, int dorsal) {
         if (this.local) {
-            this.inci = new Incidencia(texto, TipoEquipo.Local, tiempo, dorsal, 0, motivot.getText().toString(), parte);
+            this.inci = new Incidencia(texto, TipoEquipo.Local, getTiempo(), dorsal, 0, motivot.getText().toString(), parte);
         } else {
-            this.inci = new Incidencia(texto, TipoEquipo.Visitante, tiempo, dorsal, 0, motivot.getText().toString(), parte);
+            this.inci = new Incidencia(texto, TipoEquipo.Visitante, getTiempo(), dorsal, 0, motivot.getText().toString(), parte);
         }
 
         this.partido.addIncidencia(inci);
@@ -346,16 +400,16 @@ public class IncidenciaActivity extends Activity {
     }
 
     //Pasa por parámetro el motivo de la incidencia: "Falta"
-    public void add_incidencia_arbitros(String texto, String tiempo) {
+    public void add_incidencia_arbitros(String texto) {
         switch (situacion) {
             case 0:
-                this.inci = new Incidencia(texto, TipoEquipo.arbitro, tiempo, 0, 0, motivot.getText().toString(), parte);
+                this.inci = new Incidencia(texto, TipoEquipo.arbitro, getTiempo(), -1, 0, motivot.getText().toString(), parte);
                 break;
             case 1:
-                this.inci = new Incidencia(texto, TipoEquipo.AA1, tiempo, 0, 0, motivot.getText().toString(), parte);
+                this.inci = new Incidencia(texto, TipoEquipo.AA1, getTiempo(), -1, 0, motivot.getText().toString(), parte);
                 break;
             case 2:
-                this.inci = new Incidencia(texto, TipoEquipo.AA2, tiempo, 0, 0, motivot.getText().toString(), parte);
+                this.inci = new Incidencia(texto, TipoEquipo.AA2, getTiempo(), -1, 0, motivot.getText().toString(), parte);
                 break;
             default:
                 return;
@@ -369,12 +423,26 @@ public class IncidenciaActivity extends Activity {
     }
 
     private void add_incidencia_spinner(String cadena) {
-        this.inci = new Incidencia(cadena, TipoEquipo.INCSPINNER, cronometro.getText().toString(), 0, 0, motivot.getText().toString(), parte);
+        this.inci = new Incidencia(cadena, TipoEquipo.INCSPINNER, getTiempo(), 0, 0, motivot.getText().toString(), parte);
         this.partido.addIncidencia(inci);
         Toast.makeText(this, "Añadido evento " + cadena, Toast.LENGTH_SHORT).show();
         limpiarCampos();
         actualizarInformeScroll();
 
+    }
+
+    private void add_incidencia_spinner(String cadena, String codigo) {
+        this.inci = new Incidencia(cadena, TipoEquipo.INCSPINNER, getTiempo(), 0, 0, motivot.getText().toString(), parte, codigo);
+        this.partido.addIncidencia(inci);
+        Toast.makeText(this, "Añadido evento " + cadena, Toast.LENGTH_SHORT).show();
+        limpiarCampos();
+        actualizarInformeScroll();
+    }
+
+    public void capturaTiempo(View view) {
+        cronoCapturado = true;
+        capturaCronoString = cronometro.getText().toString();
+        capturarCrono.setText(capturaCronoString);
     }
 
     //-------------------------------------------------------------------------\\
@@ -455,7 +523,7 @@ public class IncidenciaActivity extends Activity {
 
     private void gol(){
         String cadena = "Gol";
-        if (add_incidencia(cadena, cronometro.getText().toString())) {
+        if (add_incidencia(cadena)) {
             //Actualizar el resultado
             partido.sumarGol(this.local);
             if (local)
@@ -469,31 +537,32 @@ public class IncidenciaActivity extends Activity {
 
     private void falta() {
         String cadena = "Falta";
-        add_incidencia(cadena, cronometro.getText().toString());
-        partido.sumarFalta(true);
+        //add_incidencia(cadena, cronometro.getText().toString());
+        add_incidenciaCheckNumero(cadena);
+        partido.sumarFalta(local);
         actualizarInformeScroll();
     }
 
     private void tarjetaAmarilla() {
         String cadena = "Tarjeta Amarilla";
-        add_incidencia(cadena, cronometro.getText().toString());
+        add_incidencia(cadena);
 
     }
 
     private void tarjetaRoja() {
         String cadena = "Tarjeta Roja";
-        add_incidencia(cadena, cronometro.getText().toString());
+        add_incidencia(cadena);
 
     }
 
     private void jugadaArea() {
         String cadena = "Jugada de area";
-        add_incidencia(cadena, cronometro.getText().toString());
+        add_incidenciaCheckNumero(cadena);
     }
 
     private void penalti() {
         String cadena = "Penalti";
-        add_incidencia(cadena, cronometro.getText().toString());
+        add_incidenciaCheckNumero(cadena);
     }
 
     //-------------------------------------------------------------------------\\
@@ -502,28 +571,28 @@ public class IncidenciaActivity extends Activity {
         String cadena = "Ventaja";
 
         situacion = 0; //Se pone como incidencia del árbitro
-        add_incidencia_arbitros(cadena, cronometro.getText().toString());
+        add_incidencia_arbitros(cadena);
     }
 
     public void aceleracion(View view) {
         String cadena = "Aceleración";
 
         situacion = 0; //Se pone como incidencia del árbitro
-        add_incidencia_arbitros(cadena, cronometro.getText().toString());
+        add_incidencia_arbitros(cadena);
     }
 
     public void posicionamiento(View view) {
         String cadena = "Posicionamiento";
 
         situacion = 0; //Se pone como incidencia del árbitro
-        add_incidencia_arbitros(cadena, cronometro.getText().toString());
+        add_incidencia_arbitros(cadena);
     }
 
     public void otra(View view) {
         String cadena = "Otra";
 
         situacion = 0; //Se pone como incidencia del árbitro
-        add_incidencia_arbitros(cadena, cronometro.getText().toString());
+        add_incidencia_arbitros(cadena);
     }
 
 
@@ -532,21 +601,21 @@ public class IncidenciaActivity extends Activity {
         String cadena = "Falta";
 
         situacion = 1; //Se pone como incidencia del AA1
-        add_incidencia_arbitros(cadena, cronometro.getText().toString());
+        add_incidencia_arbitros(cadena);
     }
 
     public void noaa1(View view) {
         String cadena = "No";
 
         situacion = 1; //Se pone como incidencia del AA1
-        add_incidencia_arbitros(cadena, cronometro.getText().toString());
+        add_incidencia_arbitros(cadena);
     }
 
     public void fjaa1(View view) {
         String cadena = "FJ";
 
         situacion = 1; //Se pone como incidencia del AA1
-        add_incidencia_arbitros(cadena, cronometro.getText().toString());
+        add_incidencia_arbitros(cadena);
     }
 
     public void faltaaa2(View view) {
@@ -554,21 +623,21 @@ public class IncidenciaActivity extends Activity {
         String cadena = "Falta";
 
         situacion = 2; //Se pone como incidencia del AA2
-        add_incidencia_arbitros(cadena, cronometro.getText().toString());
+        add_incidencia_arbitros(cadena);
     }
 
     public void noaa2(View view) {
         String cadena = "No";
 
         situacion = 2; //Se pone como incidencia del AA2
-        add_incidencia_arbitros(cadena, cronometro.getText().toString());
+        add_incidencia_arbitros(cadena);
     }
 
     public void fjaa2(View view) {
         String cadena = "FJ";
 
         situacion = 2; //Se pone como incidencia del AA1
-        add_incidencia_arbitros(cadena, cronometro.getText().toString());
+        add_incidencia_arbitros(cadena);
     }
 
     public void clickcrono(View view) {
@@ -589,7 +658,8 @@ public class IncidenciaActivity extends Activity {
                 botonCrono.setText("Continuar");
                 break;
             case "descanso":
-                cronometro.setBase(SystemClock.elapsedRealtime() - memoCronometro);
+                cronometro.setBase(SystemClock.elapsedRealtime() - 45*60000);
+                //cronometro.setBase(SystemClock.elapsedRealtime() - memoCronometro);
                 cronometro.start();
                 estado = partido.estadoPartido = "segundaParte";
                 infoParte.setText("2ª Parte");
@@ -759,6 +829,56 @@ public class IncidenciaActivity extends Activity {
             Toast.makeText(this, "Añada elementos al partido", Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Seleccionar Spinner
+     * @param view
+     */
+    public void seleccionSpinner(View view) {
+        //Crear el diálogo para seleccionar los eventos
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final ArrayList<Integer> seleccionados = new ArrayList();
+        builder.setTitle("Seleccione los eventos:")
+
+                .setMultiChoiceItems(R.array.valores_desplegableMulti, null, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        if (isChecked) {
+                            // If the user checked the item, add it to the selected items
+                            if(seleccionados.size() == 4){
+                                int first = seleccionados.get(0);
+                                seleccionados.remove(0);
+                                ((AlertDialog) dialog).getListView().setItemChecked(first, false);
+                                seleccionados.add(which);
+                            }else
+                                seleccionados.add(which);
+                        } else if (seleccionados.contains(which)) {
+                            seleccionados.remove(Integer.valueOf(which));
+                        }
+
+                    }
+                });
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked OK button
+                List<String> cont = Arrays.asList(getResources().getStringArray(R.array.valores_desplegableMulti));
+                List<String> codes = Arrays.asList(getResources().getStringArray(R.array.valores_codigos));
+                ArrayList<String> filtro = new ArrayList<>();
+                for(int i=0;i<seleccionados.size();i++) {
+                    String evn = cont.get(seleccionados.get(i));
+                    String c = codes.get(seleccionados.get(i));
+                    add_incidencia_spinner(evn, c);
+                }
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User cancelled the dialog
+            }
+        });
+
+        builder.create().show();;
+    }
 
     private void generarCSV(ArrayList<String> filtro){
         int requestCode = 0;
@@ -782,9 +902,10 @@ public class IncidenciaActivity extends Activity {
 
             try{
                 FileOutputStream output_csv = new FileOutputStream(dir.getAbsolutePath() + nombre_csv);
-                String data_csv = "Minuto, Evento, Descripción\n";
+                String data_csv = "Minuto, Evento, Codigo, Descripción\n";
                 for(int i=0; i<incidenciasFiltradas.size();i++){
-                    data_csv += incidenciasFiltradas.get(i).getMinuto() + "," + incidenciasFiltradas.get(i).getNombre() + "," + incidenciasFiltradas.get(i).getDescripcion() + "\n" ;
+                    data_csv += incidenciasFiltradas.get(i).getMinuto() + "," + incidenciasFiltradas.get(i).getNombre() + ","
+                            + incidenciasFiltradas.get(i).getCodigo() + "," + incidenciasFiltradas.get(i).getDescripcion() + "\n" ;
                 }
                 output_csv.write(data_csv.getBytes());
                 output_csv.close();
@@ -882,12 +1003,12 @@ public class IncidenciaActivity extends Activity {
 
         cadena += "\nJugadas de área local:\n";
         for (int i=0; i<iJALocal.size(); i++)
-            cadena += "\t Nº " + iJALocal.get(i).getJugador1() + " Min: " +  iJALocal.get(i).getMinuto() +
+            cadena += "\t Min: " +  iJALocal.get(i).getMinuto() +
                     "  " + iJALocal.get(i).getDescripcion() + "\n";
 
         cadena += "\nJugadas de área visitante:\n";
         for (int i=0; i<iJAVisitante.size(); i++)
-            cadena += "\t Nº " + iJAVisitante.get(i).getJugador1() + " Min: " +  iJAVisitante.get(i).getMinuto() +
+            cadena += "\t Min: " +  iJAVisitante.get(i).getMinuto() +
                     "  " + iJAVisitante.get(i).getDescripcion() + "\n";
 
         //Tratar penaltiles
@@ -897,12 +1018,12 @@ public class IncidenciaActivity extends Activity {
 
         cadena += "\nPenalti local:\n";
         for (int i=0; i<iPenaltiLocal.size(); i++)
-            cadena += "\t Nº " + iPenaltiLocal.get(i).getJugador1() + " Min: " +  iPenaltiLocal.get(i).getMinuto() +
+            cadena += "\t Min: " +  iPenaltiLocal.get(i).getMinuto() +
                     "  " + iPenaltiLocal.get(i).getDescripcion() + "\n";
 
         cadena += "\nPenalti visitante:\n";
         for (int i=0; i<iPenaltiVisitante.size(); i++)
-            cadena += "\t Nº " + iPenaltiVisitante.get(i).getJugador1() + " Min: " +  iPenaltiVisitante.get(i).getMinuto() +
+            cadena += "\t Min: " +  iPenaltiVisitante.get(i).getMinuto() +
                     "  " + iPenaltiVisitante.get(i).getDescripcion() + "\n";
 
         //Tratar los cambios
@@ -912,8 +1033,8 @@ public class IncidenciaActivity extends Activity {
 
         cadena += "\nCambios local:\n";
         for (int i=0; i<iCambiosLocal.size(); i++)
-            cadena += "\t Nº " + iCambiosLocal.get(i).getJugador2()+ " x " + iCambiosLocal.get(i).getJugador1() +
-                    " Min: " +  iCambiosLocal.get(i).getMinuto() + "  " + iCambiosLocal.get(i).getDescripcion() + "\n";
+            cadena += "\t Nº " + iCambiosLocal.get(i).getJugador2() + " x " + iCambiosLocal.get(i).getJugador1() +
+                    " Min: " + iCambiosLocal.get(i).getMinuto() + "  " + iCambiosLocal.get(i).getDescripcion() + "\n";
 
 
         cadena += "\nCambios visitante:\n";
@@ -928,14 +1049,16 @@ public class IncidenciaActivity extends Activity {
 
         cadena += "\nFalta local: " + Integer.toString(partido.getFaltasLocales()) + "\n";
         for (int i=0; i<iFaltasLocal.size(); i++)
-            cadena += "\t Nº " + iFaltasLocal.get(i).getJugador1()+ " Min: " +  iFaltasLocal.get(i).getMinuto() +
+            cadena += "\t Min: " + iFaltasLocal.get(i).getMinuto() +
                     "  " + iFaltasLocal.get(i).getDescripcion() + "\n";
+
 
 
         cadena += "\nFalta visitante: " + Integer.toString(partido.getFaltasVisitantes()) + "\n";
         for (int i=0; i<iFaltasVisitante.size(); i++)
-            cadena += "\t Nº " + iFaltasVisitante.get(i).getJugador1()+ " Min: " +  iFaltasVisitante.get(i).getMinuto() +
-                    "  " + iFaltasVisitante.get(i).getDescripcion() + "\n";
+            cadena += "\t Min: " + iFaltasVisitante.get(i).getMinuto() +
+                "  " + iFaltasVisitante.get(i).getDescripcion() + "\n";
+
 
         //Tratar ventaja, aceleración, Posicionamiento
         ArrayList<Incidencia> iVen = partido.getIncidenciasVentaja();
@@ -1032,7 +1155,10 @@ public class IncidenciaActivity extends Activity {
                 cadena += incidencia.getNombre() + " " + incidencia.getTipo() + " Nº " + incidencia.getJugador1() + " " + incidencia.getDescripcion();
             }
             else if ((incidencia.getNombre().compareTo("Jugada de area") == 0) || (incidencia.getNombre().compareTo("Penalti") == 0)) {
-                cadena += incidencia.getNombre() + " " + incidencia.getTipo() + " Nº " + incidencia.getJugador1() + " " + incidencia.getDescripcion();
+                if(incidencia.getJugador1() < 0)
+                    cadena += incidencia.getNombre() + " " + incidencia.getTipo() + " " + incidencia.getDescripcion();
+                else
+                    cadena += incidencia.getNombre() + " " + incidencia.getTipo() + " Nº " + incidencia.getJugador1() + " " + incidencia.getDescripcion();
             }
             else if ((incidencia.getNombre().compareTo("Ventaja") == 0) || (incidencia.getNombre().compareTo("Aceleración") == 0)) {
                 cadena += incidencia.getNombre() + " " + incidencia.getDescripcion();
@@ -1047,9 +1173,10 @@ public class IncidenciaActivity extends Activity {
             }
 
             else if (incidencia.getNombre().compareTo("Falta") == 0) {
-                if(incidencia.getTipo() == TipoEquipo.AA1 || incidencia.getTipo() == TipoEquipo.AA2)
+               // if(incidencia.getTipo() == TipoEquipo.AA1 || incidencia.getTipo() == TipoEquipo.AA2)
+                 if(incidencia.getJugador1() < 0)
                     cadena += incidencia.getNombre() + " " + incidencia.getTipo() + " " + incidencia.getDescripcion();
-                else
+                 else
                     cadena += incidencia.getNombre() + " " + incidencia.getTipo() + " Nº " + incidencia.getJugador1() + " " + incidencia.getDescripcion();
             }
 
